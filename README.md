@@ -1,4 +1,4 @@
-# ReactJs_Boilerplate
+# ReactJs_Boilerplate(Lite)
 Simple Template for starting react js projects
 
 ## installing
