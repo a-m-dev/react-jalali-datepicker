@@ -1,6 +1,6 @@
 import React from 'react'
 
-import AgeContext from '../Contexts/AgeContext'
+import AgeProvider from '../Contexts/AgeContext'
 import One from '../_shared/One/One'
 
 
@@ -14,9 +14,9 @@ class CONTXT extends React.Component {
 
         this is main: 
         <hr />
-        <AgeContext>
+        <AgeProvider>
           Initiate: <One />
-        </AgeContext>
+        </AgeProvider>
       </article>
     )
   }
