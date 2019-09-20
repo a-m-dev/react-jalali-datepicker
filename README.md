@@ -25,8 +25,6 @@ this command is for production , when you done with your project , run this , it
 ## Branches 
 these are all branches of this repo, each branch targeted for an specific use case: 
 
-```
 [master](https://github.com/a-m-dev/ReactJs-Boilerplate-Lite/tree/master)  || base react set up with `webpack-dev-server`
 [routing](https://github.com/a-m-dev/ReactJs-Boilerplate-Lite/tree/routing)  || basic routing set up
-asnd many more comming soon...
-```
+and many more comming soon...
