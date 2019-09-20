@@ -1,0 +1,20 @@
+
+
+.routes {
+  
+
+  a {
+    display: block;
+    color: $text-color;
+    margin-bottom: 0.3rem;
+    opacity: 0.8;
+    font-weight: bold;
+
+    &::before {
+      content: '> ';
+      opacity: 0.3;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+  }
+}

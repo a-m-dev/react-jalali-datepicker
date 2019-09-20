@@ -1,0 +1,88 @@
+
+* {
+  box-sizing: border-box;
+}
+
+
+:root {
+  font-size: 18px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: $bg-color;
+  color: $text-color;
+  margin: 0;
+  padding: 0;
+}
+
+
+.center {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+
+
+  img {
+    width: 512px;
+    -webkit-animation:spin 12s linear infinite;
+    -moz-animation:spin 12s linear infinite;
+    animation:spin 12s linear infinite;
+    @include spin();
+  }
+
+  > h1 {
+    font-size: 2rem;
+    margin: 0px;
+    color: $primary-text-color;
+  }
+
+  > p {
+    width: 60%;
+    font-size: 1rem;
+    text-align: center;
+    margin: 1rem 0 2.5rem 0;
+    color: lighten($primary-text-color, 3%);
+  }
+
+  .publisher {
+    font-size: 0.75rem;
+    color: lighten($primary-text-color, 5%);
+    // opacity: 0.8;
+
+    > a {
+      opacity: 1;
+      font-weight: bold;
+      padding-left: 0.6rem;
+      color: $primary-text-color;
+    }
+  }
+}
+
+a {
+  color: darken($primary-text-color, 10%);
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.box {
+  width: 100%;
+  min-height: 400px;
+  padding: 1rem 2rem;
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  border-radius: $base-border-radius;
+  background: rgba(darken($bg-color, 20%), 0.6);
+  box-shadow: 0 2rem 5rem rgba(darken($bg-color, 20%), 0.6);
+}
