@@ -20,7 +20,7 @@ export default class App extends Component {
       <div className="center">
         <img src={Img} alt="" onClick={this.click}/>
         <h1>React Js Boilerplate</h1>
-        <p>Here is a simple  xxxxxxxxxx for React Js. it is simple to start.</p>
+        <p>Here is a simple  boilerplate for React Js. it is simple to start.</p>
         {/* <Link to='/show-routes'>Go To Routes list</Link> */}
       </div>
     )
