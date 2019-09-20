@@ -1,14 +1,13 @@
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 
 module.exports = {
 
   entry: { 
-    app: './src/js/App.jsx',
-    // about: './path/to/about/journy.jsx'
+    app: './src/js/App.jsx'
   },
 
   output: {
@@ -19,12 +18,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader' , 'sass-loader'],
-          publicPath: '/dist'
-        })
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
       },
       {
         test: /\.(js|jsx)$/,
@@ -48,17 +47,6 @@ module.exports = {
           }
         ]
       }
-      // loaders: [
-      //   {
-      //     test: /\.jsx?$/,
-      //     exclude: /(node_modules|bower_components)/,
-      //     loader: 'babel-loader',
-      //     query: {
-      //       presets: ['react', 'es2015', 'stage-0'],
-      //       plugins: ['react-html-attrs', 'transform-decorators-legacy', 'transform-class-properties'],
-      //     }
-      //   }
-      // ]
     ]
   },
 
@@ -68,21 +56,9 @@ module.exports = {
       filename: 'index.html',
       template: './src/index.html',
     }),
-
-    // // Second .html page 
-    // // this method is not good for multiple html pages 
-    // // it is good for 404 and pages like that 
-    // new HtmlWebpackPlugin({
-    //   title: 'About',
-    //   filename: 'about.html',
-    //   chunks: ['about'], // same about from entry
-    //   template: './src/about.html',
-    // }),
-
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: 'app.css',
-      disable: false,
-      allChunks: true
+      chunkFilename: '[id].css',
     })
   ],
 
@@ -91,7 +67,7 @@ module.exports = {
   },
 
   devServer: {
-    contentBase: '/dist',
+    contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 8000,
     open: true,
