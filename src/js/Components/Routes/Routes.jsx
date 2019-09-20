@@ -18,6 +18,7 @@ class Routes extends React.Component {
         <section>
           <Link to='/'>Home</Link>
           <Link to='/routes'>Routes</Link>
+          <Link to='/context'>Context</Link>
         </section>
 
       </article>

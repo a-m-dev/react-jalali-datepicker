@@ -25,7 +25,14 @@ class Nav extends React.Component {
             Routes
         </NavLink>
         
-        {/* <span className="nav__seperator">||</span> */}
+        <span className="nav__seperator">||</span>
+        
+        <NavLink 
+          to='/context' 
+          className='nav__link'
+          activeStyle={{ fontWeight: 'bold' }}>
+            Context
+        </NavLink>
       </nav>
     )
   }
