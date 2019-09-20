@@ -7,7 +7,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
 
   entry: { 
-    app: './src/js/app.jsx',
+    app: './src/js/App.jsx',
     // about: './path/to/about/journy.jsx'
   },
 
@@ -93,7 +93,7 @@ module.exports = {
   devServer: {
     contentBase: '/dist',
     compress: true,
-    port: 5050,
+    port: 8000,
     open: true,
     historyApiFallback: true,
     stats: 'errors-only'
