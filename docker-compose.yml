@@ -1,0 +1,12 @@
+version: "3"
+
+services: 
+
+  prod:
+    image: test_react
+    container_name: test_react_prod_container
+    restart: always
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 80:80
