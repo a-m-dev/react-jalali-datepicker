@@ -1,0 +1,22 @@
+
+
+.nav {
+  position: fixed;
+  background: rgba(darken($bg-color, 20%), 0.3);
+  bottom: 0;
+  width: 100%;
+  height: 48px;
+  left: 0px;
+  padding: 0 2rem;
+  @include makeCenter(center, flex-start, row);
+
+  &__link {
+    min-width: 60px;
+    @include makeCenter(center, flex-end, column);
+  }
+
+  &__seperator {
+    margin:0 1rem;
+    color: rgba(darken($bg-color, 20%), 0.8);
+  }
+}

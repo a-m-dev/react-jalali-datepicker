@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
 
-import '../css/app.scss'
 
-import Home from './pages/Home'
+import '../sass/app.scss'
+
+import Index from './Components/Index'
 
 
 ReactDOM.render(
-  <Home />,
+  <BrowserRouter>
+    <Index />
+  </BrowserRouter>,
   document.getElementById('app')
 );
