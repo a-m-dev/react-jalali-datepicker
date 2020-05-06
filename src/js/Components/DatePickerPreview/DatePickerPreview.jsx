@@ -1,18 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { RangePicker } from "../Datepicker";
 
 class Routes extends React.Component {
   render() {
     return (
       <article className="routes container box">
         <header>
-          <h1>Routes</h1>
+          <h1>Date Picker Preview</h1>
         </header>
 
         <section>
-          <Link to="/">Home</Link>
-          <Link to="/routes">Routes</Link>
-          <Link to="/react-jalaali-datepicker">React jalaali Datepicker</Link>
+          <RangePicker />
         </section>
       </article>
     );
