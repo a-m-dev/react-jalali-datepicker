@@ -24,7 +24,7 @@ const RangePickerManager = (props) => {
 
   // return the result
   return {
-    data: { monthsToShow: numberOfMonths, visibleDatesRange },
+    data: { isJalaali, monthsToShow: numberOfMonths, visibleDatesRange },
     actions: {},
   };
 };

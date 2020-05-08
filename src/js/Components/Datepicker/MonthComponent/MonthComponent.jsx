@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PersianMonthNames from "../Constants/PersianMonthNames";
+import GeorgianMonthNames from "../Constants/GeorgianMonthNames";
 import refineDaysForRendering from "../utils/refineDaysForRendering";
 import DayComponent from "../DayComponent";
 import "./styles.scss";
 
-const MonthComponent = ({ monthId, days }) => {
+const MonthComponent = ({ days, monthId, isJalaali }) => {
   const [refinedDays, setRefinedDays] = useState([]);
   const [year, month] = monthId.split("__").map((el) => Number(el));
 
@@ -16,7 +17,9 @@ const MonthComponent = ({ monthId, days }) => {
     <article className="range-picker__month">
       <section className="range-picker__month-heading">
         <h2>
-          {PersianMonthNames.get(month)} {year}
+          {isJalaali
+            ? `${PersianMonthNames.get(month)}, ${year}`
+            : `${GeorgianMonthNames.get(month)}, ${year}`}
         </h2>
       </section>
 

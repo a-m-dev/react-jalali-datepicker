@@ -11,7 +11,7 @@ const RangePicker = (props) => {
   const {
     data,
     actions,
-    data: { visibleDatesRange },
+    data: { visibleDatesRange, isJalaali },
   } = RangePickerManager(props);
 
   return (
@@ -20,7 +20,11 @@ const RangePicker = (props) => {
         {!!visibleDatesRange &&
           Object.entries(visibleDatesRange).map(([monthId, days]) => (
             <React.Fragment key={monthId}>
-              <MonthComponent monthId={monthId} days={days} />
+              <MonthComponent
+                days={days}
+                monthId={monthId}
+                isJalaali={isJalaali}
+              />
             </React.Fragment>
           ))}
       </article>
