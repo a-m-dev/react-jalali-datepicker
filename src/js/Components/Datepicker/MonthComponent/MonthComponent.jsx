@@ -10,15 +10,11 @@ const MonthComponent = ({ days, monthId, isJalaali = false }) => {
   const [year, month] = monthId.split("__").map((el) => Number(el));
 
   useEffect(() => {
-    setRefinedDays(refineDaysForRendering(monthId, days));
+    setRefinedDays(refineDaysForRendering(monthId, days, isJalaali));
   }, []);
 
   return (
-    <article
-      className={`range-picker__month range-picker__month--${
-        isJalaali ? "jalaali" : "georgian"
-      }`}
-    >
+    <article className="range-picker__month">
       <section className="range-picker__month-heading">
         <h3>
           {isJalaali

@@ -2,29 +2,27 @@ import jMoment from "moment-jalaali";
 import DATE_FORMATS from "../Constants/DateFormats";
 import WeekdayIndex from "../Constants/WeedayIndex";
 
-const refineDaysForRendering = (monthId, days) => {
+const refineDaysForRendering = (monthId, days, isJalaali) => {
   // get desired format
-  const { JALAALI_DATE_FORMAT } = DATE_FORMATS;
+  const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
 
   const [year, month] = monthId.split("__");
 
-  // convert to jalali
-  const jFirstDayOfMonth = jMoment(
+  let firstDayBegansAt;
+  let lastDayEndsAt;
+
+  const firstDayOfMonth = jMoment(
     `${year}-${month}-${days[0]}`,
-    JALAALI_DATE_FORMAT
+    isJalaali ? JALAALI_DATE_FORMAT : GEORGIAN_DATE_FORMAT
   );
-  const jLastDayOfMonth = jMoment(
+
+  const lastDayOfMonth = jMoment(
     `${year}-${month}-${days[days.length - 1]}`,
-    JALAALI_DATE_FORMAT
+    isJalaali ? JALAALI_DATE_FORMAT : GEORGIAN_DATE_FORMAT
   );
 
-  const firstDayBegansAt = jFirstDayOfMonth.format("dddd");
-  const lastDayEndsAt = jLastDayOfMonth.format("dddd");
-
-  // console.log({
-  //   fdPush: WeekdayIndex.get(firstDayBegansAt),
-  //   ldPush: WeekdayIndex.size - WeekdayIndex.get(lastDayEndsAt) - 1,
-  // });
+  firstDayBegansAt = firstDayOfMonth.format("dddd");
+  lastDayEndsAt = lastDayOfMonth.format("dddd");
 
   return [
     ...new Array(WeekdayIndex.get(firstDayBegansAt)).fill(null),

@@ -1,15 +1,8 @@
 .range-picker__month {
-  padding: 1.5rem;
   width: 100%;
-  max-width: 425px;
-
-  &--jalaali {
-    direction: rtl;
-  }
-
-  &--georgian {
-    direction: ltr;
-  }
+  padding: 1rem;
+  max-width: 300px;
+  background-color: #ffffff;
 
   &-heading {
     width: 100%;
@@ -29,7 +22,7 @@
 
     & span {
       width: 100%;
-      height: 48px;
+      height: 32px;
       display: flex;
       justify-content: center;
       align-items: center;

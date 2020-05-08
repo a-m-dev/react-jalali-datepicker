@@ -1,8 +1,25 @@
 .range-picker {
   width: 100%;
   position: relative;
-  background-color: #ffffff;
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
-  direction: rtl;
+
+  &--jalaali {
+    direction: rtl;
+  }
+
+  &--georgian {
+    direction: ltr;
+  }
+
+  &__navigators {
+    position: relative;
+    background-color: red;
+  }
+
+  &__containers {
+    background-color: greed;
+    width: 100%;
+  }
 }
