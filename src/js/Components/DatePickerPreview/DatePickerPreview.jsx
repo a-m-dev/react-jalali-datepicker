@@ -10,7 +10,7 @@ class Routes extends React.Component {
         </header>
 
         <section>
-          <RangePicker isJalaali={true} numberOfMonths={1} />
+          <RangePicker isJalaali={true} numberOfMonths={2} />
         </section>
       </article>
     );

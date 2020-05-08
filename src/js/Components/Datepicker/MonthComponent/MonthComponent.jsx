@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import PersianMonthNames from "../Constants/PersianMonthNames";
-import GeorgianMonthNames from "../Constants/GeorgianMonthNames";
+import DayNames from "../Constants/DayNames";
+import MonthNames from "../Constants/MonthNames";
 import refineDaysForRendering from "../utils/refineDaysForRendering";
 import DayComponent from "../DayComponent";
 import "./styles.scss";
 
-const MonthComponent = ({ days, monthId, isJalaali }) => {
+const MonthComponent = ({ days, monthId, isJalaali = false }) => {
   const [refinedDays, setRefinedDays] = useState([]);
   const [year, month] = monthId.split("__").map((el) => Number(el));
 
@@ -20,14 +20,24 @@ const MonthComponent = ({ days, monthId, isJalaali }) => {
       }`}
     >
       <section className="range-picker__month-heading">
-        <h2>
+        <h3>
           {isJalaali
-            ? `${PersianMonthNames.get(month)} ${year}`
-            : `${GeorgianMonthNames.get(month)}, ${year}`}
-        </h2>
+            ? `${MonthNames.get(month)[1]} ${year}`
+            : `${MonthNames.get(month)[0]}, ${year}`}
+        </h3>
       </section>
 
-      <section className="range-picker__month-days-container">
+      <section className="range-picker__month-weekdays">
+        {[...DayNames.keys()].map((dayIndex) => (
+          <span key={dayIndex}>
+            {isJalaali
+              ? DayNames.get(dayIndex)[1].charAt(0)
+              : DayNames.get(dayIndex)[0].slice(0, 3)}
+          </span>
+        ))}
+      </section>
+
+      <section className="range-picker__month-days">
         {refinedDays.length > 0 &&
           refinedDays.map((day, index) => (
             <React.Fragment key={index}>
