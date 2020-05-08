@@ -1,5 +1,6 @@
 import jMoment from "moment-jalaali";
 import DATE_FORMATS from "../Constants/DateFormats";
+import getFormattedMonth from "./getFormattedMonth";
 
 /**
  *
@@ -41,14 +42,16 @@ const getJalaaliDaysInMonth = (date, numberOfMonths) => {
   const resultDays = [];
   let currDate = startDate;
   while (currDate < stopDate) {
-    resultDays.push(currDate.format(JALAALI_DATE_FORMAT));
+    const [year, month, day] = currDate.format(JALAALI_DATE_FORMAT).split("-");
+
+    resultDays.push({ year, month, day });
 
     currDate.add(1, "day");
   }
 
   // console.log(JSON.stringify(resultDays, null, 2));
 
-  return resultDays;
+  return getFormattedMonth(resultDays);
 };
 
 export default getJalaaliDaysInMonth;

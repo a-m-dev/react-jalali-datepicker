@@ -1,3 +1,5 @@
+import getFormattedMonth from "./getFormattedMonth";
+
 /**
  *
  * @param {Date} date
@@ -31,15 +33,15 @@ const getGeorgianDaysInMonth = (date, numberOfMonths) => {
   const resultDays = [];
   let currDay = startDate;
   while (currDay < stopDate) {
-    const day = currDay.toISOString().slice(0, 10);
-    resultDays.push(day);
+    const [year, month, day] = currDay.toISOString().slice(0, 10).split("-");
+    resultDays.push({ year, month, day });
 
     currDay = currDay.addDays(1);
   }
 
   // console.log(JSON.stringify(resultDays, null, 2));
 
-  return resultDays;
+  return getFormattedMonth(resultDays);
 };
 
 export default getGeorgianDaysInMonth;

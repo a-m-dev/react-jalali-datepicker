@@ -6,7 +6,7 @@ const RangePickerManager = (props) => {
   const { isJalaali, numberOfMonths } = props;
 
   // local States
-  const [visibleDatesRange, setVisibleDatesRange] = useState();
+  const [visibleDatesRange, setVisibleDatesRange] = useState([]);
 
   // Effects
   // initialize component with today
@@ -21,10 +21,6 @@ const RangePickerManager = (props) => {
 
     setVisibleDatesRange(datesRange);
   }, []);
-
-  useEffect(() => {
-    console.log(JSON.stringify({ visibleDatesRange }, null, 2));
-  }, [visibleDatesRange]);
 
   // return the result
   return {
