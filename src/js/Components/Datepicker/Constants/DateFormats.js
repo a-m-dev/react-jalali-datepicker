@@ -1,0 +1,6 @@
+const DATE_FORMATS = {
+  GEORGIAN_DATE_FORMAT: "YYYY-MM-DD",
+  JALAALI_DATE_FORMAT: "jYYYY-jMM-jDD",
+};
+
+export default DATE_FORMATS;
