@@ -1,5 +1,10 @@
 .range-picker__day {
   position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: red;
-  margin: 1rem;
+  cursor: pointer;
 }

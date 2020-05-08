@@ -14,21 +14,27 @@ const MonthComponent = ({ days, monthId, isJalaali }) => {
   }, []);
 
   return (
-    <article className="range-picker__month">
+    <article
+      className={`range-picker__month range-picker__month--${
+        isJalaali ? "jalaali" : "georgian"
+      }`}
+    >
       <section className="range-picker__month-heading">
         <h2>
           {isJalaali
-            ? `${PersianMonthNames.get(month)}, ${year}`
+            ? `${PersianMonthNames.get(month)} ${year}`
             : `${GeorgianMonthNames.get(month)}, ${year}`}
         </h2>
       </section>
 
-      {refinedDays.length > 0 &&
-        refinedDays.map((day, index) => (
-          <React.Fragment key={index}>
-            <DayComponent monthId={monthId} day={day} />
-          </React.Fragment>
-        ))}
+      <section className="range-picker__month-days-container">
+        {refinedDays.length > 0 &&
+          refinedDays.map((day, index) => (
+            <React.Fragment key={index}>
+              <DayComponent monthId={monthId} day={day} />
+            </React.Fragment>
+          ))}
+      </section>
     </article>
   );
 };

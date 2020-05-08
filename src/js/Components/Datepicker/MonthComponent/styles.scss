@@ -1,9 +1,19 @@
 .range-picker__month {
-  background-color: orange;
   padding: 1rem;
-  border-bottom: 1px solid yellow;
+  max-width: 420px;
+  background-color: orange;
 
-  &:last-child {
-    border-bottom: 0;
+  &--jalaali {
+    direction: rtl;
+  }
+
+  &--georgian {
+    direction: ltr;
+  }
+
+  &-days-container {
+    display: grid;
+    row-gap: 0.4rem;
+    grid-template-columns: repeat(7, 1fr);
   }
 }
