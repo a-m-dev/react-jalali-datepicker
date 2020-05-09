@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import generateMonth from "../utils/generateMonth";
+import calcuateNextAndPrevMonth from "../utils/calcuateNextAndPrevMonth";
 
 const RangePickerManager = (props) => {
   // props Values
@@ -27,21 +28,13 @@ const RangePickerManager = (props) => {
   }, []);
 
   // handlers
-  const handleNavigateMonth = useCallback((e) => {
-    const target = e.currentTarget.dataset.name;
-
-    switch (target) {
-      case "NEXT":
-        console.log("NEXT_CLICKED");
-        break;
-      case "PREV":
-        console.log("PREV_CLICKED");
-        break;
-
-      default:
-        break;
-    }
-  }, []);
+  const handleNavigateMonth = useCallback(
+    (e) => {
+      const target = e.currentTarget.dataset.name;
+      handlePrevAndNextMonth(target);
+    },
+    [visibleDatesRange]
+  );
 
   const updateSelectedRange = useCallback(
     (date) => {
@@ -49,6 +42,27 @@ const RangePickerManager = (props) => {
     },
     [selectedRange, setSelectedRange]
   );
+
+  // privateFuncs
+  const handlePrevAndNextMonth = (type) => {
+    const monthId = Object.keys(visibleDatesRange)[0];
+
+    // TODO:
+    //  - call generate date for this
+    const resultDate = calcuateNextAndPrevMonth({
+      monthId,
+      isJalaali,
+      numberOfMonths: type === "NEXT" ? numberOfMonths : numberOfMonths * -1,
+    });
+
+    setVisibleDatesRange(
+      generateMonth({
+        indexDate: new Date(resultDate),
+        numberOfMonths,
+        isJalaali,
+      })
+    );
+  };
 
   // return the result
   return {

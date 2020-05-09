@@ -19,8 +19,16 @@ const getJalaaliDaysInMonth = (date, numberOfMonths) => {
 
   const currYear = date.getFullYear();
   const currMonth = date.getMonth();
+  const currDay = date.getDate();
 
-  const isoDate = new Date(currYear, currMonth, 1, 12, 0, 0).toISOString();
+  const isoDate = new Date(
+    currYear,
+    currMonth,
+    currDay,
+    12,
+    0,
+    0
+  ).toISOString();
 
   const dateAsJalaali = jMoment(isoDate, GEORGIAN_DATE_FORMAT).format(
     JALAALI_DATE_FORMAT
@@ -30,7 +38,7 @@ const getJalaaliDaysInMonth = (date, numberOfMonths) => {
   const startDate = jMoment(dateAsJalaali, JALAALI_DATE_FORMAT);
   startDate.startOf("jMonth");
 
-  // console.log({ startDate: startDate.format(JALAALI_DATE_FORMAT) });
+  // console.log({ date, startDate: startDate.format(JALAALI_DATE_FORMAT) });
 
   // find stopDate in Jalaali
   const stopDate = jMoment(dateAsJalaali, JALAALI_DATE_FORMAT);
