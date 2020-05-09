@@ -6,10 +6,14 @@ const calcuateNextAndPrevMonth = ({ monthId, isJalaali, numberOfMonths }) => {
   const calculatedMonth = month + numberOfMonths - 1;
 
   const indexDate = isJalaali
-    ? new Date(year, calculatedMonth, 1, 12, 0, 0).toISOString().slice(0, 10)
-    : new Date(year, calculatedMonth, 1).toISOString().slice(0, 10);
+    ? new Date(year, calculatedMonth, 1, 12, 0, 0)
+    : new Date(year, calculatedMonth, 1);
 
-  return isJalaali ? convertToGeorgian(indexDate) : indexDate;
+  const _date = `${indexDate.getFullYear()}-${
+    indexDate.getMonth() + 1
+  }-${indexDate.getDate()}`;
+
+  return isJalaali ? convertToGeorgian(_date) : _date;
 };
 
 export default calcuateNextAndPrevMonth;
