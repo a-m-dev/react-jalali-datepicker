@@ -7,7 +7,6 @@ const RangePickerManager = (props) => {
 
   // local States
   const [visibleDatesRange, setVisibleDatesRange] = useState([]);
-  const [currentMonthIndex, setCurrentMonthIndex] = useState(null);
   const [selectedRange, setSelectedRange] = useState({
     startDate: null,
     stopDate: null,
@@ -25,7 +24,6 @@ const RangePickerManager = (props) => {
     });
 
     setVisibleDatesRange(datesRange);
-    setCurrentMonthIndex(getMonthIndex(Object.keys(datesRange)[0]));
   }, []);
 
   // handlers
@@ -51,9 +49,6 @@ const RangePickerManager = (props) => {
     },
     [selectedRange, setSelectedRange]
   );
-
-  // private functions
-  const getMonthIndex = (monthId) => Number(monthId.split("__")[1]);
 
   // return the result
   return {

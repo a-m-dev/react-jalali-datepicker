@@ -15,8 +15,6 @@ const RangePicker = (props) => {
     data: { visibleDatesRange, isJalaali },
   } = RangePickerManager(props);
 
-  console.log({ isJalaali });
-
   return (
     <RangePickerContext.Provider value={{ data, actions }}>
       <article
