@@ -11,6 +11,7 @@ const MonthComponent = ({
   isJalaali = false,
   onSelectDate,
   selectedRange,
+  excludedDates,
 }) => {
   const [refinedDays, setRefinedDays] = useState([]);
   const [year, month] = monthId.split("__").map((el) => Number(el));
@@ -41,17 +42,30 @@ const MonthComponent = ({
 
       <section className="range-picker__month-days">
         {refinedDays.length > 0 &&
-          refinedDays.map((day, index) => (
-            <React.Fragment key={index}>
-              <DayComponent
-                day={day}
-                monthId={monthId}
-                isJalaali={isJalaali}
-                onSelectDate={onSelectDate}
-                selectedRange={selectedRange}
-              />
-            </React.Fragment>
-          ))}
+          refinedDays.map((day, index) => {
+            let isDayExcluded = false;
+
+            if (day) {
+              const [year, month] = monthId.split("__");
+              const foundIndex = excludedDates.findIndex(
+                (item) => item === `${year}-${month}-${day}`
+              );
+              if (foundIndex !== -1) isDayExcluded = true;
+            }
+
+            return (
+              <React.Fragment key={index}>
+                <DayComponent
+                  day={day}
+                  monthId={monthId}
+                  isJalaali={isJalaali}
+                  onSelectDate={onSelectDate}
+                  isDayExcluded={isDayExcluded}
+                  selectedRange={selectedRange}
+                />
+              </React.Fragment>
+            );
+          })}
       </section>
     </article>
   );

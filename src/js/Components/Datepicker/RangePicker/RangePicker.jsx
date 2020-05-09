@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import MonthComponent from "../MonthComponent";
 
+import Checkbox from "../../Checkbox";
 import RangePickerContext from "./RangePickerContext";
 import RangePickerManager from "./RangePickerManager";
 import "./styles.scss";
@@ -11,8 +12,18 @@ const RangePicker = (props) => {
   const {
     data,
     actions,
-    actions: { handleNavigateMonth, updateSelectedRange },
-    data: { visibleDatesRange, isJalaali, selectedRange },
+    actions: { handleNavigateMonth, onSelectDate, handleExcludeMode },
+    data: {
+      visibleDatesRange,
+      isJalaali,
+      selectedRange,
+      shouldShowExcludeMode,
+      ExcludeModeComponent,
+      excludeModeComponentProps,
+      isExcludedMode,
+      isExclutionEnabled,
+      excludedDates,
+    },
   } = RangePickerManager(props);
 
   return (
@@ -48,11 +59,21 @@ const RangePicker = (props) => {
                   monthId={monthId}
                   isJalaali={isJalaali}
                   selectedRange={selectedRange}
-                  onSelectDate={updateSelectedRange}
+                  excludedDates={excludedDates}
+                  onSelectDate={onSelectDate}
                 />
               </React.Fragment>
             ))}
         </section>
+
+        {shouldShowExcludeMode && (
+          <ExcludeModeComponent
+            {...excludeModeComponentProps}
+            onChange={handleExcludeMode}
+            checked={isExcludedMode}
+            disabled={isExclutionEnabled}
+          />
+        )}
       </article>
     </RangePickerContext.Provider>
   );
@@ -61,11 +82,17 @@ const RangePicker = (props) => {
 RangePicker.defaultProps = {
   numberOfMonths: 1,
   isJalaali: false,
+  shouldShowExcludeMode: false,
+  excludeModeComponent: Checkbox,
+  onExclude: () => null,
 };
 
 RangePicker.propTypes = {
   numberOfMonths: PropTypes.number,
   isJalaali: PropTypes.bool,
+  shouldShowExcludeMode: PropTypes.bool,
+  excludeModeComponent: PropTypes.any,
+  onExclude: PropTypes.func,
 };
 
 export default RangePicker;

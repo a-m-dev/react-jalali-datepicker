@@ -7,10 +7,20 @@ import calcuateNextAndPrevMonth from "../utils/calcuateNextAndPrevMonth";
 
 const RangePickerManager = (props) => {
   // props Values
-  const { isJalaali, numberOfMonths } = props;
+  const {
+    isJalaali,
+    numberOfMonths,
+    shouldShowExcludeMode,
+    excludeModeComponent,
+    excludeModeComponentProps,
+    onExclude,
+  } = props;
 
   // local States
   const [visibleDatesRange, setVisibleDatesRange] = useState([]);
+  const [isExcludedMode, setIsExcludedMode] = useState(false);
+  const [isExclutionEnabled, setIsExclutionEnabled] = useState(true);
+  const [excludedDates, setExcludedDates] = useState([]);
   const [selectedRange, setSelectedRange] = useState({
     startDate: null,
     stopDate: null,
@@ -30,6 +40,18 @@ const RangePickerManager = (props) => {
     setVisibleDatesRange(datesRange);
   }, []);
 
+  useEffect(() => {
+    onExclude(excludedDates);
+  }, [excludedDates]);
+
+  // IMPORTANT
+  // TODO:
+  useEffect(() => {
+    // TODO:
+    //  - call on Exclude with array of spesifica locale
+    // onExclude()
+  }, [isJalaali]);
+
   // handlers
   const handleNavigateMonth = useCallback(
     (e) => {
@@ -37,6 +59,24 @@ const RangePickerManager = (props) => {
       handlePrevAndNextMonth(target);
     },
     [visibleDatesRange]
+  );
+
+  const onSelectDate = useCallback(
+    (...args) => {
+      if (isExcludedMode && !isExclutionEnabled) {
+        handleExcludeDays(...args);
+      } else {
+        updateSelectedRange(...args);
+      }
+    },
+    [
+      selectedRange,
+      setSelectedRange,
+      isExcludedMode,
+      setIsExcludedMode,
+      isExclutionEnabled,
+      setIsExclutionEnabled,
+    ]
   );
 
   const updateSelectedRange = useCallback(
@@ -90,12 +130,49 @@ const RangePickerManager = (props) => {
         resultedStopDate = targetDate;
       }
 
+      // check for exclusion mode
+      if (type === STOP_DATE && resultedStopDate !== null)
+        setIsExclutionEnabled(false);
+      else if (type === START_DATE) {
+        setIsExclutionEnabled(true);
+        setIsExcludedMode(false);
+        setExcludedDates([]);
+      }
+
       setSelectedRange({
         startDate: resultedStartDate,
         stopDate: resultedStopDate,
       });
     },
     [selectedRange, setSelectedRange]
+  );
+
+  const handleExcludeDays = useCallback(
+    (args) => {
+      const { e, year, month, day } = args;
+      const { startDate, stopDate } = selectedRange;
+
+      const currentDateUnix = getDateUnixTime(`${year}-${month}-${day}`);
+      const startDateUnix = getDateUnixTime(startDate);
+      const stopDateUnix = getDateUnixTime(stopDate);
+
+      if (currentDateUnix <= startDateUnix || currentDateUnix >= stopDateUnix)
+        return;
+
+      setExcludedDates((excludedDates) => [
+        ...excludedDates,
+        `${year}-${month}-${day}`,
+      ]);
+    },
+    [selectedRange, excludedDates, setExcludedDates]
+  );
+
+  const handleExcludeMode = useCallback(
+    (event) => {
+      if (!selectedRange.startDate && !selectedRange.stopDate) return;
+      setIsExcludedMode(event.target.checked);
+    },
+    [isExcludedMode, setIsExcludedMode, selectedRange]
   );
 
   // privateFuncs
@@ -119,6 +196,16 @@ const RangePickerManager = (props) => {
     );
   };
 
+  const getDateUnixTime = (date) => {
+    const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
+
+    const [year, month, day] = date.split("-").map((el) => Number(el));
+
+    return isJalaali
+      ? jMoment(`${year}-${month}-${day}`, JALAALI_DATE_FORMAT).unix()
+      : jMoment(`${year}-${month}-${day}`, GEORGIAN_DATE_FORMAT).unix();
+  };
+
   // return the result
   return {
     data: {
@@ -126,8 +213,14 @@ const RangePickerManager = (props) => {
       monthsToShow: numberOfMonths,
       visibleDatesRange,
       selectedRange,
+      shouldShowExcludeMode,
+      ExcludeModeComponent: excludeModeComponent,
+      excludeModeComponentProps,
+      isExcludedMode,
+      isExclutionEnabled,
+      excludedDates,
     },
-    actions: { handleNavigateMonth, updateSelectedRange },
+    actions: { handleNavigateMonth, onSelectDate, handleExcludeMode },
   };
 };
 

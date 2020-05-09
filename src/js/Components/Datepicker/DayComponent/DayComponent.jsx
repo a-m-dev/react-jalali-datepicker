@@ -9,6 +9,7 @@ const DayComponent = ({
   monthId,
   isJalaali,
   selectedRange,
+  isDayExcluded,
   onSelectDate,
 }) => {
   const handleDaySelect = useCallback(
@@ -23,51 +24,57 @@ const DayComponent = ({
    * generate class name for day
    */
   const generateClassName = (day) => {
-    if (!day) return "range-picker__day";
+    let baseClassName = "range-picker__day";
+    if (!day) return baseClassName;
+
+    let className = baseClassName;
 
     const { startDate = "", stopDate = "" } = selectedRange;
     const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
 
+    let today_unix;
     let crrentDate_unix;
     let startDate_unix;
     let stopDate_unix;
 
     const [year, month] = monthId.split("__").map((el) => Number(el));
 
-    crrentDate_unix = isJalaali
-      ? jMoment(`${year}-${month}-${day}`, JALAALI_DATE_FORMAT).unix()
-      : jMoment(`${year}-${month}-${day}`, GEORGIAN_DATE_FORMAT).unix();
+    const today = isJalaali
+      ? jMoment(new Date().toISOString(), GEORGIAN_DATE_FORMAT).format(
+          JALAALI_DATE_FORMAT
+        )
+      : new Date().toISOString();
 
-    if (startDate) {
-      const [stYear, stMonth, stDay] = startDate
-        .split("-")
-        .map((el) => Number(el));
+    today_unix = getDateUnixTime(today.slice(0, 10));
+    crrentDate_unix = getDateUnixTime(`${year}-${month}-${day}`);
+    if (startDate) startDate_unix = getDateUnixTime(startDate);
+    if (stopDate) stopDate_unix = getDateUnixTime(stopDate);
 
-      startDate_unix = isJalaali
-        ? jMoment(`${stYear}-${stMonth}-${stDay}`, JALAALI_DATE_FORMAT).unix()
-        : jMoment(`${stYear}-${stMonth}-${stDay}`, GEORGIAN_DATE_FORMAT).unix();
-    }
+    if (crrentDate_unix === today_unix) className += ` ${baseClassName}--today`;
 
-    if (stopDate) {
-      const [spYear, spMonth, spDay] = stopDate
-        .split("-")
-        .map((el) => Number(el));
-
-      stopDate_unix = isJalaali
-        ? jMoment(`${spYear}-${spMonth}-${spDay}`, JALAALI_DATE_FORMAT).unix()
-        : jMoment(`${spYear}-${spMonth}-${spDay}`, GEORGIAN_DATE_FORMAT).unix();
-    }
+    if (isDayExcluded) className += ` ${baseClassName}--excluded`;
 
     if (crrentDate_unix === startDate_unix)
-      return "range-picker__day range-picker__day--start-date-selected";
+      className += ` ${baseClassName}--start-date-selected`;
 
     if (crrentDate_unix === stopDate_unix)
-      return "range-picker__day range-picker__day--stop-date-selected";
+      className += ` ${baseClassName}--stop-date-selected`;
 
     if (crrentDate_unix > startDate_unix && crrentDate_unix < stopDate_unix)
-      return "range-picker__day range-picker__day--in-selected-range";
+      className += ` ${baseClassName}--in-selected-range`;
 
-    return "range-picker__day";
+    return className;
+  };
+
+  // private funcs
+  const getDateUnixTime = (date) => {
+    const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
+
+    const [year, month, day] = date.split("-").map((el) => Number(el));
+
+    return isJalaali
+      ? jMoment(`${year}-${month}-${day}`, JALAALI_DATE_FORMAT).unix()
+      : jMoment(`${year}-${month}-${day}`, GEORGIAN_DATE_FORMAT).unix();
   };
 
   return (

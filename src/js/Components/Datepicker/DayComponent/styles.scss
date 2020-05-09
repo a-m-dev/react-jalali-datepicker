@@ -16,6 +16,11 @@
     align-items: center;
   }
 
+  &--today {
+    font-weight: bold;
+    background-color: #d8d8d8;
+  }
+
   &--start-date-selected {
     background-color: #9c32ff;
     color: #f2e4ff;
@@ -29,5 +34,9 @@
   &--in-selected-range {
     background-color: #931fff4d;
     color: #6d18bd;
+  }
+
+  &--excluded {
+    background-color: hotpink;
   }
 }
