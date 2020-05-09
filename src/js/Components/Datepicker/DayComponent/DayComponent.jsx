@@ -3,7 +3,11 @@ import React from "react";
 import "./styles.scss";
 
 const DayComponent = ({ monthId, day }) => {
-  return <div className="range-picker__day">{day}</div>;
+  const generateClassName = () => {
+    return "range-picker__day";
+  };
+
+  return <div className={generateClassName()}>{day}</div>;
 };
 
 export default DayComponent;

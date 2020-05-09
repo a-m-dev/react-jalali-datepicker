@@ -11,8 +11,11 @@ const RangePicker = (props) => {
   const {
     data,
     actions,
+    actions: { handleNavigateMonth },
     data: { visibleDatesRange, isJalaali },
   } = RangePickerManager(props);
+
+  console.log({ isJalaali });
 
   return (
     <RangePickerContext.Provider value={{ data, actions }}>
@@ -21,7 +24,23 @@ const RangePicker = (props) => {
           isJalaali ? "jalaali" : "georgian"
         }`}
       >
-        <section className="range-picker range-picker__navigators"></section>
+        <section className="range-picker range-picker__navigators">
+          <div
+            className="range-picker__navigator"
+            onClick={handleNavigateMonth}
+            data-name={`${isJalaali ? "PREV" : "NEXT"}`}
+          >
+            <span>‹</span>
+          </div>
+          <div
+            className="range-picker__navigator"
+            onClick={handleNavigateMonth}
+            data-name={`${isJalaali ? "NEXT" : "PREV"}`}
+          >
+            <span>›</span>
+          </div>
+        </section>
+
         <section className="range-picker range-picker__container">
           {!!visibleDatesRange &&
             Object.entries(visibleDatesRange).map(([monthId, days]) => (

@@ -9,8 +9,8 @@ class Routes extends React.Component {
           <h1>Date Picker Preview</h1>
         </header>
 
-        <section>
-          <RangePicker isJalaali={true} numberOfMonths={3} />
+        <section style={{ width: 300 }}>
+          <RangePicker isJalaali={true} numberOfMonths={2} />
         </section>
       </article>
     );
