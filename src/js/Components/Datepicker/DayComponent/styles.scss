@@ -7,4 +7,24 @@
   align-items: center;
   font-size: 0.8rem;
   color: #616161;
+
+  & > span {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &--start-date-selected {
+    background-color: red;
+  }
+
+  &--stop-date-selected {
+    background-color: green;
+  }
+
+  &--in-selected-range {
+    background-color: orange;
+  }
 }

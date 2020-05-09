@@ -5,7 +5,13 @@ import refineDaysForRendering from "../utils/refineDaysForRendering";
 import DayComponent from "../DayComponent";
 import "./styles.scss";
 
-const MonthComponent = ({ days, monthId, isJalaali = false, onSelectDate }) => {
+const MonthComponent = ({
+  days,
+  monthId,
+  isJalaali = false,
+  onSelectDate,
+  selectedRange,
+}) => {
   const [refinedDays, setRefinedDays] = useState([]);
   const [year, month] = monthId.split("__").map((el) => Number(el));
 
@@ -40,7 +46,9 @@ const MonthComponent = ({ days, monthId, isJalaali = false, onSelectDate }) => {
               <DayComponent
                 day={day}
                 monthId={monthId}
+                isJalaali={isJalaali}
                 onSelectDate={onSelectDate}
+                selectedRange={selectedRange}
               />
             </React.Fragment>
           ))}
