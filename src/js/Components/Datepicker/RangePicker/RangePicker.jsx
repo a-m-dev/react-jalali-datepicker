@@ -11,7 +11,7 @@ const RangePicker = (props) => {
   const {
     data,
     actions,
-    actions: { handleNavigateMonth },
+    actions: { handleNavigateMonth, updateSelectedRange },
     data: { visibleDatesRange, isJalaali },
   } = RangePickerManager(props);
 
@@ -47,6 +47,7 @@ const RangePicker = (props) => {
                   days={days}
                   monthId={monthId}
                   isJalaali={isJalaali}
+                  onSelectDate={updateSelectedRange}
                 />
               </React.Fragment>
             ))}

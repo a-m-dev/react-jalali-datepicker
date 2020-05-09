@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import "./styles.scss";
 
-const DayComponent = ({ monthId, day }) => {
+const DayComponent = ({ day, monthId, onSelectDate }) => {
   const generateClassName = () => {
     return "range-picker__day";
   };
 
-  return <div className={generateClassName()}>{day}</div>;
+  const handleDaySelect = useCallback(
+    (e) => {
+      const [year, month] = monthId.split("__").map((el) => Number(el));
+      onSelectDate({ e, year, month, day });
+    },
+    [onSelectDate]
+  );
+
+  return (
+    <div className={generateClassName()} onClick={handleDaySelect}>
+      {day}
+    </div>
+  );
 };
 
 export default DayComponent;
