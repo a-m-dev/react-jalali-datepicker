@@ -17,14 +17,17 @@
   }
 
   &--start-date-selected {
-    background-color: red;
+    background-color: #9c32ff;
+    color: #f2e4ff;
   }
 
   &--stop-date-selected {
-    background-color: green;
+    background-color: #9c32ff;
+    color: #f2e4ff;
   }
 
   &--in-selected-range {
-    background-color: orange;
+    background-color: #931fff4d;
+    color: #6d18bd;
   }
 }
