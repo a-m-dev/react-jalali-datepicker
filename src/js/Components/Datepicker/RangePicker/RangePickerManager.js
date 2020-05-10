@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import jMoment from "moment-jalaali";
 import DATE_FORMATS from "../Constants/DateFormats";
 import RANGE_SELECT_TYPES from "../Constants/RangeSelectTypes";
+import Events from "../Constants/Events";
 import generateMonth from "../utils/generateMonth";
 import getDateUnix from "../utils/getDateUnix";
 import getUnixOfDate from "../utils/getUnixOfDate";
@@ -31,6 +32,14 @@ const RangePickerManager = (props) => {
     startDate: null,
     stopDate: null,
   });
+
+  useEffect(() => {
+    window.addEventListener(Events.RANGE_PICKER.CLEAR, onClearFunction);
+
+    return () => {
+      window.removeEventListener(Events.RANGE_PICKER.CLEAR);
+    };
+  }, []);
 
   // Effects
   // initialize component with today
@@ -109,6 +118,14 @@ const RangePickerManager = (props) => {
   useEffect(() => {
     onExclude(excludedDates);
   }, [excludedDates]);
+
+  // reset
+  const onClearFunction = useCallback(() => {
+    setSelectedRange({ startDate: null, stopDate: null });
+    setExcludedDates([]);
+    setIsExclutionEnabled(true);
+    setIsExcludedMode(false);
+  }, []);
 
   // handlers
   const handleNavigateMonth = useCallback(

@@ -4,7 +4,6 @@ import { RangePicker } from "../Datepicker";
 
 // TODO:
 // - Checkbox
-// - reset Btn
 // - make getUnixUtil , convert ot georgian , convert to jalaali public
 
 const Routes = (props) => {
@@ -20,6 +19,14 @@ const Routes = (props) => {
       <button onClick={() => setIsJalaali((state) => !state)}>change</button>
       <button onClick={() => setExcludeSequenceOfDays(["Monday", "Saturday"])}>
         Set Monday and Saturday
+      </button>
+
+      <button
+        onClick={() => {
+          window.dispatchEvent(new CustomEvent("clearRangePicker"));
+        }}
+      >
+        Clear datepicker
       </button>
 
       <section>
