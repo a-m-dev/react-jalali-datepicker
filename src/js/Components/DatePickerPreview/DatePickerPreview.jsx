@@ -1,6 +1,16 @@
 import React from "react";
-import Checkbox from "../Checkbox";
+import Checkbox from "../Datepicker/Checkbox";
 import { RangePicker } from "../Datepicker";
+
+// TODO:
+// - Checkbox
+// - reset Btn
+// - exclude custome days handler
+// - syncing data jalaali to georgian
+//    - convert dates
+//    - excluded dates
+// - checkbox default label
+// - make getUnixUtil , convert ot georgian , convert to jalaali public
 
 class Routes extends React.Component {
   render() {
@@ -15,7 +25,8 @@ class Routes extends React.Component {
             isJalaali={true}
             numberOfMonths={2}
             shouldShowExcludeMode={true}
-            // excludeModeComponent={Checkbox}
+            shouldDisableBeforeToday={true}
+            excludeModeComponent={Checkbox}
             excludeModeComponentProps={{ label: "EXCLUDE_MODE" }}
             onExclude={(days) => console.log({ days })}
           />

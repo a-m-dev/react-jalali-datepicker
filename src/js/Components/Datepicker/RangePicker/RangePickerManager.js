@@ -3,6 +3,7 @@ import jMoment from "moment-jalaali";
 import DATE_FORMATS from "../Constants/DateFormats";
 import RANGE_SELECT_TYPES from "../Constants/RangeSelectTypes";
 import generateMonth from "../utils/generateMonth";
+import getDateUnix from "../utils/getDateUnix";
 import calcuateNextAndPrevMonth from "../utils/calcuateNextAndPrevMonth";
 
 const RangePickerManager = (props) => {
@@ -14,6 +15,7 @@ const RangePickerManager = (props) => {
     excludeModeComponent,
     excludeModeComponentProps,
     onExclude,
+    shouldDisableBeforeToday,
   } = props;
 
   // local States
@@ -82,7 +84,6 @@ const RangePickerManager = (props) => {
   const updateSelectedRange = useCallback(
     ({ e, year, month, day }) => {
       const { START_DATE, STOP_DATE } = RANGE_SELECT_TYPES;
-      const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
 
       const { startDate, stopDate } = selectedRange;
 
@@ -97,16 +98,8 @@ const RangePickerManager = (props) => {
         resultedStartDate = targetDate;
         resultedStopDate = null;
       } else if (startDate !== null) {
-        const selectedDate_unix = isJalaali
-          ? jMoment(`${year}-${month}-${day}`, JALAALI_DATE_FORMAT).unix()
-          : jMoment(`${year}-${month}-${day}`, GEORGIAN_DATE_FORMAT).unix();
-
-        const [_year, _month, _day] = startDate
-          .split("-")
-          .map((el) => Number(el));
-        const startDate_unix = isJalaali
-          ? jMoment(`${_year}-${_month}-${_day}`, JALAALI_DATE_FORMAT).unix()
-          : jMoment(`${_year}-${_month}-${_day}`, GEORGIAN_DATE_FORMAT).unix();
+        const selectedDate_unix = getDateUnix({ date: targetDate, isJalaali });
+        const startDate_unix = getDateUnix({ date: startDate, isJalaali });
 
         if (selectedDate_unix < startDate_unix) {
           type = START_DATE;
@@ -152,9 +145,11 @@ const RangePickerManager = (props) => {
       const { e, year, month, day } = args;
       const { startDate, stopDate } = selectedRange;
 
-      const currentDateUnix = getDateUnixTime(`${year}-${month}-${day}`);
-      const startDateUnix = getDateUnixTime(startDate);
-      const stopDateUnix = getDateUnixTime(stopDate);
+      const date = `${year}-${month}-${day}`;
+
+      const currentDateUnix = getDateUnix({ date, isJalaali });
+      const startDateUnix = getDateUnix({ date: startDate, isJalaali });
+      const stopDateUnix = getDateUnix({ date: stopDate, isJalaali });
 
       if (currentDateUnix <= startDateUnix || currentDateUnix >= stopDateUnix)
         return;
@@ -179,8 +174,6 @@ const RangePickerManager = (props) => {
   const handlePrevAndNextMonth = (type) => {
     const monthId = Object.keys(visibleDatesRange)[0];
 
-    // TODO:
-    //  - call generate date for this
     const resultDate = calcuateNextAndPrevMonth({
       monthId,
       isJalaali,
@@ -196,16 +189,6 @@ const RangePickerManager = (props) => {
     );
   };
 
-  const getDateUnixTime = (date) => {
-    const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
-
-    const [year, month, day] = date.split("-").map((el) => Number(el));
-
-    return isJalaali
-      ? jMoment(`${year}-${month}-${day}`, JALAALI_DATE_FORMAT).unix()
-      : jMoment(`${year}-${month}-${day}`, GEORGIAN_DATE_FORMAT).unix();
-  };
-
   // return the result
   return {
     data: {
@@ -219,6 +202,7 @@ const RangePickerManager = (props) => {
       isExcludedMode,
       isExclutionEnabled,
       excludedDates,
+      shouldDisableBeforeToday,
     },
     actions: { handleNavigateMonth, onSelectDate, handleExcludeMode },
   };

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import MonthComponent from "../MonthComponent";
 
-import Checkbox from "../../Checkbox";
+import Checkbox from "../Checkbox";
 import RangePickerContext from "./RangePickerContext";
 import RangePickerManager from "./RangePickerManager";
 import "./styles.scss";
@@ -23,6 +23,7 @@ const RangePicker = (props) => {
       isExcludedMode,
       isExclutionEnabled,
       excludedDates,
+      shouldDisableBeforeToday,
     },
   } = RangePickerManager(props);
 
@@ -61,6 +62,7 @@ const RangePicker = (props) => {
                   selectedRange={selectedRange}
                   excludedDates={excludedDates}
                   onSelectDate={onSelectDate}
+                  shouldDisableBeforeToday={shouldDisableBeforeToday}
                 />
               </React.Fragment>
             ))}
@@ -84,6 +86,7 @@ RangePicker.defaultProps = {
   isJalaali: false,
   shouldShowExcludeMode: false,
   excludeModeComponent: Checkbox,
+  shouldDisableBeforeToday: true,
   onExclude: () => null,
 };
 
@@ -92,6 +95,7 @@ RangePicker.propTypes = {
   isJalaali: PropTypes.bool,
   shouldShowExcludeMode: PropTypes.bool,
   excludeModeComponent: PropTypes.any,
+  shouldDisableBeforeToday: PropTypes.bool,
   onExclude: PropTypes.func,
 };
 
