@@ -6,9 +6,6 @@ import { RangePicker } from "../Datepicker";
 // - Checkbox
 // - reset Btn
 // - exclude custome days handler
-// - syncing data jalaali to georgian
-//    - convert dates
-//    - excluded dates
 // - checkbox default label
 // - make getUnixUtil , convert ot georgian , convert to jalaali public
 
@@ -29,9 +26,13 @@ const Routes = (props) => {
           numberOfMonths={2}
           shouldShowExcludeMode={true}
           shouldDisableBeforeToday={true}
+          appendExcludeDays={[]}
           excludeModeComponent={Checkbox}
           excludeModeComponentProps={{ label: "EXCLUDE_MODE" }}
-          onExclude={(days) => console.log({ days })}
+          onExclude={(days) => console.log("EXCLUDE_DAYS: ", { days })}
+          onChangeRange={({ startDate, stopDate }) =>
+            console.log("ON_CHANGE_RANGE: ", { startDate, stopDate })
+          }
         />
       </section>
     </article>

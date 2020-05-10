@@ -88,6 +88,7 @@ RangePicker.defaultProps = {
   excludeModeComponent: Checkbox,
   shouldDisableBeforeToday: true,
   onExclude: () => null,
+  onChangeRange: () => null,
 };
 
 RangePicker.propTypes = {
@@ -97,6 +98,7 @@ RangePicker.propTypes = {
   excludeModeComponent: PropTypes.any,
   shouldDisableBeforeToday: PropTypes.bool,
   onExclude: PropTypes.func,
+  onChangeRange: PropTypes.func,
 };
 
 export default RangePicker;

@@ -17,6 +17,7 @@ const RangePickerManager = (props) => {
     excludeModeComponentProps,
     onExclude,
     shouldDisableBeforeToday,
+    onChangeRange,
   } = props;
 
   // local States
@@ -57,6 +58,12 @@ const RangePickerManager = (props) => {
     );
     setExcludedDates(convertedExcludedDays);
     onExclude(convertedExcludedDays);
+
+    // call onChange Range
+    onChangeRange({
+      startDate: convertedStartDate,
+      stopDate: convertedStopDate,
+    });
   }, [isJalaali]);
 
   useEffect(() => {
@@ -142,6 +149,11 @@ const RangePickerManager = (props) => {
       }
 
       setSelectedRange({
+        startDate: resultedStartDate,
+        stopDate: resultedStopDate,
+      });
+
+      onChangeRange({
         startDate: resultedStartDate,
         stopDate: resultedStopDate,
       });
