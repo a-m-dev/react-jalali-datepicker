@@ -17,6 +17,8 @@ var _generateMonth = _interopRequireDefault(require("../utils/generateMonth"));
 
 var _getDateUnix = _interopRequireDefault(require("../utils/getDateUnix"));
 
+var _getUnixOfDate = _interopRequireDefault(require("../utils/getUnixOfDate"));
+
 var _calcuateNextAndPrevMonth = _interopRequireDefault(require("../utils/calcuateNextAndPrevMonth"));
 
 var _convertDate = _interopRequireDefault(require("../utils/convertDate"));
@@ -48,7 +50,8 @@ var RangePickerManager = function RangePickerManager(props) {
       excludeModeComponentProps = props.excludeModeComponentProps,
       onExclude = props.onExclude,
       shouldDisableBeforeToday = props.shouldDisableBeforeToday,
-      onChangeRange = props.onChangeRange; // local States
+      onChangeRange = props.onChangeRange,
+      appendExcludeWeekDays = props.appendExcludeWeekDays; // local States
 
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -111,7 +114,46 @@ var RangePickerManager = function RangePickerManager(props) {
       startDate: convertedStartDate,
       stopDate: convertedStopDate
     });
-  }, [isJalaali]);
+  }, [isJalaali]); // exclude
+
+  (0, _react.useEffect)(function () {
+    if (isExcludedMode) {
+      var JALAALI_DATE_FORMAT = _DateFormats.default.JALAALI_DATE_FORMAT,
+          GEORGIAN_DATE_FORMAT = _DateFormats.default.GEORGIAN_DATE_FORMAT;
+      var ONE_DAY_IN_UNIX = 24 * 60 * 60;
+      var startDate = selectedRange.startDate,
+          stopDate = selectedRange.stopDate;
+      var startDate_unix = (0, _getDateUnix.default)({
+        date: startDate,
+        isJalaali: isJalaali
+      });
+      var stopDate_unix = (0, _getDateUnix.default)({
+        date: stopDate,
+        isJalaali: isJalaali
+      });
+      var targetDaysTracer = [];
+
+      var _loop = function _loop(i) {
+        var iterationDate = (0, _getUnixOfDate.default)({
+          unix: i,
+          isJalaali: isJalaali
+        });
+        var dayName = (0, _momentJalaali.default)(iterationDate, isJalaali ? JALAALI_DATE_FORMAT : GEORGIAN_DATE_FORMAT).format("dddd");
+        var foundIndex = appendExcludeWeekDays.findIndex(function (weekDay) {
+          return weekDay === dayName;
+        });
+        if (foundIndex !== -1) targetDaysTracer.push(iterationDate);
+      };
+
+      for (var i = startDate_unix + ONE_DAY_IN_UNIX; i < stopDate_unix; i = i + ONE_DAY_IN_UNIX) {
+        _loop(i);
+      }
+
+      setExcludedDates(function (excludedDates) {
+        return [].concat(_toConsumableArray(excludedDates), targetDaysTracer);
+      });
+    }
+  }, [appendExcludeWeekDays, selectedRange, setExcludedDates]);
   (0, _react.useEffect)(function () {
     onExclude(excludedDates);
   }, [excludedDates]); // handlers

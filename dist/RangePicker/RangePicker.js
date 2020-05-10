@@ -105,7 +105,8 @@ RangePicker.defaultProps = {
   },
   onChangeRange: function onChangeRange() {
     return null;
-  }
+  },
+  appendExcludeWeekDays: []
 };
 RangePicker.propTypes = {
   numberOfMonths: _propTypes.default.number,
@@ -114,7 +115,8 @@ RangePicker.propTypes = {
   excludeModeComponent: _propTypes.default.any,
   shouldDisableBeforeToday: _propTypes.default.bool,
   onExclude: _propTypes.default.func,
-  onChangeRange: _propTypes.default.func
+  onChangeRange: _propTypes.default.func,
+  appendExcludeWeekDays: _propTypes.default.arrayOf(_propTypes.default.string)
 };
 var _default = RangePicker;
 exports.default = _default;

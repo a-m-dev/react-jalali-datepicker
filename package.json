@@ -8,7 +8,7 @@
     "clear": "rimraf ./dist/*",
     "build:dev": "webpack-dev-server -w -d --progress",
     "build:prod": "npm run clear && webpack -p --progress",
-    "publish": "rm -rf dist && mkdir dist && babel ./src/js/Components/Datepicker -d dist --copy-files"
+    "build:publish": "rm -rf dist && mkdir dist && babel ./src/js/Components/Datepicker -d dist --copy-files"
   },
   "author": "",
   "license": "ISC",
