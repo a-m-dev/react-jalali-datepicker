@@ -15,6 +15,8 @@ var _refineDaysForRendering = _interopRequireDefault(require("../utils/refineDay
 
 var _DayComponent = _interopRequireDefault(require("../DayComponent"));
 
+var _getDateUnix = _interopRequireDefault(require("../utils/getDateUnix"));
+
 require("./styles.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -46,7 +48,9 @@ var MonthComponent = function MonthComponent(_ref) {
       isJalaali = _ref$isJalaali === void 0 ? false : _ref$isJalaali,
       onSelectDate = _ref.onSelectDate,
       selectedRange = _ref.selectedRange,
-      excludedDates = _ref.excludedDates;
+      isExcludedMode = _ref.isExcludedMode,
+      excludedDates = _ref.excludedDates,
+      shouldDisableBeforeToday = _ref.shouldDisableBeforeToday;
 
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -85,7 +89,13 @@ var MonthComponent = function MonthComponent(_ref) {
           _month = _monthId$split2[1];
 
       var foundIndex = excludedDates.findIndex(function (item) {
-        return item === "".concat(_year, "-").concat(_month, "-").concat(day);
+        return (0, _getDateUnix.default)({
+          date: item,
+          isJalaali: isJalaali
+        }) === (0, _getDateUnix.default)({
+          date: "".concat(_year, "-").concat(_month, "-").concat(day),
+          isJalaali: isJalaali
+        });
       });
       if (foundIndex !== -1) isDayExcluded = true;
     }
@@ -97,8 +107,10 @@ var MonthComponent = function MonthComponent(_ref) {
       monthId: monthId,
       isJalaali: isJalaali,
       onSelectDate: onSelectDate,
+      isExcludedMode: isExcludedMode,
       isDayExcluded: isDayExcluded,
-      selectedRange: selectedRange
+      selectedRange: selectedRange,
+      shouldDisableBeforeToday: shouldDisableBeforeToday
     }));
   })));
 };

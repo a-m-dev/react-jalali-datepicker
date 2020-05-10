@@ -19,6 +19,8 @@ var _getDateUnix = _interopRequireDefault(require("../utils/getDateUnix"));
 
 var _calcuateNextAndPrevMonth = _interopRequireDefault(require("../utils/calcuateNextAndPrevMonth"));
 
+var _convertDate = _interopRequireDefault(require("../utils/convertDate"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -44,7 +46,9 @@ var RangePickerManager = function RangePickerManager(props) {
       shouldShowExcludeMode = props.shouldShowExcludeMode,
       excludeModeComponent = props.excludeModeComponent,
       excludeModeComponentProps = props.excludeModeComponentProps,
-      onExclude = props.onExclude; // local States
+      onExclude = props.onExclude,
+      shouldDisableBeforeToday = props.shouldDisableBeforeToday,
+      onChangeRange = props.onChangeRange; // local States
 
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -83,17 +87,34 @@ var RangePickerManager = function RangePickerManager(props) {
       numberOfMonths: numberOfMonths,
       isJalaali: isJalaali
     });
-    setVisibleDatesRange(datesRange);
-  }, []);
+    setVisibleDatesRange(datesRange); // convert start and stop dates
+
+    var _convertSelectedRange = convertSelectedRange(selectedRange),
+        convertedStartDate = _convertSelectedRange.convertedStartDate,
+        convertedStopDate = _convertSelectedRange.convertedStopDate;
+
+    setSelectedRange({
+      startDate: convertedStartDate,
+      stopDate: convertedStopDate
+    }); // convert exclusion days
+
+    var convertedExcludedDays = excludedDates.map(function (date) {
+      return (0, _convertDate.default)({
+        date: date,
+        isJalaali: !isJalaali
+      });
+    });
+    setExcludedDates(convertedExcludedDays);
+    onExclude(convertedExcludedDays); // call onChange Range
+
+    onChangeRange({
+      startDate: convertedStartDate,
+      stopDate: convertedStopDate
+    });
+  }, [isJalaali]);
   (0, _react.useEffect)(function () {
     onExclude(excludedDates);
-  }, [excludedDates]); // IMPORTANT
-  // TODO:
-
-  (0, _react.useEffect)(function () {// TODO:
-    //  - call on Exclude with array of spesifica locale
-    // onExclude()
-  }, [isJalaali]); // handlers
+  }, [excludedDates]); // handlers
 
   var handleNavigateMonth = (0, _react.useCallback)(function (e) {
     var target = e.currentTarget.dataset.name;
@@ -163,6 +184,10 @@ var RangePickerManager = function RangePickerManager(props) {
       startDate: resultedStartDate,
       stopDate: resultedStopDate
     });
+    onChangeRange({
+      startDate: resultedStartDate,
+      stopDate: resultedStopDate
+    });
   }, [selectedRange, setSelectedRange]);
   var handleExcludeDays = (0, _react.useCallback)(function (args) {
     var e = args.e,
@@ -184,9 +209,10 @@ var RangePickerManager = function RangePickerManager(props) {
       date: stopDate,
       isJalaali: isJalaali
     });
-    if (currentDateUnix <= startDateUnix || currentDateUnix >= stopDateUnix) return;
+    if (currentDateUnix <= startDateUnix || currentDateUnix >= stopDateUnix) return; // find if already added
+
     setExcludedDates(function (excludedDates) {
-      return [].concat(_toConsumableArray(excludedDates), ["".concat(year, "-").concat(month, "-").concat(day)]);
+      return manageExcludedState(excludedDates, date);
     });
   }, [selectedRange, excludedDates, setExcludedDates]);
   var handleExcludeMode = (0, _react.useCallback)(function (event) {
@@ -206,6 +232,50 @@ var RangePickerManager = function RangePickerManager(props) {
       numberOfMonths: numberOfMonths,
       isJalaali: isJalaali
     }));
+  };
+
+  var manageExcludedState = function manageExcludedState(days, selectedDay) {
+    var foundIndex = days.findIndex(function (el) {
+      return (0, _getDateUnix.default)({
+        date: el,
+        isJalaali: isJalaali
+      }) === (0, _getDateUnix.default)({
+        date: selectedDay,
+        isJalaali: isJalaali
+      });
+    });
+
+    if (foundIndex < 0) {
+      return [].concat(_toConsumableArray(days), [selectedDay]);
+    } else {
+      return [].concat(_toConsumableArray(days.slice(0, foundIndex)), _toConsumableArray(days.slice(foundIndex + 1, days.length)));
+    }
+  };
+
+  var convertSelectedRange = function convertSelectedRange(_ref2) {
+    var startDate = _ref2.startDate,
+        stopDate = _ref2.stopDate;
+    var convertedStartDate = null;
+    var convertedStopDate = null;
+
+    if (startDate) {
+      convertedStartDate = (0, _convertDate.default)({
+        date: startDate,
+        isJalaali: !isJalaali
+      });
+
+      if (stopDate) {
+        convertedStopDate = (0, _convertDate.default)({
+          date: stopDate,
+          isJalaali: !isJalaali
+        });
+      }
+    }
+
+    return {
+      convertedStartDate: convertedStartDate,
+      convertedStopDate: convertedStopDate
+    };
   }; // return the result
 
 
@@ -220,7 +290,8 @@ var RangePickerManager = function RangePickerManager(props) {
       excludeModeComponentProps: excludeModeComponentProps,
       isExcludedMode: isExcludedMode,
       isExclutionEnabled: isExclutionEnabled,
-      excludedDates: excludedDates
+      excludedDates: excludedDates,
+      shouldDisableBeforeToday: shouldDisableBeforeToday
     },
     actions: {
       handleNavigateMonth: handleNavigateMonth,

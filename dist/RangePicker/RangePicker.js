@@ -48,7 +48,8 @@ var RangePicker = function RangePicker(props) {
       excludeModeComponentProps = _RangePickerManager$d.excludeModeComponentProps,
       isExcludedMode = _RangePickerManager$d.isExcludedMode,
       isExclutionEnabled = _RangePickerManager$d.isExclutionEnabled,
-      excludedDates = _RangePickerManager$d.excludedDates;
+      excludedDates = _RangePickerManager$d.excludedDates,
+      shouldDisableBeforeToday = _RangePickerManager$d.shouldDisableBeforeToday;
 
   return _react.default.createElement(_RangePickerContext.default.Provider, {
     value: {
@@ -81,8 +82,10 @@ var RangePicker = function RangePicker(props) {
       monthId: monthId,
       isJalaali: isJalaali,
       selectedRange: selectedRange,
+      isExcludedMode: isExcludedMode,
       excludedDates: excludedDates,
-      onSelectDate: onSelectDate
+      onSelectDate: onSelectDate,
+      shouldDisableBeforeToday: shouldDisableBeforeToday
     }));
   })), shouldShowExcludeMode && _react.default.createElement(ExcludeModeComponent, _extends({}, excludeModeComponentProps, {
     onChange: handleExcludeMode,
@@ -96,7 +99,11 @@ RangePicker.defaultProps = {
   isJalaali: false,
   shouldShowExcludeMode: false,
   excludeModeComponent: _Checkbox.default,
+  shouldDisableBeforeToday: true,
   onExclude: function onExclude() {
+    return null;
+  },
+  onChangeRange: function onChangeRange() {
     return null;
   }
 };
@@ -105,7 +112,9 @@ RangePicker.propTypes = {
   isJalaali: _propTypes.default.bool,
   shouldShowExcludeMode: _propTypes.default.bool,
   excludeModeComponent: _propTypes.default.any,
-  onExclude: _propTypes.default.func
+  shouldDisableBeforeToday: _propTypes.default.bool,
+  onExclude: _propTypes.default.func,
+  onChangeRange: _propTypes.default.func
 };
 var _default = RangePicker;
 exports.default = _default;

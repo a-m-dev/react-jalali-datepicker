@@ -34,41 +34,48 @@ var DayComponent = function DayComponent(_ref) {
       monthId = _ref.monthId,
       isJalaali = _ref.isJalaali,
       selectedRange = _ref.selectedRange,
+      isExcludedMode = _ref.isExcludedMode,
       isDayExcluded = _ref.isDayExcluded,
-      onSelectDate = _ref.onSelectDate;
+      onSelectDate = _ref.onSelectDate,
+      shouldDisableBeforeToday = _ref.shouldDisableBeforeToday;
+  var _selectedRange$startD = selectedRange.startDate,
+      startDate = _selectedRange$startD === void 0 ? "" : _selectedRange$startD,
+      _selectedRange$stopDa = selectedRange.stopDate,
+      stopDate = _selectedRange$stopDa === void 0 ? "" : _selectedRange$stopDa;
+  var JALAALI_DATE_FORMAT = _DateFormats.default.JALAALI_DATE_FORMAT,
+      GEORGIAN_DATE_FORMAT = _DateFormats.default.GEORGIAN_DATE_FORMAT;
+  var today_unix;
+  var crrentDate_unix;
+  var startDate_unix;
+  var stopDate_unix;
+
+  var _monthId$split$map = monthId.split("__").map(function (el) {
+    return Number(el);
+  }),
+      _monthId$split$map2 = _slicedToArray(_monthId$split$map, 2),
+      year = _monthId$split$map2[0],
+      month = _monthId$split$map2[1];
+
+  var today = isJalaali ? (0, _momentJalaali.default)(new Date().toISOString(), GEORGIAN_DATE_FORMAT).format(JALAALI_DATE_FORMAT) : new Date().toISOString();
+  var currentDate = "".concat(year, "-").concat(month, "-").concat(day);
+  today_unix = (0, _getDateUnix.default)({
+    date: today.slice(0, 10),
+    isJalaali: isJalaali
+  });
+  crrentDate_unix = (0, _getDateUnix.default)({
+    date: currentDate,
+    isJalaali: isJalaali
+  });
+  if (startDate) startDate_unix = (0, _getDateUnix.default)({
+    date: startDate,
+    isJalaali: isJalaali
+  });
+  if (stopDate) stopDate_unix = (0, _getDateUnix.default)({
+    date: stopDate,
+    isJalaali: isJalaali
+  });
   var handleDaySelect = (0, _react.useCallback)(function (e) {
-    var _monthId$split$map = monthId.split("__").map(function (el) {
-      return Number(el);
-    }),
-        _monthId$split$map2 = _slicedToArray(_monthId$split$map, 2),
-        year = _monthId$split$map2[0],
-        month = _monthId$split$map2[1];
-
-    onSelectDate({
-      e: e,
-      year: year,
-      month: month,
-      day: day
-    });
-  }, [onSelectDate]);
-  /**
-   * generate class name for day
-   */
-
-  var generateClassName = function generateClassName(day) {
-    var baseClassName = "range-picker__day";
-    if (!day) return baseClassName;
-    var className = baseClassName;
-    var _selectedRange$startD = selectedRange.startDate,
-        startDate = _selectedRange$startD === void 0 ? "" : _selectedRange$startD,
-        _selectedRange$stopDa = selectedRange.stopDate,
-        stopDate = _selectedRange$stopDa === void 0 ? "" : _selectedRange$stopDa;
-    var JALAALI_DATE_FORMAT = _DateFormats.default.JALAALI_DATE_FORMAT,
-        GEORGIAN_DATE_FORMAT = _DateFormats.default.GEORGIAN_DATE_FORMAT;
-    var today_unix;
-    var crrentDate_unix;
-    var startDate_unix;
-    var stopDate_unix;
+    if (isDisabledBeforeToday()) return;
 
     var _monthId$split$map3 = monthId.split("__").map(function (el) {
       return Number(el);
@@ -77,29 +84,33 @@ var DayComponent = function DayComponent(_ref) {
         year = _monthId$split$map4[0],
         month = _monthId$split$map4[1];
 
-    var today = isJalaali ? (0, _momentJalaali.default)(new Date().toISOString(), GEORGIAN_DATE_FORMAT).format(JALAALI_DATE_FORMAT) : new Date().toISOString();
-    var currentDate = "".concat(year, "-").concat(month, "-").concat(day);
-    today_unix = (0, _getDateUnix.default)({
-      date: today.slice(0, 10),
-      isJalaali: isJalaali
+    onSelectDate({
+      e: e,
+      year: year,
+      month: month,
+      day: day
     });
-    crrentDate_unix = (0, _getDateUnix.default)({
-      date: currentDate,
-      isJalaali: isJalaali
-    });
-    if (startDate) startDate_unix = (0, _getDateUnix.default)({
-      date: startDate,
-      isJalaali: isJalaali
-    });
-    if (stopDate) stopDate_unix = (0, _getDateUnix.default)({
-      date: stopDate,
-      isJalaali: isJalaali
-    });
+  }, [onSelectDate]);
+
+  var isDisabledBeforeToday = function isDisabledBeforeToday() {
+    return shouldDisableBeforeToday && crrentDate_unix < today_unix;
+  };
+  /**
+   * generate class name for day
+   */
+
+
+  var generateClassName = function generateClassName(day) {
+    var baseClassName = "range-picker__day";
+    if (!day) return baseClassName;
+    var className = baseClassName;
     if (crrentDate_unix === today_unix) className += " ".concat(baseClassName, "--today");
     if (isDayExcluded) className += " ".concat(baseClassName, "--excluded");
     if (crrentDate_unix === startDate_unix) className += " ".concat(baseClassName, "--start-date-selected");
     if (crrentDate_unix === stopDate_unix) className += " ".concat(baseClassName, "--stop-date-selected");
     if (crrentDate_unix > startDate_unix && crrentDate_unix < stopDate_unix) className += " ".concat(baseClassName, "--in-selected-range");
+    if (isDisabledBeforeToday()) className += " ".concat(baseClassName, "--before-today");
+    if (isExcludedMode && (crrentDate_unix < startDate_unix || crrentDate_unix > stopDate_unix)) return className += " ".concat(baseClassName, "--out-of-range");
     return className;
   };
 

@@ -7,6 +7,7 @@
   align-items: center;
   font-size: 0.8rem;
   color: #616161;
+  cursor: pointer;
 
   & > span {
     width: 100%;
@@ -38,5 +39,17 @@
 
   &--excluded {
     background-color: hotpink;
+  }
+
+  &--before-today {
+    color: #dbdbdb;
+    cursor: default;
+    user-select: none;
+  }
+
+  &--out-of-range {
+    color: #ececec;
+    cursor: default;
+    user-select: none;
   }
 }
