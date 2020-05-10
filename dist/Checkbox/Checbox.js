@@ -33,7 +33,7 @@ var Checkbox = function Checkbox(_ref) {
 
 Checkbox.defaultProps = {
   checked: false,
-  label: "",
+  label: "Exclude",
   onChange: function onChange(e) {
     console.log(e);
   }
