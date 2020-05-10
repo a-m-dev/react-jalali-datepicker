@@ -1,8 +1,8 @@
 {
   "name": "react-jalali-datepicker",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": false,
-  "description": "",
+  "description": "a Simple and Flexible Datepicker for react and react-native",
   "main": "./dist/index.js",
   "scripts": {
     "clear": "rimraf ./dist/*",
@@ -12,6 +12,18 @@
   },
   "author": "",
   "license": "ISC",
+  "keywords": [
+    "datepicker",
+    "calendar",
+    "react",
+    "react-native",
+    "react-hooks",
+    "jalali"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a-m-dev/react-jalali-datepicker.git"
+  },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.6.0",
