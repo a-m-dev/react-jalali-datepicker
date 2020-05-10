@@ -10,7 +10,7 @@
     "build:prod": "npm run clear && webpack -p --progress",
     "build:publish": "rm -rf dist && mkdir dist && babel ./src/js/Components/Datepicker -d dist --copy-files"
   },
-  "author": "",
+  "author": "Ahmad Mirzaei (@a_m_dev)",
   "license": "ISC",
   "keywords": [
     "datepicker",
