@@ -12,6 +12,7 @@ const MonthComponent = ({
   isJalaali = false,
   onSelectDate,
   selectedRange,
+  isExcludedMode,
   excludedDates,
   shouldDisableBeforeToday,
 }) => {
@@ -65,6 +66,7 @@ const MonthComponent = ({
                   monthId={monthId}
                   isJalaali={isJalaali}
                   onSelectDate={onSelectDate}
+                  isExcludedMode={isExcludedMode}
                   isDayExcluded={isDayExcluded}
                   selectedRange={selectedRange}
                   shouldDisableBeforeToday={shouldDisableBeforeToday}

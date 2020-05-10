@@ -46,4 +46,10 @@
     cursor: default;
     user-select: none;
   }
+
+  &--out-of-range {
+    color: #ececec;
+    cursor: default;
+    user-select: none;
+  }
 }

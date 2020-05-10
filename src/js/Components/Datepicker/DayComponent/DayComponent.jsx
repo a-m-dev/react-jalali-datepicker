@@ -10,6 +10,7 @@ const DayComponent = ({
   monthId,
   isJalaali,
   selectedRange,
+  isExcludedMode,
   isDayExcluded,
   onSelectDate,
   shouldDisableBeforeToday,
@@ -73,6 +74,12 @@ const DayComponent = ({
       className += ` ${baseClassName}--in-selected-range`;
 
     if (isDisabledBeforeToday()) className += ` ${baseClassName}--before-today`;
+
+    if (
+      isExcludedMode &&
+      (crrentDate_unix < startDate_unix || crrentDate_unix > stopDate_unix)
+    )
+      return (className += ` ${baseClassName}--out-of-range`);
 
     return className;
   };

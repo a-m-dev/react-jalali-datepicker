@@ -60,6 +60,7 @@ const RangePicker = (props) => {
                   monthId={monthId}
                   isJalaali={isJalaali}
                   selectedRange={selectedRange}
+                  isExcludedMode={isExcludedMode}
                   excludedDates={excludedDates}
                   onSelectDate={onSelectDate}
                   shouldDisableBeforeToday={shouldDisableBeforeToday}
