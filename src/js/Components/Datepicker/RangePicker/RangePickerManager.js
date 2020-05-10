@@ -175,10 +175,10 @@ const RangePickerManager = (props) => {
       if (currentDateUnix <= startDateUnix || currentDateUnix >= stopDateUnix)
         return;
 
-      setExcludedDates((excludedDates) => [
-        ...excludedDates,
-        `${year}-${month}-${day}`,
-      ]);
+      // find if already added
+      setExcludedDates((excludedDates) =>
+        manageExcludedState(excludedDates, date)
+      );
     },
     [selectedRange, excludedDates, setExcludedDates]
   );
@@ -208,6 +208,23 @@ const RangePickerManager = (props) => {
         isJalaali,
       })
     );
+  };
+
+  const manageExcludedState = (days, selectedDay) => {
+    const foundIndex = days.findIndex(
+      (el) =>
+        getDateUnix({ date: el, isJalaali }) ===
+        getDateUnix({ date: selectedDay, isJalaali })
+    );
+
+    if (foundIndex < 0) {
+      return [...days, selectedDay];
+    } else {
+      return [
+        ...days.slice(0, foundIndex),
+        ...days.slice(foundIndex + 1, days.length),
+      ];
+    }
   };
 
   const convertSelectedRange = ({ startDate, stopDate }) => {

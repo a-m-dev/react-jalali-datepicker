@@ -26,7 +26,7 @@ const Routes = (props) => {
           numberOfMonths={2}
           shouldShowExcludeMode={true}
           shouldDisableBeforeToday={true}
-          appendExcludeDays={[]}
+          appendExcludeDays={["Mondays"]}
           excludeModeComponent={Checkbox}
           excludeModeComponentProps={{ label: "EXCLUDE_MODE" }}
           onExclude={(days) => console.log("EXCLUDE_DAYS: ", { days })}
