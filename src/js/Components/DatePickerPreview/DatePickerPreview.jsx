@@ -5,8 +5,6 @@ import { RangePicker } from "../Datepicker";
 // TODO:
 // - Checkbox
 // - reset Btn
-// - exclude custome days handler
-// - checkbox default label
 // - make getUnixUtil , convert ot georgian , convert to jalaali public
 
 const Routes = (props) => {
@@ -27,12 +25,12 @@ const Routes = (props) => {
       <section>
         <RangePicker
           isJalaali={isJalaali}
-          numberOfMonths={2}
+          numberOfMonths={1}
           shouldShowExcludeMode={true}
-          shouldDisableBeforeToday={true}
+          shouldDisableBeforeToday={false}
           appendExcludeWeekDays={excludeSequenceOfDays}
           excludeModeComponent={Checkbox}
-          excludeModeComponentProps={{ label: "EXCLUDE_MODE" }}
+          excludeModeComponentProps={{ label: "Exclude" }}
           onExclude={(days) => console.log("EXCLUDE_DAYS: ", { days })}
           onChangeRange={({ startDate, stopDate }) =>
             console.log("ON_CHANGE_RANGE: ", { startDate, stopDate })

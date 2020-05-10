@@ -14,7 +14,7 @@ const Checkbox = ({ label, ...checkboxProps }) => {
 
 Checkbox.defaultProps = {
   checked: false,
-  label: "",
+  label: "Exclude",
   onChange: (e) => {
     console.log(e);
   },
