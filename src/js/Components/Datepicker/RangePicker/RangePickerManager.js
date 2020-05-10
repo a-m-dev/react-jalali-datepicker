@@ -4,6 +4,7 @@ import DATE_FORMATS from "../Constants/DateFormats";
 import RANGE_SELECT_TYPES from "../Constants/RangeSelectTypes";
 import generateMonth from "../utils/generateMonth";
 import getDateUnix from "../utils/getDateUnix";
+import getUnixOfDate from "../utils/getUnixOfDate";
 import calcuateNextAndPrevMonth from "../utils/calcuateNextAndPrevMonth";
 import convertDate from "../utils/convertDate";
 
@@ -18,6 +19,7 @@ const RangePickerManager = (props) => {
     onExclude,
     shouldDisableBeforeToday,
     onChangeRange,
+    appendExcludeWeekDays,
   } = props;
 
   // local States
@@ -65,6 +67,44 @@ const RangePickerManager = (props) => {
       stopDate: convertedStopDate,
     });
   }, [isJalaali]);
+
+  // exclude
+  useEffect(() => {
+    if (isExcludedMode) {
+      const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
+
+      const ONE_DAY_IN_UNIX = 24 * 60 * 60;
+
+      const { startDate, stopDate } = selectedRange;
+      const startDate_unix = getDateUnix({ date: startDate, isJalaali });
+      const stopDate_unix = getDateUnix({ date: stopDate, isJalaali });
+
+      const targetDaysTracer = [];
+
+      for (
+        let i = startDate_unix + ONE_DAY_IN_UNIX;
+        i < stopDate_unix;
+        i = i + ONE_DAY_IN_UNIX
+      ) {
+        const iterationDate = getUnixOfDate({ unix: i, isJalaali });
+        const dayName = jMoment(
+          iterationDate,
+          isJalaali ? JALAALI_DATE_FORMAT : GEORGIAN_DATE_FORMAT
+        ).format("dddd");
+
+        const foundIndex = appendExcludeWeekDays.findIndex(
+          (weekDay) => weekDay === dayName
+        );
+
+        if (foundIndex !== -1) targetDaysTracer.push(iterationDate);
+      }
+
+      setExcludedDates((excludedDates) => [
+        ...excludedDates,
+        ...targetDaysTracer,
+      ]);
+    }
+  }, [appendExcludeWeekDays, selectedRange, setExcludedDates]);
 
   useEffect(() => {
     onExclude(excludedDates);

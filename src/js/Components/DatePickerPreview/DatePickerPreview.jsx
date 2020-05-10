@@ -11,6 +11,7 @@ import { RangePicker } from "../Datepicker";
 
 const Routes = (props) => {
   const [isJalaali, setIsJalaali] = useState(true);
+  const [excludeSequenceOfDays, setExcludeSequenceOfDays] = useState([]);
 
   return (
     <article className="routes container box">
@@ -19,6 +20,9 @@ const Routes = (props) => {
       </header>
 
       <button onClick={() => setIsJalaali((state) => !state)}>change</button>
+      <button onClick={() => setExcludeSequenceOfDays(["Monday", "Saturday"])}>
+        Set Monday and Saturday
+      </button>
 
       <section>
         <RangePicker
@@ -26,7 +30,7 @@ const Routes = (props) => {
           numberOfMonths={2}
           shouldShowExcludeMode={true}
           shouldDisableBeforeToday={true}
-          appendExcludeDays={["Mondays"]}
+          appendExcludeWeekDays={excludeSequenceOfDays}
           excludeModeComponent={Checkbox}
           excludeModeComponentProps={{ label: "EXCLUDE_MODE" }}
           onExclude={(days) => console.log("EXCLUDE_DAYS: ", { days })}

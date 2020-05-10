@@ -90,6 +90,7 @@ RangePicker.defaultProps = {
   shouldDisableBeforeToday: true,
   onExclude: () => null,
   onChangeRange: () => null,
+  appendExcludeWeekDays: [],
 };
 
 RangePicker.propTypes = {
@@ -100,6 +101,7 @@ RangePicker.propTypes = {
   shouldDisableBeforeToday: PropTypes.bool,
   onExclude: PropTypes.func,
   onChangeRange: PropTypes.func,
+  appendExcludeWeekDays: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default RangePicker;
