@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Checkbox from "../Datepicker/Checkbox";
 import { RangePicker } from "../Datepicker";
 
@@ -12,28 +12,30 @@ import { RangePicker } from "../Datepicker";
 // - checkbox default label
 // - make getUnixUtil , convert ot georgian , convert to jalaali public
 
-class Routes extends React.Component {
-  render() {
-    return (
-      <article className="routes container box">
-        <header>
-          <h1>Date Picker Preview</h1>
-        </header>
+const Routes = (props) => {
+  const [isJalaali, setIsJalaali] = useState(true);
 
-        <section>
-          <RangePicker
-            isJalaali={true}
-            numberOfMonths={2}
-            shouldShowExcludeMode={true}
-            shouldDisableBeforeToday={true}
-            excludeModeComponent={Checkbox}
-            excludeModeComponentProps={{ label: "EXCLUDE_MODE" }}
-            onExclude={(days) => console.log({ days })}
-          />
-        </section>
-      </article>
-    );
-  }
-}
+  return (
+    <article className="routes container box">
+      <header>
+        <h1>Date Picker Preview</h1>
+      </header>
+
+      <button onClick={() => setIsJalaali((state) => !state)}>change</button>
+
+      <section>
+        <RangePicker
+          isJalaali={isJalaali}
+          numberOfMonths={2}
+          shouldShowExcludeMode={true}
+          shouldDisableBeforeToday={true}
+          excludeModeComponent={Checkbox}
+          excludeModeComponentProps={{ label: "EXCLUDE_MODE" }}
+          onExclude={(days) => console.log({ days })}
+        />
+      </section>
+    </article>
+  );
+};
 
 export default Routes;

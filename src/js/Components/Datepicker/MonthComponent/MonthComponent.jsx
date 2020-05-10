@@ -3,6 +3,7 @@ import DayNames from "../Constants/DayNames";
 import MonthNames from "../Constants/MonthNames";
 import refineDaysForRendering from "../utils/refineDaysForRendering";
 import DayComponent from "../DayComponent";
+import getDateUnix from "../utils/getDateUnix";
 import "./styles.scss";
 
 const MonthComponent = ({
@@ -49,8 +50,11 @@ const MonthComponent = ({
             if (day) {
               const [year, month] = monthId.split("__");
               const foundIndex = excludedDates.findIndex(
-                (item) => item === `${year}-${month}-${day}`
+                (item) =>
+                  getDateUnix({ date: item, isJalaali }) ===
+                  getDateUnix({ date: `${year}-${month}-${day}`, isJalaali })
               );
+
               if (foundIndex !== -1) isDayExcluded = true;
             }
 

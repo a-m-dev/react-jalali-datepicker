@@ -5,6 +5,7 @@ import RANGE_SELECT_TYPES from "../Constants/RangeSelectTypes";
 import generateMonth from "../utils/generateMonth";
 import getDateUnix from "../utils/getDateUnix";
 import calcuateNextAndPrevMonth from "../utils/calcuateNextAndPrevMonth";
+import convertDate from "../utils/convertDate";
 
 const RangePickerManager = (props) => {
   // props Values
@@ -40,19 +41,27 @@ const RangePickerManager = (props) => {
     });
 
     setVisibleDatesRange(datesRange);
-  }, []);
+
+    // convert start and stop dates
+    const { convertedStartDate, convertedStopDate } = convertSelectedRange(
+      selectedRange
+    );
+    setSelectedRange({
+      startDate: convertedStartDate,
+      stopDate: convertedStopDate,
+    });
+
+    // convert exclusion days
+    const convertedExcludedDays = excludedDates.map((date) =>
+      convertDate({ date: date, isJalaali: !isJalaali })
+    );
+    setExcludedDates(convertedExcludedDays);
+    onExclude(convertedExcludedDays);
+  }, [isJalaali]);
 
   useEffect(() => {
     onExclude(excludedDates);
   }, [excludedDates]);
-
-  // IMPORTANT
-  // TODO:
-  useEffect(() => {
-    // TODO:
-    //  - call on Exclude with array of spesifica locale
-    // onExclude()
-  }, [isJalaali]);
 
   // handlers
   const handleNavigateMonth = useCallback(
@@ -187,6 +196,27 @@ const RangePickerManager = (props) => {
         isJalaali,
       })
     );
+  };
+
+  const convertSelectedRange = ({ startDate, stopDate }) => {
+    let convertedStartDate = null;
+    let convertedStopDate = null;
+
+    if (startDate) {
+      convertedStartDate = convertDate({
+        date: startDate,
+        isJalaali: !isJalaali,
+      });
+
+      if (stopDate) {
+        convertedStopDate = convertDate({
+          date: stopDate,
+          isJalaali: !isJalaali,
+        });
+      }
+    }
+
+    return { convertedStartDate, convertedStopDate };
   };
 
   // return the result
