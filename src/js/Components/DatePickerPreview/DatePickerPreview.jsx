@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { RangePicker } from "../Datepicker";
 
-// TODO:
-// - make getUnixUtil , convert ot georgian , convert to jalaali public
-
-const Routes = () => {
+const DatePickerPreview = () => {
   const [isJalaali, setIsJalaali] = useState(true);
   const [excludeSequenceOfDays, setExcludeSequenceOfDays] = useState([]);
   const [isExclutionEnabled, setIsExclutionEnabled] = useState(true);
@@ -79,4 +76,4 @@ const Routes = () => {
   );
 };
 
-export default Routes;
+export default DatePickerPreview;

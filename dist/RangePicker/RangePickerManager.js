@@ -13,6 +13,8 @@ var _DateFormats = _interopRequireDefault(require("../Constants/DateFormats"));
 
 var _RangeSelectTypes = _interopRequireDefault(require("../Constants/RangeSelectTypes"));
 
+var _Events = _interopRequireDefault(require("../Constants/Events"));
+
 var _generateMonth = _interopRequireDefault(require("../utils/generateMonth"));
 
 var _getDateUnix = _interopRequireDefault(require("../utils/getDateUnix"));
@@ -45,13 +47,13 @@ var RangePickerManager = function RangePickerManager(props) {
   // props Values
   var isJalaali = props.isJalaali,
       numberOfMonths = props.numberOfMonths,
-      shouldShowExcludeMode = props.shouldShowExcludeMode,
       excludeModeComponent = props.excludeModeComponent,
       excludeModeComponentProps = props.excludeModeComponentProps,
       onExclude = props.onExclude,
       shouldDisableBeforeToday = props.shouldDisableBeforeToday,
       onChangeRange = props.onChangeRange,
-      appendExcludeWeekDays = props.appendExcludeWeekDays; // local States
+      appendExcludeWeekDays = props.appendExcludeWeekDays,
+      onExcludeStatusChange = props.onExcludeStatusChange; // local States
 
   var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -79,9 +81,17 @@ var RangePickerManager = function RangePickerManager(props) {
   }),
       _useState10 = _slicedToArray(_useState9, 2),
       selectedRange = _useState10[0],
-      setSelectedRange = _useState10[1]; // Effects
-  // initialize component with today
+      setSelectedRange = _useState10[1];
 
+  (0, _react.useEffect)(function () {
+    window.addEventListener(_Events.default.RANGE_PICKER.CLEAR, onClearFunction);
+    window.addEventListener(_Events.default.RANGE_PICKER.TOGGLE_EXCLUDE_MODE, handleExcludeMode);
+    return function () {
+      window.removeEventListener(_Events.default.RANGE_PICKER.CLEAR);
+      window.removeEventListener(_Events.default.RANGE_PICKER.TOGGLE_EXCLUDE_MODE);
+    };
+  }, []); // Effects
+  // initialize component with today
 
   (0, _react.useEffect)(function () {
     var today = new Date();
@@ -156,7 +166,23 @@ var RangePickerManager = function RangePickerManager(props) {
   }, [appendExcludeWeekDays, selectedRange, setExcludedDates]);
   (0, _react.useEffect)(function () {
     onExclude(excludedDates);
-  }, [excludedDates]); // handlers
+  }, [excludedDates]);
+  (0, _react.useEffect)(function () {
+    onExcludeStatusChange({
+      isExclutionEnabled: isExclutionEnabled,
+      isExcludedMode: isExcludedMode
+    });
+  }, [isExclutionEnabled, isExcludedMode]); // reset
+
+  var onClearFunction = (0, _react.useCallback)(function () {
+    setSelectedRange({
+      startDate: null,
+      stopDate: null
+    });
+    setExcludedDates([]);
+    setIsExclutionEnabled(true);
+    setIsExcludedMode(false);
+  }, []); // handlers
 
   var handleNavigateMonth = (0, _react.useCallback)(function (e) {
     var target = e.currentTarget.dataset.name;
@@ -258,9 +284,8 @@ var RangePickerManager = function RangePickerManager(props) {
     });
   }, [selectedRange, excludedDates, setExcludedDates]);
   var handleExcludeMode = (0, _react.useCallback)(function (event) {
-    if (!selectedRange.startDate && !selectedRange.stopDate) return;
-    setIsExcludedMode(event.target.checked);
-  }, [isExcludedMode, setIsExcludedMode, selectedRange]); // privateFuncs
+    setIsExcludedMode(event.detail.isExcludedMode);
+  }, [setIsExcludedMode, selectedRange]); // privateFuncs
 
   var handlePrevAndNextMonth = function handlePrevAndNextMonth(type) {
     var monthId = Object.keys(visibleDatesRange)[0];
@@ -327,18 +352,15 @@ var RangePickerManager = function RangePickerManager(props) {
       monthsToShow: numberOfMonths,
       visibleDatesRange: visibleDatesRange,
       selectedRange: selectedRange,
-      shouldShowExcludeMode: shouldShowExcludeMode,
       ExcludeModeComponent: excludeModeComponent,
       excludeModeComponentProps: excludeModeComponentProps,
       isExcludedMode: isExcludedMode,
-      isExclutionEnabled: isExclutionEnabled,
       excludedDates: excludedDates,
       shouldDisableBeforeToday: shouldDisableBeforeToday
     },
     actions: {
       handleNavigateMonth: handleNavigateMonth,
-      onSelectDate: onSelectDate,
-      handleExcludeMode: handleExcludeMode
+      onSelectDate: onSelectDate
     }
   };
 };

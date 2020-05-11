@@ -21,8 +21,6 @@ require("./styles.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -38,16 +36,11 @@ var RangePicker = function RangePicker(props) {
       _RangePickerManager$a = _RangePickerManager.actions,
       handleNavigateMonth = _RangePickerManager$a.handleNavigateMonth,
       onSelectDate = _RangePickerManager$a.onSelectDate,
-      handleExcludeMode = _RangePickerManager$a.handleExcludeMode,
       _RangePickerManager$d = _RangePickerManager.data,
       visibleDatesRange = _RangePickerManager$d.visibleDatesRange,
       isJalaali = _RangePickerManager$d.isJalaali,
       selectedRange = _RangePickerManager$d.selectedRange,
-      shouldShowExcludeMode = _RangePickerManager$d.shouldShowExcludeMode,
-      ExcludeModeComponent = _RangePickerManager$d.ExcludeModeComponent,
-      excludeModeComponentProps = _RangePickerManager$d.excludeModeComponentProps,
       isExcludedMode = _RangePickerManager$d.isExcludedMode,
-      isExclutionEnabled = _RangePickerManager$d.isExclutionEnabled,
       excludedDates = _RangePickerManager$d.excludedDates,
       shouldDisableBeforeToday = _RangePickerManager$d.shouldDisableBeforeToday;
 
@@ -87,18 +80,12 @@ var RangePicker = function RangePicker(props) {
       onSelectDate: onSelectDate,
       shouldDisableBeforeToday: shouldDisableBeforeToday
     }));
-  })), shouldShowExcludeMode && _react.default.createElement(ExcludeModeComponent, _extends({}, excludeModeComponentProps, {
-    onChange: handleExcludeMode,
-    checked: isExcludedMode,
-    disabled: isExclutionEnabled
   }))));
 };
 
 RangePicker.defaultProps = {
   numberOfMonths: 1,
   isJalaali: false,
-  shouldShowExcludeMode: false,
-  excludeModeComponent: _Checkbox.default,
   shouldDisableBeforeToday: true,
   onExclude: function onExclude() {
     return null;
@@ -106,16 +93,18 @@ RangePicker.defaultProps = {
   onChangeRange: function onChangeRange() {
     return null;
   },
+  onExcludeStatusChange: function onExcludeStatusChange() {
+    return null;
+  },
   appendExcludeWeekDays: []
 };
 RangePicker.propTypes = {
   numberOfMonths: _propTypes.default.number,
   isJalaali: _propTypes.default.bool,
-  shouldShowExcludeMode: _propTypes.default.bool,
-  excludeModeComponent: _propTypes.default.any,
   shouldDisableBeforeToday: _propTypes.default.bool,
   onExclude: _propTypes.default.func,
   onChangeRange: _propTypes.default.func,
+  onExcludeStatusChange: _propTypes.default.func,
   appendExcludeWeekDays: _propTypes.default.arrayOf(_propTypes.default.string)
 };
 var _default = RangePicker;
