@@ -41,8 +41,11 @@ const RangePickerManager = (props) => {
     );
 
     return () => {
-      window.removeEventListener(Events.RANGE_PICKER.CLEAR);
-      window.removeEventListener(Events.RANGE_PICKER.TOGGLE_EXCLUDE_MODE);
+      window.removeEventListener(Events.RANGE_PICKER.CLEAR, onClearFunction);
+      window.removeEventListener(
+        Events.RANGE_PICKER.TOGGLE_EXCLUDE_MODE,
+        handleExcludeMode
+      );
     };
   }, []);
 
