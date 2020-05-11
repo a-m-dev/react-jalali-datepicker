@@ -14,13 +14,13 @@ const RangePickerManager = (props) => {
   const {
     isJalaali,
     numberOfMonths,
-    shouldShowExcludeMode,
     excludeModeComponent,
     excludeModeComponentProps,
     onExclude,
     shouldDisableBeforeToday,
     onChangeRange,
     appendExcludeWeekDays,
+    onExcludeStatusChange,
   } = props;
 
   // local States
@@ -35,9 +35,14 @@ const RangePickerManager = (props) => {
 
   useEffect(() => {
     window.addEventListener(Events.RANGE_PICKER.CLEAR, onClearFunction);
+    window.addEventListener(
+      Events.RANGE_PICKER.TOGGLE_EXCLUDE_MODE,
+      handleExcludeMode
+    );
 
     return () => {
       window.removeEventListener(Events.RANGE_PICKER.CLEAR);
+      window.removeEventListener(Events.RANGE_PICKER.TOGGLE_EXCLUDE_MODE);
     };
   }, []);
 
@@ -118,6 +123,10 @@ const RangePickerManager = (props) => {
   useEffect(() => {
     onExclude(excludedDates);
   }, [excludedDates]);
+
+  useEffect(() => {
+    onExcludeStatusChange({ isExclutionEnabled, isExcludedMode });
+  }, [isExclutionEnabled, isExcludedMode]);
 
   // reset
   const onClearFunction = useCallback(() => {
@@ -242,10 +251,9 @@ const RangePickerManager = (props) => {
 
   const handleExcludeMode = useCallback(
     (event) => {
-      if (!selectedRange.startDate && !selectedRange.stopDate) return;
-      setIsExcludedMode(event.target.checked);
+      setIsExcludedMode(event.detail.isExcludedMode);
     },
-    [isExcludedMode, setIsExcludedMode, selectedRange]
+    [setIsExcludedMode, selectedRange]
   );
 
   // privateFuncs
@@ -312,15 +320,13 @@ const RangePickerManager = (props) => {
       monthsToShow: numberOfMonths,
       visibleDatesRange,
       selectedRange,
-      shouldShowExcludeMode,
       ExcludeModeComponent: excludeModeComponent,
       excludeModeComponentProps,
       isExcludedMode,
-      isExclutionEnabled,
       excludedDates,
       shouldDisableBeforeToday,
     },
-    actions: { handleNavigateMonth, onSelectDate, handleExcludeMode },
+    actions: { handleNavigateMonth, onSelectDate },
   };
 };
 

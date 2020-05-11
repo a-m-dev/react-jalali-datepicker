@@ -12,16 +12,12 @@ const RangePicker = (props) => {
   const {
     data,
     actions,
-    actions: { handleNavigateMonth, onSelectDate, handleExcludeMode },
+    actions: { handleNavigateMonth, onSelectDate },
     data: {
       visibleDatesRange,
       isJalaali,
       selectedRange,
-      shouldShowExcludeMode,
-      ExcludeModeComponent,
-      excludeModeComponentProps,
       isExcludedMode,
-      isExclutionEnabled,
       excludedDates,
       shouldDisableBeforeToday,
     },
@@ -68,15 +64,6 @@ const RangePicker = (props) => {
               </React.Fragment>
             ))}
         </section>
-
-        {shouldShowExcludeMode && (
-          <ExcludeModeComponent
-            {...excludeModeComponentProps}
-            onChange={handleExcludeMode}
-            checked={isExcludedMode}
-            disabled={isExclutionEnabled}
-          />
-        )}
       </article>
     </RangePickerContext.Provider>
   );
@@ -85,22 +72,20 @@ const RangePicker = (props) => {
 RangePicker.defaultProps = {
   numberOfMonths: 1,
   isJalaali: false,
-  shouldShowExcludeMode: false,
-  excludeModeComponent: Checkbox,
   shouldDisableBeforeToday: true,
   onExclude: () => null,
   onChangeRange: () => null,
+  onExcludeStatusChange: () => null,
   appendExcludeWeekDays: [],
 };
 
 RangePicker.propTypes = {
   numberOfMonths: PropTypes.number,
   isJalaali: PropTypes.bool,
-  shouldShowExcludeMode: PropTypes.bool,
-  excludeModeComponent: PropTypes.any,
   shouldDisableBeforeToday: PropTypes.bool,
   onExclude: PropTypes.func,
   onChangeRange: PropTypes.func,
+  onExcludeStatusChange: PropTypes.func,
   appendExcludeWeekDays: PropTypes.arrayOf(PropTypes.string),
 };
 
