@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { RangePicker } from "../Datepicker";
+import { RangePicker } from "react-jalali-datepicker";
 
 const DatePickerPreview = () => {
   const [isJalaali, setIsJalaali] = useState(true);
