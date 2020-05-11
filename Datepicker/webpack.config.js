@@ -25,9 +25,9 @@ module.exports = {
   },
 
   externals: {
-    react: "commonjs react",
-    "react-dom": "commonjs react-dom",
-    "moment-jalaali": "commonjs moment-jalaali",
+    react: "react",
+    "react-dom": "react-dom",
+    "moment-jalaali": "moment-jalaali",
   },
 
   resolve: {
