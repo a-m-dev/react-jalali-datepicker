@@ -1,5 +1,4 @@
 const path = require("path");
-// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: "production",
@@ -26,16 +25,10 @@ module.exports = {
   },
 
   externals: {
-    react: "react",
-    "moment-jalaali": "moment-jalaali",
+    react: "commonjs react",
+    "react-dom": "commonjs react-dom",
+    "moment-jalaali": "commonjs moment-jalaali",
   },
-
-  // plugins: [
-  //   new MiniCssExtractPlugin({
-  //     filename: "app.css",
-  //     chunkFilename: "[id].css",
-  //   }),
-  // ],
 
   resolve: {
     extensions: [".js", ".jsx"],

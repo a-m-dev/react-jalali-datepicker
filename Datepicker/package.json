@@ -1,6 +1,6 @@
 {
   "name": "react-jalali-datepicker",
-  "version": "10.1.8",
+  "version": "0.1.8",
   "description": "",
   "main": "./build/index.js",
   "scripts": {
