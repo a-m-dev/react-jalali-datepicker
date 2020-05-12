@@ -1,17 +1,17 @@
+import { DATE_FORMATS } from "../Constants";
+
 const computeJalaaliDaysInRange = ({ _startDate, _stopDate }) => {
   const resultDays = {};
 
-  console.log({ _startDate, _stopDate });
+  const { JALAALI_DATE_FORMAT } = DATE_FORMATS;
 
   let currDay = _startDate;
   while (currDay < _stopDate) {
     const [year, month, day] = currDay
-      .toISOString()
-      .slice(0, 10)
+      .format(JALAALI_DATE_FORMAT)
       .split("-")
       .map((el) => Number(el));
 
-    console.log({ year, month, day });
     resultDays[`${year}-${month}-${day}`] = {
       isIncluded: true,
       forceIncluded: false,
@@ -19,7 +19,9 @@ const computeJalaaliDaysInRange = ({ _startDate, _stopDate }) => {
     currDay = currDay.add(1, "day");
   }
 
-  console.log(resultDays);
+  console.log(JSON.stringify(resultDays, null, 2));
+
+  return resultDays;
 };
 
 export default computeJalaaliDaysInRange;
