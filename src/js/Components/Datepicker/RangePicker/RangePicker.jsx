@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import MonthComponent from "../MonthComponent";
 
-import Checkbox from "../Checkbox";
 import RangePickerContext from "./RangePickerContext";
 import RangePickerManager from "./RangePickerManager";
 import "./styles.scss";
