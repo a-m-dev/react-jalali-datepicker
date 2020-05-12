@@ -5,6 +5,13 @@ const WeekdayIndex = new Map()
   .set("Tuesday", 3)
   .set("Wednesday", 4)
   .set("Thursday", 5)
-  .set("Friday", 6);
+  .set("Friday", 6)
+  .set("شنبه", 0)
+  .set("یک‌شنبه", 1)
+  .set("دوشنبه", 2)
+  .set("سه‌شنبه", 3)
+  .set("چهارشنبه", 4)
+  .set("پنج‌شنبه", 5)
+  .set("جمعه", 6);
 
 export default WeekdayIndex;

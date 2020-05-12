@@ -1,8 +1,8 @@
 {
   "name": "react-jalali-datepicker",
-  "version": "0.2.1",
+  "version": "0.2.38",
   "description": "",
-  "main": "./build/index.js",
+  "main": "./lib/RangePicker.js",
   "scripts": {
     "build:publish": "webpack"
   },
@@ -24,8 +24,7 @@
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9"
   },
-  "dependencies": {
-    "@babel/polyfill": "^7.6.0",
+  "peerDependencies": {
     "moment-jalaali": "^0.9.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0"

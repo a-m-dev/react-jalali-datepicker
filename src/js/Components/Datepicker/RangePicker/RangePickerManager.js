@@ -116,12 +116,18 @@ const RangePickerManager = (props) => {
         if (foundIndex !== -1) targetDaysTracer.push(iterationDate);
       }
 
+      console.log({ appendExcludeWeekDays, targetDaysTracer });
+
       setExcludedDates((excludedDates) => [
         ...excludedDates,
         ...targetDaysTracer,
       ]);
     }
   }, [appendExcludeWeekDays, selectedRange, setExcludedDates]);
+
+  useEffect(() => {
+    console.log({ appendExcludeWeekDays });
+  }, [appendExcludeWeekDays]);
 
   useEffect(() => {
     onExclude(excludedDates);

@@ -1,12 +1,17 @@
 const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
-  mode: "production",
+  mode: "development",
+
   entry: "./src/index.js",
 
+  devtool: "source-map",
+
   output: {
-    path: path.resolve("build"),
-    filename: "index.js",
+    path: path.resolve("lib"),
+    filename: "RangePicker.js",
+    sourceMapFilename: "RangePicker.sourcemap.js.map",
     libraryTarget: "commonjs2",
   },
 
@@ -23,6 +28,12 @@ module.exports = {
       },
     ],
   },
+
+  plugins: [
+    new webpack.SourceMapDevToolPlugin({
+      filename: "[name].js.map",
+    }),
+  ],
 
   externals: {
     react: "react",

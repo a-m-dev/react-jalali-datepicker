@@ -57,6 +57,7 @@ const MonthComponent = ({
               );
 
               if (foundIndex !== -1) isDayExcluded = true;
+              else isDayExcluded = false;
             }
 
             return (

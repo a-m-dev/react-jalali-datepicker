@@ -24,6 +24,26 @@ const refineDaysForRendering = (monthId, days, isJalaali) => {
   firstDayBegansAt = firstDayOfMonth.format("dddd");
   lastDayEndsAt = lastDayOfMonth.format("dddd");
 
+  console.log("XXXXXXXXX", {
+    monthId,
+    // days,
+    // firstDayOfMonth,
+    // lastDayOfMonth,
+    WeekdayIndex,
+    firstDayBegansAt,
+    lastDayEndsAt,
+  });
+
+  console.log({
+    _____ARRAY_____: [
+      ...new Array(WeekdayIndex.get(firstDayBegansAt)).fill(null),
+      ...days,
+      ...new Array(
+        WeekdayIndex.size - WeekdayIndex.get(lastDayEndsAt) - 1
+      ).fill(null),
+    ],
+  });
+
   return [
     ...new Array(WeekdayIndex.get(firstDayBegansAt)).fill(null),
     ...days,
