@@ -6,7 +6,7 @@ const computeJalaaliDaysInRange = ({ _startDate, _stopDate }) => {
   const { JALAALI_DATE_FORMAT } = DATE_FORMATS;
 
   let currDay = _startDate;
-  while (currDay < _stopDate) {
+  while (currDay <= _stopDate) {
     const [year, month, day] = currDay
       .format(JALAALI_DATE_FORMAT)
       .split("-")
@@ -19,7 +19,7 @@ const computeJalaaliDaysInRange = ({ _startDate, _stopDate }) => {
     currDay = currDay.add(1, "day");
   }
 
-  console.log(JSON.stringify(resultDays, null, 2));
+  // console.log(JSON.stringify(resultDays, null, 2));
 
   return resultDays;
 };

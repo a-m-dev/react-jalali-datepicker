@@ -1,11 +1,14 @@
+import { DATE_FORMATS } from "../Constants";
+
 const computeGeorgianDaysInRange = ({ _startDate, _stopDate }) => {
   const resultDays = {};
 
+  const { GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
+
   let currDay = _startDate;
-  while (currDay < _stopDate) {
+  while (currDay <= _stopDate) {
     const [year, month, day] = currDay
-      .toISOString()
-      .slice(0, 10)
+      .format(GEORGIAN_DATE_FORMAT)
       .split("-")
       .map((el) => Number(el));
 
@@ -17,7 +20,7 @@ const computeGeorgianDaysInRange = ({ _startDate, _stopDate }) => {
     currDay = currDay.add(1, "day");
   }
 
-  console.log(JSON.stringify(resultDays, null, 2));
+  // console.log(JSON.stringify(resultDays, null, 2));
 
   return resultDays;
 };

@@ -39,6 +39,7 @@ const RangePickerManager = (props) => {
     startDate: null,
     stopDate: null,
   });
+  const [computedSelectedRange, setComputedSelectedRange] = useState({});
 
   useEffect(() => {
     window.addEventListener(Events.RANGE_PICKER.CLEAR, onClearFunction);
@@ -61,6 +62,10 @@ const RangePickerManager = (props) => {
    * Effects
    */
   useEffect(() => {
+    console.log("EFFECT: ", { computedSelectedRange });
+  }, [computedSelectedRange]);
+
+  useEffect(() => {
     const today = new Date();
 
     const datesRange = generateMonth({
@@ -71,14 +76,27 @@ const RangePickerManager = (props) => {
 
     setVisibleDatesRange(datesRange);
 
-    // convert start and stop dates
-    // const { convertedStartDate, convertedStopDate } = convertSelectedRange(
-    //   selectedRange
-    // );
-    // setSelectedRange({
-    //   startDate: convertedStartDate,
-    //   stopDate: convertedStopDate,
-    // });
+    // convert selectedRange and update it
+    const { convertedStartDate, convertedStopDate } = convertSelectedRange(
+      selectedRange
+    );
+    setSelectedRange({
+      startDate: convertedStartDate,
+      stopDate: convertedStopDate,
+    });
+
+    // convert computedSelectedRange and update it
+    setComputedSelectedRange((computedSelectedRange) => {
+      console.log("OLD", { computedSelectedRange });
+      return manageComputedSelectedRange({
+        oldState: computedSelectedRange,
+        newState: computeDaysInRange({
+          startDate: convertedStartDate,
+          stopDate: convertedStopDate,
+          isJalaali,
+        }),
+      });
+    });
 
     // convert exclusion days
     // const convertedExcludedDays = excludedDates.map((date) =>
@@ -95,53 +113,66 @@ const RangePickerManager = (props) => {
   }, [isJalaali]);
 
   // exclude
-  // useEffect(() => {
-  //   if (isExcludedMode) {
-  //     const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
+  useEffect(() => {
+    if (isExcludedMode) {
+      const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
 
-  //     const ONE_DAY_IN_UNIX = 24 * 60 * 60;
+      const ONE_DAY_IN_UNIX = 24 * 60 * 60;
 
-  //     const { startDate, stopDate } = selectedRange;
-  //     const startDate_unix = getDateUnix({ date: startDate, isJalaali });
-  //     const stopDate_unix = getDateUnix({ date: stopDate, isJalaali });
+      const { startDate, stopDate } = selectedRange;
+      const startDate_unix = getDateUnix({ date: startDate, isJalaali });
+      const stopDate_unix = getDateUnix({ date: stopDate, isJalaali });
 
-  //     const targetDaysTracer = [];
+      const targetDaysTracer = [];
 
-  //     for (
-  //       let i = startDate_unix + ONE_DAY_IN_UNIX;
-  //       i < stopDate_unix;
-  //       i = i + ONE_DAY_IN_UNIX
-  //     ) {
-  //       const iterationDate = getUnixOfDate({ unix: i, isJalaali });
-  //       const dayName = jMoment(
-  //         iterationDate,
-  //         isJalaali ? JALAALI_DATE_FORMAT : GEORGIAN_DATE_FORMAT
-  //       ).format("dddd");
+      for (
+        let i = startDate_unix + ONE_DAY_IN_UNIX;
+        i < stopDate_unix;
+        i = i + ONE_DAY_IN_UNIX
+      ) {
+        const iterationDate = getUnixOfDate({ unix: i, isJalaali });
+        const dayName = jMoment(
+          iterationDate,
+          isJalaali ? JALAALI_DATE_FORMAT : GEORGIAN_DATE_FORMAT
+        ).format("dddd");
 
-  //       const foundIndex = appendExcludeWeekDays.findIndex(
-  //         (weekDay) => weekDay === dayName
-  //       );
+        const foundIndex = appendExcludeWeekDays.findIndex(
+          (weekDay) => weekDay === dayName
+        );
 
-  //       if (foundIndex !== -1) targetDaysTracer.push(iterationDate);
-  //     }
+        if (foundIndex !== -1)
+          targetDaysTracer.push(
+            iterationDate
+              .split("-")
+              .map((el) => Number(el))
+              .join("-")
+          );
+      }
 
-  //     console.log({ appendExcludeWeekDays, targetDaysTracer });
+      console.log({ targetDaysTracer });
 
-  //     setExcludedDates((excludedDates) => [
-  //       ...excludedDates,
-  //       ...targetDaysTracer,
-  //     ]);
-  //   }
-  // }, [appendExcludeWeekDays, selectedRange, setExcludedDates]);
+      setComputedSelectedRange((computedSelectedRange) =>
+        toggleComputedSelectedRangeItems(
+          computedSelectedRange,
+          targetDaysTracer
+        )
+      );
+
+      // setExcludedDates((excludedDates) => [
+      //   ...excludedDates,
+      //   ...targetDaysTracer,
+      // ]);
+    }
+  }, [appendExcludeWeekDays, selectedRange]);
 
   // useEffect(() => {
   //   onExclude(excludedDates);
   // }, [excludedDates]);
 
   // api to aware user of exclude status change
-  // useEffect(() => {
-  //   onExcludeStatusChange({ isExclutionEnabled, isExcludedMode });
-  // }, [isExclutionEnabled, isExcludedMode]);
+  useEffect(() => {
+    onExcludeStatusChange({ isExclutionEnabled, isExcludedMode });
+  }, [isExclutionEnabled, isExcludedMode]);
 
   /**
    *
@@ -209,13 +240,13 @@ const RangePickerManager = (props) => {
       }
 
       // check for exclusion mode
-      // if (type === STOP_DATE && resultedStopDate !== null)
-      //   setIsExclutionEnabled(false);
-      // else if (type === START_DATE) {
-      //   setIsExclutionEnabled(true);
-      //   setIsExcludedMode(false);
-      //   setExcludedDates([]);
-      // }
+      if (type === STOP_DATE && resultedStopDate !== null)
+        setIsExclutionEnabled(false);
+      else if (type === START_DATE) {
+        setIsExclutionEnabled(true);
+        setIsExcludedMode(false);
+        setExcludedDates([]);
+      }
 
       // set State
       setSelectedRange({
@@ -223,17 +254,17 @@ const RangePickerManager = (props) => {
         stopDate: resultedStopDate,
       });
 
-      console.log(
-        computeDaysInRange({
-          startDate: resultedStartDate,
-          stopDate: resultedStopDate,
-          isJalaali,
-        })
-      );
-      // setSelectedRange({
-      //   startDate: resultedStartDate,
-      //   stopDate: resultedStopDate,
-      // });
+      if (resultedStartDate !== null && resultedStopDate !== null) {
+        // console.log(
+        setComputedSelectedRange(
+          computeDaysInRange({
+            startDate: resultedStartDate,
+            stopDate: resultedStopDate,
+            isJalaali,
+          })
+        );
+        // );
+      }
 
       // onChangeRange({
       //   startDate: resultedStartDate,
@@ -257,12 +288,21 @@ const RangePickerManager = (props) => {
       if (currentDateUnix <= startDateUnix || currentDateUnix >= stopDateUnix)
         return;
 
+      console.log({ date });
+
       // find if already added
-      setExcludedDates((excludedDates) =>
-        manageExcludedState(excludedDates, date)
+      // setExcludedDates((excludedDates) =>
+      //   manageExcludedState(excludedDates, date)
+      // );
+
+      // TODO:
+      // - find target day from hash
+      // - make isIncluded to toggle
+      setComputedSelectedRange((computedSelectedRange) =>
+        toggleComputedSelectedRangeItems(computedSelectedRange, [date])
       );
     },
-    [selectedRange, excludedDates, setExcludedDates]
+    [selectedRange, computedSelectedRange /*excludedDates*/]
   );
 
   /**
@@ -274,6 +314,7 @@ const RangePickerManager = (props) => {
     setExcludedDates([]);
     setIsExclutionEnabled(true);
     setIsExcludedMode(false);
+    setComputedSelectedRange({});
   }, []);
 
   const handleExcludeMode = useCallback(
@@ -305,21 +346,34 @@ const RangePickerManager = (props) => {
     );
   };
 
-  const manageExcludedState = (days, selectedDay) => {
-    const foundIndex = days.findIndex(
-      (el) =>
-        getDateUnix({ date: el, isJalaali }) ===
-        getDateUnix({ date: selectedDay, isJalaali })
-    );
+  // const manageExcludedState = (days, selectedDay) => {
+  //   const foundIndex = days.findIndex(
+  //     (el) =>
+  //       getDateUnix({ date: el, isJalaali }) ===
+  //       getDateUnix({ date: selectedDay, isJalaali })
+  //   );
 
-    if (foundIndex < 0) {
-      return [...days, selectedDay];
-    } else {
-      return [
-        ...days.slice(0, foundIndex),
-        ...days.slice(foundIndex + 1, days.length),
-      ];
-    }
+  //   if (foundIndex < 0) {
+  //     return [...days, selectedDay];
+  //   } else {
+  //     return [
+  //       ...days.slice(0, foundIndex),
+  //       ...days.slice(foundIndex + 1, days.length),
+  //     ];
+  //   }
+  // };
+
+  const toggleComputedSelectedRangeItems = (oldState, dates) => {
+    const newState = { ...oldState };
+
+    dates.forEach((date) => {
+      newState[date] = {
+        ...newState[date],
+        isIncluded: !newState[date]["isIncluded"],
+      };
+    });
+
+    return newState;
   };
 
   const convertSelectedRange = ({ startDate, stopDate }) => {
@@ -343,6 +397,19 @@ const RangePickerManager = (props) => {
     return { convertedStartDate, convertedStopDate };
   };
 
+  const manageComputedSelectedRange = ({ oldState, newState }) => {
+    if (oldState == null || newState == null) return;
+    console.log({ oldState, newState });
+    const result = {};
+    Object.entries(newState).forEach(([key, value], i) => {
+      return (result[key] = Object.values(oldState)[i]);
+    });
+
+    console.log({ result });
+
+    return result;
+  };
+
   /**
    *
    * return the result
@@ -358,6 +425,7 @@ const RangePickerManager = (props) => {
       isExcludedMode,
       excludedDates,
       shouldDisableBeforeToday,
+      computedSelectedRange,
     },
     actions: { handleNavigateMonth, onSelectDate },
   };
