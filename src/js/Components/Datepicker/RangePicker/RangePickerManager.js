@@ -389,21 +389,19 @@ const RangePickerManager = (props) => {
     Object.entries(oldState).forEach(([date, state]) => {
       const isExsists = dates.some((dt) => dt === date);
 
-      console.log("-->>", date);
-
       if (isExsists && type === "SINGLE") {
         state.isIncluded = !state.isIncluded;
         if (state.isInSequence && state.isIncluded) {
           state.forceIncluded = true;
-          console.log(1.1);
         }
         Object.assign(x, { [date]: state });
-        console.log(1);
       } else if (!isExsists && type === "BULK" && state.isInSequence) {
         state.isIncluded = true;
         state.isInSequence = false;
+        if (state.forceIncluded) {
+          state.forceIncluded = false;
+        }
         Object.assign(x, { [date]: state });
-        console.log(2);
       } else if (isExsists) {
         state.isIncluded = false;
         if (type === "BULK") {
@@ -411,17 +409,10 @@ const RangePickerManager = (props) => {
           if (state.forceIncluded) {
             state.isIncluded = true;
             state.forceIncluded = true;
-            console.log(2.2);
-          } else if (!state.forceIncluded) {
-            state.isIncluded = false;
-            state.isInSequence = true;
-            console.log(2.3);
           }
         }
         Object.assign(x, { [date]: state });
-        console.log(3);
       }
-      console.log("----------------------------------");
     });
 
     console.log("XXXX", { x });
