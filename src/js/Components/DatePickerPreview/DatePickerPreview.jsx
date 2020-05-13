@@ -49,10 +49,13 @@ const DatePickerPreview = () => {
       <button
         onClick={() => {
           window.dispatchEvent(new CustomEvent("clearRangePicker"));
+          setExcludeSequenceOfDays([]);
         }}
       >
         Clear datepicker
       </button>
+
+      <button onClick={() => console.clear()}>CConsole</button>
 
       <div>
         {/* <input

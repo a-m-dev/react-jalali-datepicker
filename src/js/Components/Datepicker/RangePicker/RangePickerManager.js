@@ -154,7 +154,8 @@ const RangePickerManager = (props) => {
       setComputedSelectedRange((computedSelectedRange) =>
         toggleComputedSelectedRangeItems(
           computedSelectedRange,
-          targetDaysTracer
+          targetDaysTracer,
+          "BULK"
         )
       );
 
@@ -299,7 +300,11 @@ const RangePickerManager = (props) => {
       // - find target day from hash
       // - make isIncluded to toggle
       setComputedSelectedRange((computedSelectedRange) =>
-        toggleComputedSelectedRangeItems(computedSelectedRange, [date])
+        toggleComputedSelectedRangeItems(
+          computedSelectedRange,
+          [date],
+          "SINGLE"
+        )
       );
     },
     [selectedRange, computedSelectedRange /*excludedDates*/]
@@ -363,17 +368,42 @@ const RangePickerManager = (props) => {
   //   }
   // };
 
-  const toggleComputedSelectedRangeItems = (oldState, dates) => {
-    const newState = { ...oldState };
+  const toggleComputedSelectedRangeItems = (
+    oldState,
+    dates,
+    type = "SINGLE"
+  ) => {
+    console.log("OLD -->>", { oldState });
 
-    dates.forEach((date) => {
-      newState[date] = {
-        ...newState[date],
-        isIncluded: !newState[date]["isIncluded"],
-      };
+    // const newState = { ...oldState };
+
+    // dates.forEach((date) => {
+    //   newState[date] = {
+    //     ...newState[date],
+    //     isIncluded: !newState[date]["isIncluded"],
+    //   };
+    // });
+
+    let x = {};
+
+    Object.entries(oldState).forEach(([date, state]) => {
+      const isExsists = dates.some((dt) => dt === date);
+
+      if (isExsists && type === "SINGLE") {
+        state.isIncluded = !state.isIncluded;
+        Object.assign(x, { [date]: state });
+      } else if (isExsists) {
+        state.isIncluded = false;
+        if (type === "BULK") {
+          state.isInSequence = true;
+        }
+        Object.assign(x, { [date]: state });
+      }
     });
 
-    return newState;
+    console.log("XXXX", { x });
+
+    return { ...oldState, ...x };
   };
 
   const convertSelectedRange = ({ startDate, stopDate }) => {

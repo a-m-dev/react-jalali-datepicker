@@ -15,6 +15,7 @@ const computeGeorgianDaysInRange = ({ _startDate, _stopDate }) => {
     resultDays[`${year}-${month}-${day}`] = {
       isIncluded: true,
       forceIncluded: false,
+      isInSequence: false,
     };
 
     currDay = currDay.add(1, "day");
