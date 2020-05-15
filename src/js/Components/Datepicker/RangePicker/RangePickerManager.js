@@ -48,8 +48,12 @@ const RangePickerManager = (props) => {
    * local States
    */
   const [visibleDatesRange, setVisibleDatesRange] = useState([]);
-  const [isExcludedMode, setIsExcludedMode] = useState(false);
-  const [isExclutionEnabled, setIsExclutionEnabled] = useState(true);
+  const [isExcludedMode, setIsExcludedMode] = useState(
+    isInitiatedWithDefaultSelectedRange
+  );
+  const [isExclutionEnabled, setIsExclutionEnabled] = useState(
+    !isInitiatedWithDefaultSelectedRange
+  );
   const [selectedRange, setSelectedRange] = useState({
     startDate: convertDate({ date: defaultStartDate, isJalaali }),
     stopDate: convertDate({ date: defaultStopDate, isJalaali }),
