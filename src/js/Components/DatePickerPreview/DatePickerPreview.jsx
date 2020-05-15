@@ -106,15 +106,25 @@ const DatePickerPreview = () => {
           shouldDisableBeforeToday={false}
           appendExcludeWeekDays={excludeSequenceOfDays}
           // handlers
-          onExclude={(days) => console.log("ON_EXCLUDE: ", { days })}
-          onChangeRange={({ startDate, stopDate }) =>
-            console.log("ON_CHANGE_RANGE: ", { startDate, stopDate })
-          }
+          // onExclude={(days) => console.log("ON_EXCLUDE: ", { days })}
+          // onChangeRange={({ startDate, stopDate }) =>
+          //   console.log("ON_CHANGE_RANGE: ", { startDate, stopDate })
+          // }
           // exclude mode realtes states
           onExcludeStatusChange={({ isExclutionEnabled, isExcludedMode }) => {
             setIsExclutionEnabled(isExclutionEnabled);
             setIsExcludedMode(isExcludedMode);
           }}
+          // defaults
+          defaultSelectedRange={{
+            startDate: isJalaali ? "1399-2-12" : "2020-5-1",
+            stopDate: isJalaali ? "1399-2-25" : "2020-5-14",
+          }}
+          defaultExcludedDays={
+            isJalaali
+              ? ["1399-2-14", "1399-2-17", "1399-2-22"]
+              : ["2020-5-3", "2020-5-6", "2020-5-11"]
+          }
         />
       </section>
     </article>

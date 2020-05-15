@@ -3,7 +3,12 @@ import { DATE_FORMATS } from "../Constants";
 import computeGeorgianDaysInRange from "./computeGeorgianDaysInRange";
 import computeJalaaliDaysInRange from "./computeJalaaliDaysInRange";
 
-const computeDaysInRange = ({ startDate, stopDate, isJalaali }) => {
+const computeDaysInRange = ({
+  startDate,
+  stopDate,
+  isJalaali,
+  defaultExcludedDays = [],
+}) => {
   if (startDate == null || stopDate == null) return;
 
   const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
@@ -24,8 +29,12 @@ const computeDaysInRange = ({ startDate, stopDate, isJalaali }) => {
     : jMoment(`${stopYear}-${stopMonth}-${stopDay}`, GEORGIAN_DATE_FORMAT);
 
   return isJalaali
-    ? computeJalaaliDaysInRange({ _startDate, _stopDate })
-    : computeGeorgianDaysInRange({ _startDate, _stopDate });
+    ? computeJalaaliDaysInRange({ _startDate, _stopDate, defaultExcludedDays })
+    : computeGeorgianDaysInRange({
+        _startDate,
+        _stopDate,
+        defaultExcludedDays,
+      });
 };
 
 export default computeDaysInRange;
