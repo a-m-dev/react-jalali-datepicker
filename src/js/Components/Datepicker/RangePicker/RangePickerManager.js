@@ -55,8 +55,12 @@ const RangePickerManager = (props) => {
     !isInitiatedWithDefaultSelectedRange
   );
   const [selectedRange, setSelectedRange] = useState({
-    startDate: convertDate({ date: defaultStartDate, isJalaali }),
-    stopDate: convertDate({ date: defaultStopDate, isJalaali }),
+    startDate: isInitiatedWithDefaultSelectedRange
+      ? convertDate({ date: defaultStartDate, isJalaali })
+      : null,
+    stopDate: isInitiatedWithDefaultSelectedRange
+      ? convertDate({ date: defaultStopDate, isJalaali })
+      : null,
   });
 
   const [computedSelectedRange, setComputedSelectedRange] = useState(
