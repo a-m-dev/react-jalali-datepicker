@@ -17,7 +17,6 @@ const RangePicker = (props) => {
       isJalaali,
       selectedRange,
       isExcludedMode,
-      excludedDates,
       shouldDisableBeforeToday,
       computedSelectedRange = { computedSelectedRange },
     },
@@ -57,7 +56,6 @@ const RangePicker = (props) => {
                   isJalaali={isJalaali}
                   selectedRange={selectedRange}
                   isExcludedMode={isExcludedMode}
-                  excludedDates={excludedDates}
                   computedSelectedRange={computedSelectedRange}
                   onSelectDate={onSelectDate}
                   shouldDisableBeforeToday={shouldDisableBeforeToday}

@@ -13,9 +13,15 @@ const DatePickerPreview = () => {
   const [isExclutionEnabled, setIsExclutionEnabled] = useState(true);
   const [isExcludedMode, setIsExcludedMode] = useState(false);
 
+  // useEffect(() => {
+  //   console.log(JSON.stringify(excludeSequenceOfDays, null, 2));
+  // }, [excludeSequenceOfDays]);
+
   useEffect(() => {
-    console.log(JSON.stringify(excludeSequenceOfDays, null, 2));
-  }, [excludeSequenceOfDays]);
+    if (!isExcludedMode) {
+      setExcludeSequenceOfDays([]);
+    }
+  }, [isExcludedMode]);
 
   const handleExcludeDay = (target) => {
     const foundIndex = excludeSequenceOfDays.findIndex((el) => el === target);
@@ -41,8 +47,16 @@ const DatePickerPreview = () => {
       <button onClick={() => setIsJalaali((state) => !state)}>
         {isJalaali ? "GEORGIAN" : "JALAALI"}
       </button>
-      <button onClick={() => handleExcludeDay("Monday")}>EXCLUDE Monday</button>
-      <button onClick={() => handleExcludeDay("Sunday")}>
+      <button
+        disabled={isExclutionEnabled || !isExcludedMode}
+        onClick={() => handleExcludeDay("Monday")}
+      >
+        EXCLUDE Monday
+      </button>
+      <button
+        disabled={isExclutionEnabled || !isExcludedMode}
+        onClick={() => handleExcludeDay("Sunday")}
+      >
         EXCLUDE Sundays
       </button>
 
@@ -70,6 +84,7 @@ const DatePickerPreview = () => {
             );
           }}
         /> */}
+        {/* <span>EXCLUDE MODE STATUS</span> */}
         <button
           disabled={isExclutionEnabled}
           onClick={() => {
@@ -82,25 +97,24 @@ const DatePickerPreview = () => {
         >
           {isExcludedMode ? "disable " : "enable "} exclude mode
         </button>
-        {/* <span>EXCLUDE MODE STATUS</span> */}
       </div>
 
       <section>
         <RangePicker
-          numberOfMonths={1}
+          numberOfMonths={2}
           isJalaali={isJalaali}
           shouldDisableBeforeToday={false}
           appendExcludeWeekDays={excludeSequenceOfDays}
+          // handlers
+          onExclude={(days) => console.log("ON_EXCLUDE: ", { days })}
+          onChangeRange={({ startDate, stopDate }) =>
+            console.log("ON_CHANGE_RANGE: ", { startDate, stopDate })
+          }
           // exclude mode realtes states
           onExcludeStatusChange={({ isExclutionEnabled, isExcludedMode }) => {
             setIsExclutionEnabled(isExclutionEnabled);
             setIsExcludedMode(isExcludedMode);
           }}
-          // handlers
-          // onExclude={(days) => console.log("EXCLUDE_DAYS: ", { days })}
-          // onChangeRange={({ startDate, stopDate }) =>
-          //   console.log("ON_CHANGE_RANGE: ", { startDate, stopDate })
-          // }
         />
       </section>
     </article>

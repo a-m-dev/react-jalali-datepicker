@@ -13,7 +13,6 @@ const MonthComponent = ({
   onSelectDate,
   selectedRange,
   isExcludedMode,
-  excludedDates,
   computedSelectedRange,
   shouldDisableBeforeToday,
 }) => {
@@ -54,17 +53,6 @@ const MonthComponent = ({
               !computedSelectedRange[`${year}-${month}-${day}`]["isIncluded"]
             )
               isDayExcluded = true;
-            // if (day) {
-            //   const [year, month] = monthId.split("__");
-            //   const foundIndex = excludedDates.findIndex(
-            //     (item) =>
-            //       getDateUnix({ date: item, isJalaali }) ===
-            //       getDateUnix({ date: `${year}-${month}-${day}`, isJalaali })
-            //   );
-
-            //   if (foundIndex !== -1) isDayExcluded = true;
-            //   else isDayExcluded = false;
-            // }
 
             return (
               <React.Fragment key={index}>
