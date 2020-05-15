@@ -1,6 +1,10 @@
 import { DATE_FORMATS } from "../Constants";
 
-const computeJalaaliDaysInRange = ({ _startDate, _stopDate }) => {
+const computeJalaaliDaysInRange = ({
+  _startDate,
+  _stopDate,
+  defaultExcludedDays,
+}) => {
   const resultDays = {};
 
   const { JALAALI_DATE_FORMAT } = DATE_FORMATS;
@@ -12,8 +16,15 @@ const computeJalaaliDaysInRange = ({ _startDate, _stopDate }) => {
       .split("-")
       .map((el) => Number(el));
 
-    resultDays[`${year}-${month}-${day}`] = {
-      isIncluded: true,
+    // TODO
+    // - check if day exists in excluded day
+    //   then  make `isIncluded` false
+    const date = `${year}-${month}-${day}`;
+    resultDays[date] = {
+      isIncluded:
+        defaultExcludedDays.findIndex((el) => el === date) === -1
+          ? true
+          : false,
       forceIncluded: false,
       isInSequence: false,
     };

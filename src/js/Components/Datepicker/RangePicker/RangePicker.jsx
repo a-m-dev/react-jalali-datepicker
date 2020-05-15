@@ -76,6 +76,7 @@ RangePicker.defaultProps = {
   onChangeRange: () => null,
   onExcludeStatusChange: () => null,
   appendExcludeWeekDays: [],
+  defaultSelectedRange: { startDate: null, stopDate: null },
 };
 
 RangePicker.propTypes = {
@@ -86,6 +87,10 @@ RangePicker.propTypes = {
   onChangeRange: PropTypes.func,
   onExcludeStatusChange: PropTypes.func,
   appendExcludeWeekDays: PropTypes.arrayOf(PropTypes.string),
+  defaultSelectedRange: PropTypes.shape({
+    startDate: PropTypes.string,
+    stopDate: PropTypes.string,
+  }),
 };
 
 export default RangePicker;

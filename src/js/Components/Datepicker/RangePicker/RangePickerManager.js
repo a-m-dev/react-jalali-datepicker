@@ -30,7 +30,18 @@ const RangePickerManager = (props) => {
     // event handlers
     onExclude,
     onChangeRange,
+
+    //defaults
+    // defaultSelectedRange,
+    defaultSelectedRange: {
+      startDate: defaultStartDate,
+      stopDate: defaultStopDate,
+    },
+    defaultExcludedDays,
   } = props;
+
+  const isInitiatedWithDefaultSelectedRange =
+    defaultStartDate !== null && defaultStopDate !== null;
 
   /**
    *
@@ -40,10 +51,20 @@ const RangePickerManager = (props) => {
   const [isExcludedMode, setIsExcludedMode] = useState(false);
   const [isExclutionEnabled, setIsExclutionEnabled] = useState(true);
   const [selectedRange, setSelectedRange] = useState({
-    startDate: null,
-    stopDate: null,
+    startDate: convertDate({ date: defaultStartDate, isJalaali }),
+    stopDate: convertDate({ date: defaultStopDate, isJalaali }),
   });
-  const [computedSelectedRange, setComputedSelectedRange] = useState({});
+
+  const [computedSelectedRange, setComputedSelectedRange] = useState(
+    isInitiatedWithDefaultSelectedRange
+      ? computeDaysInRange({
+          startDate: defaultStartDate,
+          stopDate: defaultStopDate,
+          isJalaali,
+          defaultExcludedDays,
+        })
+      : {}
+  );
 
   /**
    *
@@ -69,6 +90,7 @@ const RangePickerManager = (props) => {
    *
    * Effects
    */
+
   useEffect(() => {
     const today = new Date();
 
@@ -81,9 +103,10 @@ const RangePickerManager = (props) => {
     setVisibleDatesRange(datesRange);
 
     // convert selectedRange and update it
-    const { convertedStartDate, convertedStopDate } = convertSelectedRange(
+    let { convertedStartDate, convertedStopDate } = convertSelectedRange(
       selectedRange
     );
+
     setSelectedRange({
       startDate: convertedStartDate,
       stopDate: convertedStopDate,
