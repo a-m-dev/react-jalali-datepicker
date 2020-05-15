@@ -1,4 +1,4 @@
-const Events = {
+const EVENTS = {
   // Range picker
   RANGE_PICKER: {
     CLEAR: "clearRangePicker",
@@ -6,4 +6,4 @@ const Events = {
   },
 };
 
-export default Events;
+export default EVENTS;
