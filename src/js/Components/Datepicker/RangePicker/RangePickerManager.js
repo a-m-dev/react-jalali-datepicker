@@ -373,7 +373,7 @@ const RangePickerManager = (props) => {
     dates,
     type = "SINGLE"
   ) => {
-    console.log("OLD -->>", { oldState });
+    console.log("OLD -->>>", { oldState });
 
     // const newState = { ...oldState };
 
