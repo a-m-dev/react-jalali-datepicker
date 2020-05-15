@@ -17,9 +17,19 @@ const DatePickerPreview = () => {
     console.log(JSON.stringify(excludeSequenceOfDays, null, 2));
   }, [excludeSequenceOfDays]);
 
-  const handleExclude = () => {
-    if (excludeSequenceOfDays.includes("Monday")) setExcludeSequenceOfDays([]);
-    else setExcludeSequenceOfDays(["Monday"]);
+  const handleExcludeDay = (target) => {
+    const foundIndex = excludeSequenceOfDays.findIndex((el) => el === target);
+
+    if (foundIndex !== -1) {
+      const newDays = [
+        ...excludeSequenceOfDays.slice(0, foundIndex),
+        ...excludeSequenceOfDays.slice(
+          foundIndex + 1,
+          excludeSequenceOfDays.length
+        ),
+      ];
+      setExcludeSequenceOfDays(newDays);
+    } else setExcludeSequenceOfDays((days) => [...days, target]);
   };
 
   return (
@@ -28,16 +38,24 @@ const DatePickerPreview = () => {
         <h1>Date Picker Preview</h1>
       </header>
 
-      <button onClick={() => setIsJalaali((state) => !state)}>change</button>
-      <button onClick={handleExclude}>Set Monday</button>
+      <button onClick={() => setIsJalaali((state) => !state)}>
+        {isJalaali ? "GEORGIAN" : "JALAALI"}
+      </button>
+      <button onClick={() => handleExcludeDay("Monday")}>EXCLUDE Monday</button>
+      <button onClick={() => handleExcludeDay("Sunday")}>
+        EXCLUDE Sundays
+      </button>
 
       <button
         onClick={() => {
           window.dispatchEvent(new CustomEvent("clearRangePicker"));
+          setExcludeSequenceOfDays([]);
         }}
       >
         Clear datepicker
       </button>
+
+      <button onClick={() => console.clear()}>CConsole</button>
 
       <div>
         {/* <input

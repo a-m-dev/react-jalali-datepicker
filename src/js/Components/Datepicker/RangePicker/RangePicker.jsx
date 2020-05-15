@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import MonthComponent from "../MonthComponent";
 
-import Checkbox from "../Checkbox";
 import RangePickerContext from "./RangePickerContext";
 import RangePickerManager from "./RangePickerManager";
 import "./styles.scss";
@@ -20,6 +19,7 @@ const RangePicker = (props) => {
       isExcludedMode,
       excludedDates,
       shouldDisableBeforeToday,
+      computedSelectedRange = { computedSelectedRange },
     },
   } = RangePickerManager(props);
 
@@ -58,6 +58,7 @@ const RangePicker = (props) => {
                   selectedRange={selectedRange}
                   isExcludedMode={isExcludedMode}
                   excludedDates={excludedDates}
+                  computedSelectedRange={computedSelectedRange}
                   onSelectDate={onSelectDate}
                   shouldDisableBeforeToday={shouldDisableBeforeToday}
                 />
