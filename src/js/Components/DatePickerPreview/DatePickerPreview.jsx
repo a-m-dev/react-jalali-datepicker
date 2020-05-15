@@ -106,10 +106,10 @@ const DatePickerPreview = () => {
           shouldDisableBeforeToday={false}
           appendExcludeWeekDays={excludeSequenceOfDays}
           // handlers
-          // onExclude={(days) => console.log("ON_EXCLUDE: ", { days })}
-          // onChangeRange={({ startDate, stopDate }) =>
-          //   console.log("ON_CHANGE_RANGE: ", { startDate, stopDate })
-          // }
+          onExclude={(days) => console.log("ON_EXCLUDE: ", { days })}
+          onChangeRange={({ startDate, stopDate }) =>
+            console.log("ON_CHANGE_RANGE: ", { startDate, stopDate })
+          }
           // exclude mode realtes states
           onExcludeStatusChange={({ isExclutionEnabled, isExcludedMode }) => {
             setIsExclutionEnabled(isExclutionEnabled);
