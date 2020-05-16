@@ -16,8 +16,6 @@ const computeJalaaliDaysInRange = ({
       .join("-")
   );
 
-  console.log({ defaultExcludedDays, formattedDefaultExcludedDays });
-
   let currDay = _startDate;
   while (currDay <= _stopDate) {
     const [year, month, day] = currDay

@@ -20,12 +20,6 @@ const computeDaysInRange = ({
     .split("-")
     .map((el) => Number(el));
 
-  console.log(
-    "-->>",
-    `${startYear}-${startMonth}-${startDay}`,
-    `${stopYear}-${stopMonth}-${stopDay}`
-  );
-
   const _startDate = isJalaali
     ? jMoment(`${startYear}-${startMonth}-${startDay}`, JALAALI_DATE_FORMAT)
     : jMoment(`${startYear}-${startMonth}-${startDay}`, GEORGIAN_DATE_FORMAT);
