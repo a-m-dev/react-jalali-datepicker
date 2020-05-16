@@ -1,6 +1,6 @@
 {
   "name": "react-jalali-datepicker",
-  "version": "0.2.41",
+  "version": "0.2.42",
   "private": false,
   "description": "a Simple and Flexible Datepicker for react and react-native",
   "main": "./lib/RangePicker.js",
