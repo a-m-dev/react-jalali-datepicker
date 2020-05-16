@@ -335,6 +335,7 @@ const RangePickerManager = (props) => {
    */
   const onClearFunction = useCallback(() => {
     setSelectedRange({ startDate: null, stopDate: null });
+    onChangeRange({ startDate: null, stopDate: null });
     setIsExclutionEnabled(true);
     setIsExcludedMode(false);
     setComputedSelectedRange({});

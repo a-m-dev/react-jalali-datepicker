@@ -1,3 +1,3 @@
-# React Jalaali Datepicker
+# React Jalali Datepicker
 
-A Simple jalaali datepicker for react!
+A Simple jalali datepicker for react!

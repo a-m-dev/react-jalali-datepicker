@@ -40,6 +40,7 @@ const DayComponent = ({
 
   const handleDaySelect = useCallback(
     (e) => {
+      if (day === null) return;
       if (isDisabledBeforeToday()) return;
 
       const [year, month] = monthId.split("__").map((el) => Number(el));

@@ -1,13 +1,26 @@
 {
   "name": "react-jalali-datepicker",
-  "version": "0.2.38",
-  "description": "",
+  "version": "0.2.4",
+  "private": false,
+  "description": "a Simple and Flexible Datepicker for react and react-native",
   "main": "./lib/RangePicker.js",
   "scripts": {
-    "build:publish": "webpack"
+    "build": "webpack"
   },
-  "author": "",
+  "author": "Ahmad Mirzaei (@a_m_dev)",
   "license": "ISC",
+  "keywords": [
+    "datepicker",
+    "calendar",
+    "react",
+    "react-native",
+    "react-hooks",
+    "jalali"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a-m-dev/react-jalali-datepicker.git"
+  },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.6.0",
@@ -28,5 +41,17 @@
     "moment-jalaali": "^0.9.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

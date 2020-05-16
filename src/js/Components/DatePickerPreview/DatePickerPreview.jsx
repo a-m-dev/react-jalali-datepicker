@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-// import { RangePicker } from "react-jalali-datepicker";
-import { RangePicker } from "../Datepicker";
+import { RangePicker } from "react-jalali-datepicker";
+// import { RangePicker } from "../Datepicker";
 
 // TODO:
-//  - onClear Range Picker => resset the selectedDateRange and Call `onChangeRange`
-//  - DayNames persian days
 //  - prune setted sequence of days to exclude
 
 const DatePickerPreview = () => {
