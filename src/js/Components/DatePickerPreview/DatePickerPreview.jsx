@@ -6,7 +6,7 @@ import { RangePicker } from "../Datepicker";
 //  - prune setted sequence of days to exclude
 
 const DatePickerPreview = () => {
-  const [isJalaali, setIsJalaali] = useState(true);
+  const [isJalaali, setIsJalaali] = useState(false);
   const [excludeSequenceOfDays, setExcludeSequenceOfDays] = useState([]);
   const [isExclutionEnabled, setIsExclutionEnabled] = useState(true);
   const [isExcludedMode, setIsExcludedMode] = useState(false);
@@ -132,7 +132,7 @@ const DatePickerPreview = () => {
             setIsExclutionEnabled(isExclutionEnabled);
             setIsExcludedMode(isExcludedMode);
           }}
-          // defaults
+          // // defaults
           defaultSelectedRange={defaultSel}
           defaultExcludedDays={defaultExcl}
         />
