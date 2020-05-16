@@ -99,6 +99,8 @@ const RangePickerManager = (props) => {
       });
 
       setComputedSelectedRange(_computedRange);
+      setIsExcludedMode(true);
+      setIsExclutionEnabled(false);
     }
   }, [isInitiatedWithDefaultSelectedRange]);
 
