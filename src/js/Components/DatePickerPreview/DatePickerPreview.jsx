@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { RangePicker } from "react-jalali-datepicker";
-// import { RangePicker } from "../Datepicker";
+// import { RangePicker } from "react-jalali-datepicker";
+import { RangePicker } from "../Datepicker";
 
 // TODO:
 //  - prune setted sequence of days to exclude

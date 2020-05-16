@@ -277,6 +277,7 @@ const RangePickerManager = (props) => {
         setIsExclutionEnabled(true);
         setIsExcludedMode(false);
         setComputedSelectedRange({});
+        onExclude([]);
       }
 
       // set State
@@ -335,11 +336,13 @@ const RangePickerManager = (props) => {
    */
   const onClearFunction = useCallback(() => {
     setSelectedRange({ startDate: null, stopDate: null });
-    onChangeRange({ startDate: null, stopDate: null });
     setIsExclutionEnabled(true);
     setIsExcludedMode(false);
     setComputedSelectedRange({});
-  }, []);
+
+    onExclude([]);
+    onChangeRange({ startDate: null, stopDate: null });
+  }, [computedSelectedRange]);
 
   const handleExcludeMode = useCallback(
     (event) => {
