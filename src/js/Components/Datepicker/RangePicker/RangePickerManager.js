@@ -32,7 +32,6 @@ const RangePickerManager = (props) => {
     onChangeRange,
 
     //defaults
-    // defaultSelectedRange,
     defaultSelectedRange: {
       startDate: defaultStartDate,
       stopDate: defaultStopDate,
@@ -41,7 +40,7 @@ const RangePickerManager = (props) => {
   } = props;
 
   const isInitiatedWithDefaultSelectedRange =
-    defaultStartDate !== null && defaultStopDate !== null;
+    !!defaultStartDate && !!defaultStopDate;
 
   /**
    *
@@ -55,12 +54,8 @@ const RangePickerManager = (props) => {
     !isInitiatedWithDefaultSelectedRange
   );
   const [selectedRange, setSelectedRange] = useState({
-    startDate: isInitiatedWithDefaultSelectedRange
-      ? convertDate({ date: defaultStartDate, isJalaali })
-      : null,
-    stopDate: isInitiatedWithDefaultSelectedRange
-      ? convertDate({ date: defaultStopDate, isJalaali })
-      : null,
+    startDate: isInitiatedWithDefaultSelectedRange ? defaultStartDate : null,
+    stopDate: isInitiatedWithDefaultSelectedRange ? defaultStopDate : null,
   });
 
   const [computedSelectedRange, setComputedSelectedRange] = useState(
@@ -73,6 +68,61 @@ const RangePickerManager = (props) => {
         })
       : {}
   );
+
+  // TODO:
+  // - REFACTOR THIS SHIT
+  useEffect(() => {
+    if (isInitiatedWithDefaultSelectedRange) {
+      const _selectedRange = {
+        startDate: isInitiatedWithDefaultSelectedRange
+          ? isJalaali
+            ? defaultStartDate
+            : convertDate({ date: defaultStartDate, isJalaali: true })
+          : null,
+        stopDate: isInitiatedWithDefaultSelectedRange
+          ? isJalaali
+            ? defaultStopDate
+            : convertDate({ date: defaultStopDate, isJalaali: true })
+          : null,
+      };
+      setSelectedRange(_selectedRange);
+
+      const _computedRange = computeDaysInRange({
+        startDate: isJalaali
+          ? defaultStartDate
+          : convertDate({ date: defaultStartDate, isJalaali: true }),
+        stopDate: isJalaali
+          ? defaultStopDate
+          : convertDate({ date: defaultStopDate, isJalaali: true }),
+        isJalaali,
+        defaultExcludedDays,
+      });
+
+      setComputedSelectedRange(_computedRange);
+    }
+  }, [isInitiatedWithDefaultSelectedRange]);
+
+  useEffect(() => {
+    if (!!defaultStartDate && !!defaultStopDate) {
+      setComputedSelectedRange(
+        computeDaysInRange({
+          startDate: isJalaali
+            ? defaultStartDate
+            : convertDate({ date: defaultStartDate, isJalaali: true }),
+          stopDate: isJalaali
+            ? defaultStopDate
+            : convertDate({ date: defaultStopDate, isJalaali: true }),
+          isJalaali,
+          defaultExcludedDays: isJalaali
+            ? defaultExcludedDays
+            : defaultExcludedDays.map((el) =>
+                convertDate({ date: el, isJalaali: true })
+              ),
+        })
+      );
+    }
+  }, [defaultExcludedDays]);
+  // ------------------------------------------------
 
   /**
    *

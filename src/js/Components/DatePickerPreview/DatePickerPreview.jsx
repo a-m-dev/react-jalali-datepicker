@@ -10,6 +10,25 @@ const DatePickerPreview = () => {
   const [excludeSequenceOfDays, setExcludeSequenceOfDays] = useState([]);
   const [isExclutionEnabled, setIsExclutionEnabled] = useState(true);
   const [isExcludedMode, setIsExcludedMode] = useState(false);
+  // temp
+  const [defaultSel, setDefaultSel] = useState({});
+  const [defaultExcl, setDefaultExcl] = useState([]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log("HAPPENS");
+      setDefaultSel({
+        startDate: isJalaali ? "1399-02-12" : "2020-05-1",
+        stopDate: isJalaali ? "1399-02-25" : "2020-05-14",
+      });
+
+      setDefaultExcl(
+        isJalaali
+          ? ["1399-2-14", "1399-02-17", "1399-2-22"]
+          : ["2020-05-03", "2020-5-06", "2020-5-11"]
+      );
+    }, 2000);
+  }, []);
 
   // useEffect(() => {
   //   console.log(JSON.stringify(excludeSequenceOfDays, null, 2));
@@ -114,15 +133,8 @@ const DatePickerPreview = () => {
             setIsExcludedMode(isExcludedMode);
           }}
           // defaults
-          defaultSelectedRange={{
-            startDate: isJalaali ? "1399-02-12" : "2020-05-1",
-            stopDate: isJalaali ? "1399-02-25" : "2020-05-14",
-          }}
-          defaultExcludedDays={
-            isJalaali
-              ? ["1399-2-14", "1399-02-17", "1399-2-22"]
-              : ["2020-05-03", "2020-5-06", "2020-5-11"]
-          }
+          defaultSelectedRange={defaultSel}
+          defaultExcludedDays={defaultExcl}
         />
       </section>
     </article>
