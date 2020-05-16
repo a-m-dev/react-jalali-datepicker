@@ -9,6 +9,15 @@ const computeJalaaliDaysInRange = ({
 
   const { JALAALI_DATE_FORMAT } = DATE_FORMATS;
 
+  const formattedDefaultExcludedDays = defaultExcludedDays.map((date) =>
+    date
+      .split("-")
+      .map((el) => Number(el))
+      .join("-")
+  );
+
+  console.log({ defaultExcludedDays, formattedDefaultExcludedDays });
+
   let currDay = _startDate;
   while (currDay <= _stopDate) {
     const [year, month, day] = currDay
@@ -22,7 +31,7 @@ const computeJalaaliDaysInRange = ({
     const date = `${year}-${month}-${day}`;
     resultDays[date] = {
       isIncluded:
-        defaultExcludedDays.findIndex((el) => el === date) === -1
+        formattedDefaultExcludedDays.findIndex((el) => el === date) === -1
           ? true
           : false,
       forceIncluded: false,

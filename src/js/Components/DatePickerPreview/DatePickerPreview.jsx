@@ -115,13 +115,13 @@ const DatePickerPreview = () => {
           }}
           // defaults
           defaultSelectedRange={{
-            startDate: isJalaali ? "1399-2-12" : "2020-5-1",
-            stopDate: isJalaali ? "1399-2-25" : "2020-5-14",
+            startDate: isJalaali ? "1399-02-12" : "2020-05-1",
+            stopDate: isJalaali ? "1399-02-25" : "2020-05-14",
           }}
           defaultExcludedDays={
             isJalaali
-              ? ["1399-2-14", "1399-2-17", "1399-2-22"]
-              : ["2020-5-3", "2020-5-6", "2020-5-11"]
+              ? ["1399-2-14", "1399-02-17", "1399-2-22"]
+              : ["2020-05-03", "2020-5-06", "2020-5-11"]
           }
         />
       </section>
