@@ -19,7 +19,7 @@ const DatePickerPreview = () => {
       console.log("HAPPENS");
       setDefaultSel({
         startDate: isJalaali ? "1399-02-12" : "2020-05-1",
-        stopDate: isJalaali ? "1399-02-25" : "2020-05-14",
+        stopDate: isJalaali ? "1399-03-2" : "2020-05-22",
       });
 
       setDefaultExcl(
@@ -27,12 +27,13 @@ const DatePickerPreview = () => {
           ? ["1399-2-14", "1399-02-17", "1399-2-22"]
           : ["2020-05-03", "2020-5-06", "2020-5-11"]
       );
+      setExcludeSequenceOfDays(["Monday"]);
     }, 2000);
   }, []);
 
-  // useEffect(() => {
-  //   console.log(JSON.stringify(excludeSequenceOfDays, null, 2));
-  // }, [excludeSequenceOfDays]);
+  useEffect(() => {
+    console.log(JSON.stringify(excludeSequenceOfDays, null, 2));
+  }, [excludeSequenceOfDays]);
 
   useEffect(() => {
     if (!isExcludedMode) {
@@ -123,14 +124,18 @@ const DatePickerPreview = () => {
           shouldDisableBeforeToday={false}
           appendExcludeWeekDays={excludeSequenceOfDays}
           // handlers
-          onExclude={(days) => console.log("ON_EXCLUDE: ", { days })}
-          onChangeRange={({ startDate, stopDate }) =>
-            console.log("ON_CHANGE_RANGE: ", { startDate, stopDate })
-          }
+          // onExclude={(days) => console.log("ON_EXCLUDE: ", { days })}
+          // onChangeRange={({ startDate, stopDate }) =>
+          //   console.log("ON_CHANGE_RANGE: ", { startDate, stopDate })
+          // }
           // exclude mode realtes states
           onExcludeStatusChange={({ isExclutionEnabled, isExcludedMode }) => {
             setIsExclutionEnabled(isExclutionEnabled);
             setIsExcludedMode(isExcludedMode);
+          }}
+          onExcludeDaysSeqChange={(targetDay) => {
+            console.log("ON_EXCLUDE_DAYS_SEQ_CHANGE:", { targetDay });
+            handleExcludeDay(targetDay);
           }}
           // // defaults
           defaultSelectedRange={defaultSel}

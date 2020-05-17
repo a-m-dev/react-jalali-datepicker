@@ -13,6 +13,7 @@ import {
   convertDate,
   calcuateNextAndPrevMonth,
   computeDaysInRange,
+  getWeekDayName,
 } from "../utils";
 
 const RangePickerManager = (props) => {
@@ -30,6 +31,7 @@ const RangePickerManager = (props) => {
     // event handlers
     onExclude,
     onChangeRange,
+    onExcludeDaysSeqChange,
 
     //defaults
     defaultSelectedRange: {
@@ -57,7 +59,7 @@ const RangePickerManager = (props) => {
     startDate: isInitiatedWithDefaultSelectedRange ? defaultStartDate : null,
     stopDate: isInitiatedWithDefaultSelectedRange ? defaultStopDate : null,
   });
-
+  const [excludedDaysSeq, setexcludedDaysSeq] = useState(appendExcludeWeekDays);
   const [computedSelectedRange, setComputedSelectedRange] = useState(
     isInitiatedWithDefaultSelectedRange
       ? computeDaysInRange({
@@ -112,6 +114,10 @@ const RangePickerManager = (props) => {
     }
   }, [defaultExcludedDays]);
   // ------------------------------------------------
+
+  useEffect(() => {
+    setexcludedDaysSeq(appendExcludeWeekDays);
+  }, [appendExcludeWeekDays]);
 
   /**
    *
@@ -264,7 +270,7 @@ const RangePickerManager = (props) => {
         updateSelectedRange(...args);
       }
     },
-    [selectedRange, isExcludedMode, isExclutionEnabled]
+    [selectedRange, isExcludedMode, isExclutionEnabled, excludedDaysSeq]
   );
 
   const updateSelectedRange = useCallback(
@@ -360,7 +366,35 @@ const RangePickerManager = (props) => {
       if (currentDateUnix <= startDateUnix || currentDateUnix >= stopDateUnix)
         return;
 
-      // console.log({ date });
+      // check if excludedDaysSeq has the day name
+      // aware it to delete the week day
+      const weekDayName = getWeekDayName({ date, isJalaali });
+      const foundIndex = excludedDaysSeq.findIndex((el) => el === weekDayName);
+      if (foundIndex !== -1) {
+        onExcludeDaysSeqChange(weekDayName);
+
+        let tracer = [];
+        Object.keys(computedSelectedRange)
+          .splice(1, Object.keys(computedSelectedRange).length - 1) // extract first and last day
+          .forEach((day) => {
+            const dayName = getWeekDayName({ date: day, isJalaali });
+            if (dayName === weekDayName) tracer.push(day);
+          });
+
+        tracer = tracer.filter((el) => el !== date);
+
+        const newComputed = { ...computedSelectedRange };
+
+        tracer.forEach((__day) => {
+          newComputed[__day] = {
+            isIncluded: false,
+            forceIncluded: false,
+            isInSequence: false,
+          };
+        });
+
+        setComputedSelectedRange(newComputed);
+      }
 
       setComputedSelectedRange((computedSelectedRange) =>
         toggleComputedSelectedRangeItems(computedSelectedRange, [date], SINGLE)
