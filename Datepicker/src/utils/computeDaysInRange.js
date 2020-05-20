@@ -13,8 +13,6 @@ const computeDaysInRange = ({
 
   const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
 
-  console.log(1010101010, { startDate, stopDate });
-
   const [startYear, startMonth, startDay] = startDate
     .split("-")
     .map((el) => Number(el));

@@ -33,7 +33,6 @@ const getGeorgianDaysInMonth = (date, numberOfMonths) => {
   const resultDays = [];
   let currDay = startDate;
   while (currDay < stopDate) {
-    console.log(17171717, currDay);
     const [year, month, day] = currDay.toISOString().slice(0, 10).split("-");
     resultDays.push({ year, month, day });
 

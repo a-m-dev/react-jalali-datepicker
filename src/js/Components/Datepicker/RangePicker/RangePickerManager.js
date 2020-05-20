@@ -41,11 +41,7 @@ const RangePickerManager = (props) => {
     defaultExcludedDays,
   } = props;
 
-  const isInitiatedWithDefaults =
-    !!defaultStartDate &&
-    !!defaultStopDate &&
-    Array.isArray(defaultExcludedDays) &&
-    defaultExcludedDays.length > 0;
+  const isInitiatedWithDefaults = !!defaultStartDate && !!defaultStopDate;
 
   /**
    *
@@ -194,8 +190,6 @@ const RangePickerManager = (props) => {
 
       const targetDaysTracer = [];
 
-      // console.log(55555, { startDate, stopDate });
-
       for (
         let i = startDate_unix + ONE_DAY_IN_UNIX;
         i < stopDate_unix;
@@ -210,12 +204,6 @@ const RangePickerManager = (props) => {
         const foundIndex = appendExcludeWeekDays.findIndex(
           (weekDay) => weekDay === dayName
         );
-
-        console.log(8888, {
-          iterationDate,
-          foundIndex,
-          dayName,
-        });
 
         if (foundIndex !== -1)
           targetDaysTracer.push(
@@ -362,17 +350,9 @@ const RangePickerManager = (props) => {
 
       const date = `${year}-${month}-${day}`;
 
-      console.log(111111, "RANGE_PICKER", { date, startDate, stopDate });
-
       const currentDateUnix = getDateUnix({ date, isJalaali });
       const startDateUnix = getDateUnix({ date: startDate, isJalaali });
       const stopDateUnix = getDateUnix({ date: stopDate, isJalaali });
-
-      console.log(222222, "RANGE_PICKER", {
-        currentDateUnix,
-        startDateUnix,
-        stopDateUnix,
-      });
 
       if (currentDateUnix <= startDateUnix || currentDateUnix >= stopDateUnix)
         return;
@@ -381,12 +361,6 @@ const RangePickerManager = (props) => {
       // aware it to delete the week day
       const weekDayName = getWeekDayName({ date, isJalaali });
       const foundIndex = excludedDaysSeq.findIndex((el) => el === weekDayName);
-
-      console.log(33333, "RANGE_PICKER", {
-        weekDayName,
-        foundIndex,
-        excludedDaysSeq,
-      });
 
       if (foundIndex !== -1) {
         onExcludeDaysSeqChange(weekDayName);
@@ -402,8 +376,6 @@ const RangePickerManager = (props) => {
         tracer = tracer.filter((el) => el !== date);
 
         const newComputed = { ...computedSelectedRange };
-
-        console.log(444444, "RANGE_PICKER", { tracer, newComputed });
 
         tracer.forEach((__day) => {
           newComputed[__day] = {

@@ -1,7 +1,6 @@
 import convertToGeorgian from "./convertToGeorgian";
 
 const calcuateNextAndPrevMonth = ({ monthId, isJalaali, numberOfMonths }) => {
-  console.log(99999, { monthId });
   const [year, month] = monthId.split("__").map((el) => Number(el));
 
   const calculatedMonth = month + numberOfMonths - 1;

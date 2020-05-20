@@ -23,8 +23,6 @@ const DayComponent = ({
   let startDate_unix;
   let stopDate_unix;
 
-  console.log(55555, { monthId });
-
   const [year, month] = monthId.split("__").map((el) => Number(el));
 
   const today = isJalaali
@@ -44,8 +42,6 @@ const DayComponent = ({
     (e) => {
       if (day === null) return;
       if (isDisabledBeforeToday()) return;
-
-      console.log(66666, monthId);
 
       const [year, month] = monthId.split("__").map((el) => Number(el));
       onSelectDate({ e, year, month, day });

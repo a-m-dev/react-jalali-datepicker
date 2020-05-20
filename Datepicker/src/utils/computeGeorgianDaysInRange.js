@@ -9,7 +9,6 @@ const computeGeorgianDaysInRange = ({
 
   const { GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
 
-  console.log(1212121212, { defaultExcludedDays });
   const formattedDefaultExcludedDays = defaultExcludedDays.map((date) =>
     date
       .split("-")
@@ -19,7 +18,6 @@ const computeGeorgianDaysInRange = ({
 
   let currDay = _startDate;
   while (currDay <= _stopDate) {
-    console.log(21212121, { currDay });
     const [year, month, day] = currDay
       .format(GEORGIAN_DATE_FORMAT)
       .split("-")

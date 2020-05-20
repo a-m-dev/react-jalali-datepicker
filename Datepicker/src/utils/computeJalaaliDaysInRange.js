@@ -9,7 +9,6 @@ const computeJalaaliDaysInRange = ({
 
   const { JALAALI_DATE_FORMAT } = DATE_FORMATS;
 
-  console.log(1313131313, { defaultExcludedDays });
   const formattedDefaultExcludedDays = defaultExcludedDays.map((date) =>
     date
       .split("-")
@@ -19,7 +18,6 @@ const computeJalaaliDaysInRange = ({
 
   let currDay = _startDate;
   while (currDay <= _stopDate) {
-    console.log(2323232323, { currDay });
     const [year, month, day] = currDay
       .format(JALAALI_DATE_FORMAT)
       .split("-")
