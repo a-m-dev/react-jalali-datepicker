@@ -50,6 +50,7 @@ const getJalaaliDaysInMonth = (date, numberOfMonths) => {
   const resultDays = [];
   let currDate = startDate;
   while (currDate < stopDate) {
+    console.log(181818181818, { currDate });
     const [year, month, day] = currDate.format(JALAALI_DATE_FORMAT).split("-");
 
     resultDays.push({ year, month, day });

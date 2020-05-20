@@ -6,6 +6,7 @@ const refineDaysForRendering = (monthId, days, isJalaali) => {
   // get desired format
   const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
 
+  console.log(1919191919, { monthId });
   const [year, month] = monthId.split("__");
 
   let firstDayBegansAt;
