@@ -41,87 +41,83 @@ const RangePickerManager = (props) => {
     defaultExcludedDays,
   } = props;
 
-  const isInitiatedWithDefaultSelectedRange =
-    !!defaultStartDate && !!defaultStopDate;
+  const isInitiatedWithDefaults =
+    !!defaultStartDate &&
+    !!defaultStopDate &&
+    Array.isArray(defaultExcludedDays) &&
+    defaultExcludedDays.length > 0;
 
   /**
    *
    * local States
    */
   const [visibleDatesRange, setVisibleDatesRange] = useState([]);
-  const [isExcludedMode, setIsExcludedMode] = useState(
-    isInitiatedWithDefaultSelectedRange
-  );
-  const [isExclutionEnabled, setIsExclutionEnabled] = useState(
-    !isInitiatedWithDefaultSelectedRange
-  );
+  const [isExcludedMode, setIsExcludedMode] = useState(false);
+  const [isExclutionEnabled, setIsExclutionEnabled] = useState(true);
   const [selectedRange, setSelectedRange] = useState({
-    startDate: isInitiatedWithDefaultSelectedRange ? defaultStartDate : null,
-    stopDate: isInitiatedWithDefaultSelectedRange ? defaultStopDate : null,
+    startDate: null,
+    stopDate: null,
   });
   const [excludedDaysSeq, setexcludedDaysSeq] = useState(appendExcludeWeekDays);
-  const [computedSelectedRange, setComputedSelectedRange] = useState(
-    isInitiatedWithDefaultSelectedRange
-      ? computeDaysInRange({
-          startDate: defaultStartDate,
-          stopDate: defaultStopDate,
+  const [computedSelectedRange, setComputedSelectedRange] = useState({});
+
+  // DEFAULTS SETUP
+  useEffect(() => {
+    if (isInitiatedWithDefaults) {
+      // default selected range
+      const defaultSelectedRange = {
+        startDate: defaultStartDate,
+        stopDate: defaultStopDate,
+      };
+
+      setSelectedRange(defaultSelectedRange);
+
+      // compute selected range
+      const startDate = isJalaali
+        ? defaultStartDate
+        : convertDate({ date: defaultStartDate, isJalaali: true });
+      const stopDate = isJalaali
+        ? defaultStartDate
+        : convertDate({ date: defaultStopDate, isJalaali: true });
+
+      setComputedSelectedRange(
+        computeDaysInRange({
+          startDate,
+          stopDate,
           isJalaali,
           defaultExcludedDays,
         })
-      : {}
-  );
+      );
 
-  // TODO:
-  // - REFACTOR THIS SHIT
-  useEffect(() => {
-    if (isInitiatedWithDefaultSelectedRange) {
-      const _selectedRange = {
-        startDate: isInitiatedWithDefaultSelectedRange
-          ? defaultStartDate
-          : null,
-        stopDate: isInitiatedWithDefaultSelectedRange ? defaultStopDate : null,
-      };
-
-      setSelectedRange(_selectedRange);
-
-      const _computedRange = computeDaysInRange({
-        startDate: isJalaali
-          ? defaultStartDate
-          : convertDate({ date: defaultStartDate, isJalaali: true }),
-        stopDate: isJalaali
-          ? defaultStopDate
-          : convertDate({ date: defaultStopDate, isJalaali: true }),
-        isJalaali,
-        defaultExcludedDays,
-      });
-
-      setComputedSelectedRange(_computedRange);
+      // set extra stuff
       setIsExcludedMode(true);
       setIsExclutionEnabled(false);
     }
-  }, [isInitiatedWithDefaultSelectedRange]);
+  }, [isInitiatedWithDefaults]);
 
   useEffect(() => {
-    if (!!defaultStartDate && !!defaultStopDate) {
+    if (isInitiatedWithDefaults) {
       setComputedSelectedRange(
         computeDaysInRange({
           startDate: defaultStartDate,
           stopDate: defaultStopDate,
           isJalaali,
-          defaultExcludedDays: defaultExcludedDays,
+          defaultExcludedDays,
         })
       );
     }
   }, [defaultExcludedDays]);
-  // ------------------------------------------------
 
   useEffect(() => {
     setexcludedDaysSeq(appendExcludeWeekDays);
   }, [appendExcludeWeekDays]);
+  // ------------------------------------------------
 
   /**
    *
    * Event listeners
+   * TODO:
+   *  -
    */
   useEffect(() => {
     window.addEventListener(EVENTS.RANGE_PICKER.CLEAR, onClearFunction);
@@ -238,7 +234,6 @@ const RangePickerManager = (props) => {
    *
    * AWARE OUTSIDE API
    */
-
   // api to aware user of exclude status change
   useEffect(() => {
     onExcludeStatusChange({ isExclutionEnabled, isExcludedMode });
@@ -375,7 +370,7 @@ const RangePickerManager = (props) => {
 
         let tracer = [];
         Object.keys(computedSelectedRange)
-          .splice(1, Object.keys(computedSelectedRange).length - 1) // extract first and last day
+          .splice(1, Object.keys(computedSelectedRange).length - 2) // extract first and last day
           .forEach((day) => {
             const dayName = getWeekDayName({ date: day, isJalaali });
             if (dayName === weekDayName) tracer.push(day);
