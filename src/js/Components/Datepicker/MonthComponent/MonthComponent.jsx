@@ -17,6 +17,7 @@ const MonthComponent = ({
   shouldDisableBeforeToday,
 }) => {
   const [refinedDays, setRefinedDays] = useState([]);
+  console.log(77777, monthId);
   const [year, month] = monthId.split("__").map((el) => Number(el));
 
   useEffect(() => {

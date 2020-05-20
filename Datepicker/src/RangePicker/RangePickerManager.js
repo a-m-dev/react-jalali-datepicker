@@ -194,6 +194,8 @@ const RangePickerManager = (props) => {
 
       const targetDaysTracer = [];
 
+      console.log(55555, { startDate, stopDate });
+
       for (
         let i = startDate_unix + ONE_DAY_IN_UNIX;
         i < stopDate_unix;
@@ -208,6 +210,12 @@ const RangePickerManager = (props) => {
         const foundIndex = appendExcludeWeekDays.findIndex(
           (weekDay) => weekDay === dayName
         );
+
+        console.log(66666, "RANGEPICKER", {
+          iterationDate,
+          foundIndex,
+          dayName,
+        });
 
         if (foundIndex !== -1)
           targetDaysTracer.push(
