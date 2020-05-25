@@ -1,6 +1,8 @@
 # React Jalali Datepicker
 
-![Rangepicker](https://github.com/a-m-dev/react-jalali-datepicker/blob/master/src/img/react.png)
+![Rangepicker](https://github.com/a-m-dev/react-jalali-datepicker/blob/master/src/img/jalali.png)
+
+<br />
 A Simple jalali datepicker for React and React-native!
 
 This package is all about datepickers for react and new features of it will release very soon like `SinglePicker`, `InputPicker` and so on!
