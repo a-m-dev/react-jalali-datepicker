@@ -6,20 +6,31 @@ import { RangePicker } from "../Datepicker";
 //  - prune setted sequence of days to exclude
 
 const DatePickerPreview = () => {
-  const [isJalaali, setIsJalaali] = useState(false);
+  const [isJalaali, setIsJalaali] = useState(true);
   const [excludeSequenceOfDays, setExcludeSequenceOfDays] = useState([]);
   const [isExclutionEnabled, setIsExclutionEnabled] = useState(true);
   const [isExcludedMode, setIsExcludedMode] = useState(false);
   // temp
   const [defaultSel, setDefaultSel] = useState({});
   const [defaultExcl, setDefaultExcl] = useState([]);
+  const [numberOfMonths, setNumberOfMonths] = useState(1);
 
   useEffect(() => {
     setTimeout(() => {
+      console.log("2 happened");
+      setNumberOfMonths(2);
+    }, 2 * 1000);
+
+    setTimeout(() => {
+      console.log("3 happened");
+      setNumberOfMonths(3);
+    }, 4 * 1000);
+
+    setTimeout(() => {
       console.log("HAPPENS");
       setDefaultSel({
-        startDate: isJalaali ? "1399-02-12" : "2020-05-1",
-        stopDate: isJalaali ? "1399-03-2" : "2020-05-22",
+        startDate: isJalaali ? "1399-03-12" : "2020-06-1",
+        stopDate: isJalaali ? "1399-03-22" : "2020-06-11",
       });
 
       setDefaultExcl(
@@ -28,12 +39,12 @@ const DatePickerPreview = () => {
           : ["2020-05-03", "2020-5-06", "2020-5-11"]
       );
       setExcludeSequenceOfDays(["Monday"]);
-    }, 2000);
+    }, 2200);
   }, []);
 
-  useEffect(() => {
-    console.log(JSON.stringify(excludeSequenceOfDays, null, 2));
-  }, [excludeSequenceOfDays]);
+  // useEffect(() => {
+  //   console.log(JSON.stringify(excludeSequenceOfDays, null, 2));
+  // }, [excludeSequenceOfDays]);
 
   useEffect(() => {
     if (!isExcludedMode) {
@@ -119,7 +130,7 @@ const DatePickerPreview = () => {
 
       <section>
         <RangePicker
-          numberOfMonths={2}
+          numberOfMonths={numberOfMonths}
           isJalaali={isJalaali}
           shouldDisableBeforeToday={false}
           appendExcludeWeekDays={excludeSequenceOfDays}

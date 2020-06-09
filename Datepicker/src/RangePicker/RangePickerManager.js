@@ -174,7 +174,7 @@ const RangePickerManager = (props) => {
       startDate: convertedStartDate,
       stopDate: convertedStopDate,
     });
-  }, [isJalaali]);
+  }, [isJalaali, numberOfMonths]);
 
   // exclude
   useEffect(() => {
