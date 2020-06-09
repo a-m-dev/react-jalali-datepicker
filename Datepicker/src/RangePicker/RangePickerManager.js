@@ -174,7 +174,24 @@ const RangePickerManager = (props) => {
       startDate: convertedStartDate,
       stopDate: convertedStopDate,
     });
-  }, [isJalaali, numberOfMonths]);
+  }, [isJalaali]);
+
+  /**
+   * ON Number of month change
+   */
+  useEffect(() => {
+    const today = new Date();
+
+    const datesRange = generateMonth({
+      indexDate: today,
+      numberOfMonths,
+      isJalaali,
+    });
+
+    setVisibleDatesRange(datesRange);
+
+    setSelectedRange(selectedRange);
+  }, [numberOfMonths]);
 
   // exclude
   useEffect(() => {

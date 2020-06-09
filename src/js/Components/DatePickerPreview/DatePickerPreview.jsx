@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 // import { RangePicker } from "react-jalali-datepicker";
+import useMediaQuery from "../Datepicker/hooks/useMediaQuery";
 import { RangePicker } from "../Datepicker";
 
 // TODO:
 //  - prune setted sequence of days to exclude
 
 const DatePickerPreview = () => {
+  const { isMobile, isTablet, isPc } = useMediaQuery();
+
   const [isJalaali, setIsJalaali] = useState(true);
   const [excludeSequenceOfDays, setExcludeSequenceOfDays] = useState([]);
   const [isExclutionEnabled, setIsExclutionEnabled] = useState(true);
@@ -13,26 +16,22 @@ const DatePickerPreview = () => {
   // temp
   const [defaultSel, setDefaultSel] = useState({});
   const [defaultExcl, setDefaultExcl] = useState([]);
-  const [numberOfMonths, setNumberOfMonths] = useState(1);
 
   useEffect(() => {
-    setTimeout(() => {
-      console.log("2 happened");
-      setNumberOfMonths(2);
-    }, 2 * 1000);
-
-    setTimeout(() => {
-      console.log("3 happened");
-      setNumberOfMonths(3);
-    }, 4 * 1000);
-
+    // setTimeout(() => {
+    //   console.log("2 happened");
+    //   setNumberOfMonths(2);
+    // }, 2 * 1000);
+    // setTimeout(() => {
+    //   console.log("3 happened");
+    //   setNumberOfMonths(3);
+    // }, 4 * 1000);
     setTimeout(() => {
       console.log("HAPPENS");
       setDefaultSel({
         startDate: isJalaali ? "1399-03-12" : "2020-06-1",
         stopDate: isJalaali ? "1399-03-22" : "2020-06-11",
       });
-
       setDefaultExcl(
         isJalaali
           ? ["1399-2-14", "1399-02-17", "1399-2-22"]
@@ -67,41 +66,58 @@ const DatePickerPreview = () => {
     } else setExcludeSequenceOfDays((days) => [...days, target]);
   };
 
+  let numberOfMonths = 0;
+
+  switch (true) {
+    case isMobile:
+      numberOfMonths = 1;
+      break;
+    case isTablet:
+      numberOfMonths = 2;
+      break;
+    case isPc:
+      numberOfMonths = 3;
+      break;
+    default:
+      numberOfMonths = 1;
+  }
+
   return (
     <article className="routes container box">
-      <header>
-        <h1>Date Picker Preview</h1>
-      </header>
-
-      <button onClick={() => setIsJalaali((state) => !state)}>
-        {isJalaali ? "GEORGIAN" : "JALAALI"}
-      </button>
-      <button
-        disabled={isExclutionEnabled || !isExcludedMode}
-        onClick={() => handleExcludeDay("Monday")}
-      >
-        EXCLUDE Monday
-      </button>
-      <button
-        disabled={isExclutionEnabled || !isExcludedMode}
-        onClick={() => handleExcludeDay("Sunday")}
-      >
-        EXCLUDE Sundays
-      </button>
-
-      <button
-        onClick={() => {
-          window.dispatchEvent(new CustomEvent("clearRangePicker"));
-          setExcludeSequenceOfDays([]);
-        }}
-      >
-        Clear datepicker
-      </button>
-
-      <button onClick={() => console.clear()}>CConsole</button>
-
       <div>
-        {/* <input
+        <header>
+          <h1>Date Picker Preview</h1>
+        </header>
+
+        <button onClick={() => setIsJalaali((state) => !state)}>
+          {isJalaali ? "GEORGIAN" : "JALAALI"}
+        </button>
+        <button
+          disabled={isExclutionEnabled || !isExcludedMode}
+          onClick={() => handleExcludeDay("Monday")}
+        >
+          EXCLUDE Monday
+        </button>
+        <button
+          disabled={isExclutionEnabled || !isExcludedMode}
+          onClick={() => handleExcludeDay("Sunday")}
+        >
+          EXCLUDE Sundays
+        </button>
+
+        <button
+          onClick={() => {
+            window.dispatchEvent(new CustomEvent("clearRangePicker"));
+            setExcludeSequenceOfDays([]);
+          }}
+        >
+          Clear datepicker
+        </button>
+
+        <button onClick={() => console.clear()}>CConsole</button>
+
+        <div>
+          {/* <input
           type="checkbox"
           checked={isExcludedMode}
           disabled={isExclutionEnabled}
@@ -113,19 +129,20 @@ const DatePickerPreview = () => {
             );
           }}
         /> */}
-        {/* <span>EXCLUDE MODE STATUS</span> */}
-        <button
-          disabled={isExclutionEnabled}
-          onClick={() => {
-            window.dispatchEvent(
-              new CustomEvent("toggleExcludeModeStatus", {
-                detail: { isExcludedMode: !isExcludedMode },
-              })
-            );
-          }}
-        >
-          {isExcludedMode ? "disable " : "enable "} exclude mode
-        </button>
+          {/* <span>EXCLUDE MODE STATUS</span> */}
+          <button
+            disabled={isExclutionEnabled}
+            onClick={() => {
+              window.dispatchEvent(
+                new CustomEvent("toggleExcludeModeStatus", {
+                  detail: { isExcludedMode: !isExcludedMode },
+                })
+              );
+            }}
+          >
+            {isExcludedMode ? "disable " : "enable "} exclude mode
+          </button>
+        </div>
       </div>
 
       <section>
