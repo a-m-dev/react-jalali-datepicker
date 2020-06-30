@@ -1,292 +1,196 @@
 import { useState, useEffect, useCallback } from "react";
-import {
-    EVENTS,
-    RANGE_SELECT_TYPES,
-} from "../Constants";
-import {
-    generateMonth,
-    getDateUnix,
-    convertDate,
-    calcuateNextAndPrevMonth,
-    computeDaysInRange,
-} from "../utils";
+import { EVENTS, RANGE_SELECT_TYPES } from "../Constants";
+import { generateMonth, convertDate, calcuateNextAndPrevMonth } from "../utils";
 
 const SinglePickerManager = (props) => {
-    /**
-     *
-     * props Values
-     */
-    const {
-        isJalaali,
-        numberOfMonths,
-        shouldDisableBeforeToday,
+  /**
+   *
+   * props Values
+   */
+  const {
+    isJalaali,
+    numberOfMonths,
+    shouldDisableBeforeToday,
 
-        // event handlers
-        onChangeDate,
+    // event handlers
+    onChangeDate,
 
-        //defaults
-        defaultSelectedRange: {
-            startDate: defaultStartDate,
-        },
-    } = props;
+    //defaults
+    defaultSelectedDay,
+  } = props;
 
-    const isInitiatedWithDefaults = !!defaultStartDate;
+  const isInitiatedWithDefaults = !!defaultSelectedDay;
 
-    /**
-     *
-     * local States
-     */
-    const [visibleDatesRange, setVisibleDatesRange] = useState([]);
-    const [selectedRange, setSelectedRange] = useState({
-        startDate: null,
+  /**
+   *
+   * local States
+   */
+  const [visibleDatesRange, setVisibleDatesRange] = useState([]);
+  const [selectedDay, setSelectedDay] = useState(null);
+
+  // DEFAULTS SETUP
+  useEffect(() => {
+    if (isInitiatedWithDefaults) {
+      console.log("xxxxx", defaultSelectedDay);
+      setSelectedDay(defaultSelectedDay);
+    }
+  }, [isInitiatedWithDefaults]);
+  // ------------------------------------------------
+
+  useEffect(() => {
+    console.log("SELECTED_DAY", selectedDay);
+  }, [selectedDay]);
+
+  /**
+   *
+   * Event listeners
+   * TODO:
+   *  -
+   */
+  useEffect(() => {
+    window.addEventListener(EVENTS.SINGLE_PICKER.CLEAR, onClearFunction);
+
+    return () => {
+      window.removeEventListener(EVENTS.SINGLE_PICKER.CLEAR, onClearFunction);
+    };
+  }, []);
+
+  /**
+   *
+   * Effects
+   */
+
+  useEffect(() => {
+    const today = new Date();
+
+    const datesRange = generateMonth({
+      indexDate: today,
+      numberOfMonths,
+      isJalaali,
     });
-    const [computedSelectedRange, setComputedSelectedRange] = useState({});
 
-    // DEFAULTS SETUP
-    useEffect(() => {
-        if (isInitiatedWithDefaults) {
-            // default selected range
-            const defaultSelectedRange = {
-                startDate: defaultStartDate,
-            };
+    setVisibleDatesRange(datesRange);
 
-            setSelectedRange(defaultSelectedRange);
+    // convert selectedDay and update it
+    let { convertedStartDate } = convertSelectedRange(selectedDay);
 
-            // compute selected range
-            const startDate = isJalaali
-                ? defaultStartDate
-                : convertDate({ date: defaultStartDate, isJalaali: true });
+    setSelectedDay(convertedStartDate);
 
-            setComputedSelectedRange(
-                computeDaysInRange({
-                    startDate,
-                    isJalaali,
-                })
-            );
-        }
-    }, [isInitiatedWithDefaults]);
-    // ------------------------------------------------
+    // AWARE OUTSIDE
+    onChangeDate({
+      date: convertedStartDate,
+    });
+  }, [isJalaali]);
 
-    /**
-     *
-     * Event listeners
-     * TODO:
-     *  -
-     */
-    useEffect(() => {
-        window.addEventListener(EVENTS.SINGLE_PICKER.CLEAR, onClearFunction);
+  /**
+   * ON Number of month change
+   */
+  useEffect(() => {
+    const today = new Date();
 
-        return () => {
-            window.removeEventListener(EVENTS.SINGLE_PICKER.CLEAR, onClearFunction);
-        };
-    }, []);
+    const datesRange = generateMonth({
+      indexDate: today,
+      numberOfMonths,
+      isJalaali,
+    });
 
-    /**
-     *
-     * Effects
-     */
+    setVisibleDatesRange(datesRange);
 
-    useEffect(() => {
-        const today = new Date();
+    setSelectedDay(selectedDay);
+  }, [numberOfMonths]);
 
-        const datesRange = generateMonth({
-            indexDate: today,
-            numberOfMonths,
-            isJalaali,
-        });
+  /**
+   *
+   * handlers
+   */
+  const handleNavigateMonth = useCallback(
+    (e) => {
+      const target = e.currentTarget.dataset.name;
+      handlePrevAndNextMonth(target);
+    },
+    [visibleDatesRange]
+  );
 
-        setVisibleDatesRange(datesRange);
+  const onSelectDate = useCallback(
+    (...args) => {
+      updateSelectedRange(...args);
+    },
+    [selectedDay]
+  );
 
-        // convert selectedRange and update it
-        let { convertedStartDate } = convertSelectedRange(
-            selectedRange
-        );
+  const updateSelectedRange = useCallback(
+    ({ e, year, month, day }) => {
+      const { START_DATE } = RANGE_SELECT_TYPES;
 
-        setSelectedRange({
-            startDate: convertedStartDate,
-        });
+      setSelectedDay(`${year}-${month}-${day}`);
 
-        // convert computedSelectedRange and update it
-        setComputedSelectedRange((computedSelectedRange) => {
-            return manageComputedSelectedRange({
-                oldState: computedSelectedRange,
-                newState: computeDaysInRange({
-                    startDate: convertedStartDate,
-                    isJalaali,
-                }),
-            });
-        });
+      // AWARE OUTSIDE
+      onChangeDate({ date: `${year}-${month}-${day}` });
+    },
+    [selectedDay]
+  );
 
-        // AWARE OUTSIDE
-        onChangeDate({
-            date: convertedStartDate,
-        });
-    }, [isJalaali]);
+  /**
+   *
+   * Custome Event Dispatche Functions
+   */
+  const onClearFunction = useCallback(() => {
+    setSelectedDay(null);
 
-    /**
-     * ON Number of month change
-     */
-    useEffect(() => {
-        const today = new Date();
+    onChangeDate({ date: null });
+  }, []);
 
-        const datesRange = generateMonth({
-            indexDate: today,
-            numberOfMonths,
-            isJalaali,
-        });
+  /**
+   *
+   * privateFuncs
+   */
+  const handlePrevAndNextMonth = (type) => {
+    const monthId = Object.keys(visibleDatesRange)[0];
 
-        setVisibleDatesRange(datesRange);
+    const calculatedNextMonth =
+      type === "NEXT" ? numberOfMonths : numberOfMonths * -1;
 
-        setSelectedRange(selectedRange);
-    }, [numberOfMonths]);
+    const resultDate = calcuateNextAndPrevMonth({
+      monthId,
+      isJalaali,
+      numberOfMonths: calculatedNextMonth,
+    });
 
-    /**
-     *
-     * handlers
-     */
-    const handleNavigateMonth = useCallback(
-        (e) => {
-            const target = e.currentTarget.dataset.name;
-            handlePrevAndNextMonth(target);
-        },
-        [visibleDatesRange]
+    setVisibleDatesRange(
+      generateMonth({
+        indexDate: new Date(resultDate),
+        numberOfMonths,
+        isJalaali,
+      })
     );
+  };
 
-    const onSelectDate = useCallback(
-        (...args) => {
-                updateSelectedRange(...args);
-        },
-        [selectedRange]
-    );
+  const convertSelectedRange = (day) => {
+    let convertedStartDate = null;
 
-    const updateSelectedRange = useCallback(
-        ({ e, year, month, day }) => {
-            const { START_DATE } = RANGE_SELECT_TYPES;
+    if (day) {
+      convertedStartDate = convertDate({
+        date: day,
+        isJalaali: !isJalaali,
+      });
+    }
 
-            const { startDate } = selectedRange;
+    return { convertedStartDate };
+  };
 
-            const targetDate = `${year}-${month}-${day}`;
-            let resultedStartDate = startDate;
-
-            let type;
-            if (startDate !== null) {
-                type = START_DATE;
-
-                resultedStartDate = targetDate;
-            } else if (startDate !== null) {
-                const selectedDate_unix = getDateUnix({ date: targetDate, isJalaali });
-                const startDate_unix = getDateUnix({ date: startDate, isJalaali });
-
-                if (selectedDate_unix < startDate_unix) {
-                    type = START_DATE;
-
-                    resultedStartDate = targetDate;
-                }
-            } else if (startDate == null) {
-                type = START_DATE;
-
-                resultedStartDate = targetDate;
-            }
-            if (type === START_DATE) {
-                setComputedSelectedRange({});
-            }
-
-            // set State
-            setSelectedRange({
-                startDate: resultedStartDate,
-            });
-
-            if (resultedStartDate !== null) {
-                setComputedSelectedRange(
-                    computeDaysInRange({
-                        startDate: resultedStartDate,
-                        isJalaali,
-                    })
-                );
-            }
-
-            // AWARE OUTSIDE
-            onChangeDate({
-                date: resultedStartDate,
-            });
-        },
-        [selectedRange]
-    );
-
-    /**
-     *
-     * Custome Event Dispatche Functions
-     */
-    const onClearFunction = useCallback(() => {
-        setSelectedRange({ startDate: null });
-        setComputedSelectedRange({});
-
-        onChangeDate({ date: null });
-    }, [computedSelectedRange]);
-
-    /**
-     *
-     * privateFuncs
-     */
-    const handlePrevAndNextMonth = (type) => {
-        const monthId = Object.keys(visibleDatesRange)[0];
-
-        const calculatedNextMonth =
-            type === "NEXT" ? numberOfMonths : numberOfMonths * -1;
-
-        const resultDate = calcuateNextAndPrevMonth({
-            monthId,
-            isJalaali,
-            numberOfMonths: calculatedNextMonth,
-        });
-
-        setVisibleDatesRange(
-            generateMonth({
-                indexDate: new Date(resultDate),
-                numberOfMonths,
-                isJalaali,
-            })
-        );
-    };
-
-    const convertSelectedRange = ({ startDate }) => {
-        let convertedStartDate = null;
-
-        if (startDate) {
-            convertedStartDate = convertDate({
-                date: startDate,
-                isJalaali: !isJalaali,
-            });
-        }
-
-        return { convertedStartDate };
-    };
-
-    const manageComputedSelectedRange = ({ oldState, newState }) => {
-        if (oldState == null || newState == null) return;
-
-        const result = {};
-        Object.entries(newState).forEach(([key, value], i) => {
-            return (result[key] = Object.values(oldState)[i]);
-        });
-
-        return result;
-    };
-
-    /**
-     *
-     * return the result
-     */
-    return {
-        data: {
-            isJalaali,
-            visibleDatesRange,
-            selectedRange,
-            shouldDisableBeforeToday,
-            computedSelectedRange,
-        },
-        actions: { handleNavigateMonth, onSelectDate },
-    };
+  /**
+   *
+   * return the result
+   */
+  return {
+    data: {
+      isJalaali,
+      visibleDatesRange,
+      selectedDay,
+      shouldDisableBeforeToday,
+    },
+    actions: { handleNavigateMonth, onSelectDate },
+  };
 };
 
 export default SinglePickerManager;

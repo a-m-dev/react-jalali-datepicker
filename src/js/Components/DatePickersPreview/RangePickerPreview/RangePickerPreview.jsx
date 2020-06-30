@@ -27,7 +27,7 @@ const RangePickerPreview = () => {
     //   setNumberOfMonths(3);
     // }, 4 * 1000);
     setTimeout(() => {
-      console.log("HAPPENS");
+      // console.log("HAPPENS");
       setDefaultSel({
         startDate: isJalaali ? "1399-03-12" : "2020-06-1",
         stopDate: isJalaali ? "1399-03-22" : "2020-06-11",

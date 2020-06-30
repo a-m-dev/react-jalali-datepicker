@@ -7,6 +7,7 @@ import getDateUnix from "../utils/getDateUnix";
 import "./styles.scss";
 
 const MonthComponent = ({
+  componentType,
   days,
   monthId,
   isJalaali = false,
@@ -57,6 +58,7 @@ const MonthComponent = ({
             return (
               <React.Fragment key={index}>
                 <DayComponent
+                  componentType={componentType}
                   day={day}
                   monthId={monthId}
                   isJalaali={isJalaali}

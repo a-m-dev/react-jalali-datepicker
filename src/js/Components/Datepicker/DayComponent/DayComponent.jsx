@@ -6,6 +6,7 @@ import getDateUnix from "../utils/getDateUnix";
 import "./styles.scss";
 
 const DayComponent = ({
+  componentType,
   day,
   monthId,
   isJalaali,
