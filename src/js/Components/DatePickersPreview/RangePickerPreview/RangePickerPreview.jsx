@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 // import { RangePicker } from "react-jalali-datepicker";
-import useMediaQuery from "../Datepicker/hooks/useMediaQuery";
-import { RangePicker } from "../Datepicker";
+import useMediaQuery from "../../Datepicker/hooks/useMediaQuery";
+import { RangePicker } from "../../Datepicker";
 
 // TODO:
 //  - prune setted sequence of days to exclude
 
-const DatePickerPreview = () => {
+const RangePickerPreview = () => {
   const { isMobile, isTablet, isPc } = useMediaQuery();
 
   const [isJalaali, setIsJalaali] = useState(true);
@@ -86,7 +86,7 @@ const DatePickerPreview = () => {
     <article className="routes container box">
       <div>
         <header>
-          <h1>Date Picker Preview</h1>
+          <h1>Range Date Picker Preview</h1>
         </header>
 
         <button onClick={() => setIsJalaali((state) => !state)}>
@@ -174,4 +174,4 @@ const DatePickerPreview = () => {
   );
 };
 
-export default DatePickerPreview;
+export default RangePickerPreview;

@@ -3,7 +3,7 @@ import { Link, Switch, Route } from "react-router-dom";
 
 import Home from "./Home/Home";
 import Routes from "./Routes/Routes";
-import DatePickerPreview from "./DatePickerPreview/DatePickerPreview";
+import DatePickersPreview from "./DatePickersPreview/DatePickersPreview";
 
 import Nav from "./_shared/Nav/Nav";
 
@@ -18,7 +18,7 @@ export default class Index extends Component {
             <Route path="/routes" component={Routes} />
             <Route
               path="/react-jalaali-datepicker"
-              component={DatePickerPreview}
+              component={DatePickersPreview}
             />
           </Switch>
         </main>
