@@ -16,6 +16,7 @@ const MonthComponent = ({
   isExcludedMode,
   computedSelectedRange,
   shouldDisableBeforeToday,
+  disabledBeforeDate,
 }) => {
   const [refinedDays, setRefinedDays] = useState([]);
   const [year, month] = monthId.split("__").map((el) => Number(el));
@@ -67,6 +68,7 @@ const MonthComponent = ({
                   isDayExcluded={isDayExcluded}
                   selectedRange={selectedRange}
                   shouldDisableBeforeToday={shouldDisableBeforeToday}
+                  disabledBeforeDate={disabledBeforeDate}
                 />
               </React.Fragment>
             );

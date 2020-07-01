@@ -19,7 +19,7 @@
 
   &--today {
     font-weight: bold;
-    background-color: #d8d8d8;
+    background-color: #b2b2b2;
   }
 
   &--start-date-selected {
@@ -42,6 +42,12 @@
   }
 
   &--before-today {
+    color: #dbdbdb;
+    cursor: default;
+    user-select: none;
+  }
+
+  &--disabled {
     color: #dbdbdb;
     cursor: default;
     user-select: none;

@@ -18,6 +18,7 @@ const SinglePicker = (props) => {
       selectedDay,
       shouldDisableBeforeToday,
       computedSelectedRange = { computedSelectedRange },
+      disabledBeforeDate,
     },
   } = SinglePickerManager(props);
 
@@ -61,6 +62,7 @@ const SinglePicker = (props) => {
                   computedSelectedRange={computedSelectedRange}
                   onSelectDate={onSelectDate}
                   shouldDisableBeforeToday={shouldDisableBeforeToday}
+                  disabledBeforeDate={disabledBeforeDate}
                 />
               </React.Fragment>
             ))}
@@ -75,8 +77,8 @@ SinglePicker.defaultProps = {
   isJalaali: false,
   shouldDisableBeforeToday: true,
   onChangeDate: () => null,
-  defaultSelectedRange: { startDate: null },
-  defaultSelectedDate: null,
+  disabledBeforeDate: null,
+  defaultSelectedDay: null,
 };
 
 SinglePicker.propTypes = {
@@ -84,9 +86,8 @@ SinglePicker.propTypes = {
   isJalaali: PropTypes.bool,
   shouldDisableBeforeToday: PropTypes.bool,
   onChangeDate: PropTypes.func,
-  defaultSelectedRange: PropTypes.shape({
-    startDate: PropTypes.string,
-  }),
+  disabledBeforeDate: PropTypes.string,
+  defaultSelectedDay: PropTypes.string,
 };
 
 export default SinglePicker;
