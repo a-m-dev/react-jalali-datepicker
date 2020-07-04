@@ -1,0 +1,55 @@
+.range-picker {
+    width: 100%;
+    min-height: 400px;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #ffffff;
+
+&--jalaali {
+     direction: rtl;
+ }
+
+&--georgian {
+     direction: ltr;
+     font-family: Arial, Helvetica, sans-serif;
+ }
+
+&__navigators {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     min-height: 60px;
+     position: absolute;
+     top: 0.7rem;
+     z-index: 1;
+     padding: 1rem 0.5rem;
+     color: #555555;
+     background-color: unset;
+     direction: rtl;
+ }
+
+&__navigator {
+     font-size: 2rem;
+     width: 42px;
+     height: 38px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     cursor: pointer;
+     border: 1px solid gray;
+     border-radius: 0.2rem;
+
+& > span {
+      position: relative;
+      top: -2px;
+      user-select: none;
+  }
+}
+
+&__containers {
+     background-color: green;
+     width: 100%;
+ }
+}
