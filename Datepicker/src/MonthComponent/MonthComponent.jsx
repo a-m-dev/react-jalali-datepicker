@@ -3,7 +3,6 @@ import DayNames from "../Constants/DayNames";
 import MonthNames from "../Constants/MonthNames";
 import refineDaysForRendering from "../utils/refineDaysForRendering";
 import DayComponent from "../DayComponent";
-import getDateUnix from "../utils/getDateUnix";
 import "./styles.scss";
 
 const MonthComponent = ({

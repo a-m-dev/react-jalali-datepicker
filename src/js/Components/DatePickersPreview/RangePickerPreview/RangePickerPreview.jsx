@@ -29,21 +29,17 @@ const RangePickerPreview = () => {
     setTimeout(() => {
       // console.log("HAPPENS");
       setDefaultSel({
-        startDate: isJalaali ? "1399-03-12" : "2020-06-1",
-        stopDate: isJalaali ? "1399-03-22" : "2020-06-11",
+        startDate: isJalaali ? "1399-06-12" : "2020-08-2",
+        stopDate: isJalaali ? "1399-06-22" : "2020-08-12",
       });
       setDefaultExcl(
         isJalaali
-          ? ["1399-2-14", "1399-02-17", "1399-2-22"]
-          : ["2020-05-03", "2020-5-06", "2020-5-11"]
+          ? ["1399-6-14", "1399-06-17", "1399-6-22"]
+          : ["2020-08-04", "2020-8-07", "2020-8-12"]
       );
       setExcludeSequenceOfDays(["Monday"]);
     }, 2200);
   }, []);
-
-  // useEffect(() => {
-  //   console.log(JSON.stringify(excludeSequenceOfDays, null, 2));
-  // }, [excludeSequenceOfDays]);
 
   useEffect(() => {
     if (!isExcludedMode) {

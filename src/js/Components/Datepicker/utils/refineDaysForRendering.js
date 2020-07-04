@@ -24,33 +24,24 @@ const refineDaysForRendering = (monthId, days, isJalaali) => {
   firstDayBegansAt = firstDayOfMonth.format("dddd");
   lastDayEndsAt = lastDayOfMonth.format("dddd");
 
-  // console.log("XXXXXXXXX", {
-  //   monthId,
-  //   // days,
-  //   // firstDayOfMonth,
-  //   // lastDayOfMonth,
-  //   WeekdayIndex,
-  //   firstDayBegansAt,
-  //   lastDayEndsAt,
-  // });
+  const preEmptyDays = new Array(WeekdayIndex.get(firstDayBegansAt)).fill(null);
+  const postEmptyDays =
+    lastDayEndsAt === "Friday"
+      ? []
+      : new Array(
+          WeekdayIndex.size / 2 - WeekdayIndex.get(lastDayEndsAt) - 1
+        ).fill(null);
 
   // console.log({
-  //   _____ARRAY_____: [
-  //     ...new Array(WeekdayIndex.get(firstDayBegansAt)).fill(null),
-  //     ...days,
-  //     ...new Array(
-  //       WeekdayIndex.size - WeekdayIndex.get(lastDayEndsAt) - 1
-  //     ).fill(null),
-  //   ],
+  //   lastDayEndsAt,
+  //   preEmptyDays,
+  //   postEmptyDays,
+  //   WeekdayIndex,
+  //   WeekdayIndexx: WeekdayIndex.get(lastDayEndsAt) - 1,
+  //   // _____ARRAY_____: [...preEmptyDays, ...days, ...postEmptyDays],
   // });
 
-  return [
-    ...new Array(WeekdayIndex.get(firstDayBegansAt)).fill(null),
-    ...days,
-    ...new Array(WeekdayIndex.size - WeekdayIndex.get(lastDayEndsAt) - 1).fill(
-      null
-    ),
-  ];
+  return [...preEmptyDays, ...days, ...postEmptyDays];
 };
 
 export default refineDaysForRendering;
