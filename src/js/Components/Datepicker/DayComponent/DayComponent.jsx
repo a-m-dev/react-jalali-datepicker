@@ -15,6 +15,7 @@ const DayComponent = ({
   isDayExcluded,
   onSelectDate,
   shouldDisableBeforeToday,
+  disabledBeforeDate,
 }) => {
   const { startDate = "", stopDate = "" } = selectedRange;
   const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
@@ -23,6 +24,7 @@ const DayComponent = ({
   let crrentDate_unix;
   let startDate_unix;
   let stopDate_unix;
+  let disabledBeforeDate_unix;
 
   const [year, month] = monthId.split("__").map((el) => Number(el));
 
@@ -38,20 +40,25 @@ const DayComponent = ({
   crrentDate_unix = getDateUnix({ date: currentDate, isJalaali });
   if (startDate) startDate_unix = getDateUnix({ date: startDate, isJalaali });
   if (stopDate) stopDate_unix = getDateUnix({ date: stopDate, isJalaali });
+  if (disabledBeforeDate) disabledBeforeDate_unix = getDateUnix({ date: disabledBeforeDate, isJalaali });
 
   const handleDaySelect = useCallback(
     (e) => {
       if (day === null) return;
       if (isDisabledBeforeToday()) return;
+      if (isDisabledBeforeDate()) return;
 
       const [year, month] = monthId.split("__").map((el) => Number(el));
       onSelectDate({ e, year, month, day });
     },
-    [onSelectDate]
+    [disabledBeforeDate, onSelectDate]
   );
 
   const isDisabledBeforeToday = () =>
     shouldDisableBeforeToday && crrentDate_unix < today_unix;
+
+  const isDisabledBeforeDate = () =>
+    disabledBeforeDate && crrentDate_unix <= disabledBeforeDate_unix;
 
   /**
    * generate class name for day
@@ -76,6 +83,8 @@ const DayComponent = ({
       className += ` ${baseClassName}--in-selected-range`;
 
     if (isDisabledBeforeToday()) className += ` ${baseClassName}--before-today`;
+
+    if (isDisabledBeforeDate()) className += ` ${baseClassName}--disabled`;
 
     if (
       isExcludedMode &&

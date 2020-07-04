@@ -17,6 +17,7 @@ const SinglePickerManager = (props) => {
 
     //defaults
     defaultSelectedDay,
+    disabledBeforeDate,
   } = props;
 
   const isInitiatedWithDefaults = !!defaultSelectedDay;
@@ -31,14 +32,12 @@ const SinglePickerManager = (props) => {
   // DEFAULTS SETUP
   useEffect(() => {
     if (isInitiatedWithDefaults) {
-      console.log("xxxxx", defaultSelectedDay);
       setSelectedDay(defaultSelectedDay);
     }
   }, [isInitiatedWithDefaults]);
   // ------------------------------------------------
 
   useEffect(() => {
-    console.log("SELECTED_DAY", selectedDay);
   }, [selectedDay]);
 
   /**
@@ -188,6 +187,7 @@ const SinglePickerManager = (props) => {
       visibleDatesRange,
       selectedDay,
       shouldDisableBeforeToday,
+      disabledBeforeDate,
     },
     actions: { handleNavigateMonth, onSelectDate },
   };

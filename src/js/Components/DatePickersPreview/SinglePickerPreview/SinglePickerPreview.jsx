@@ -8,11 +8,12 @@ const SinglePickerPreview = () => {
   const [isJalaali, setIsJalaali] = useState(true);
   // temp
   const [defaultSelectedDay, setDefaultSelectedDay] = useState(null);
+  const [disabledBeforeDate, setDisabledBeforeDate] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
-      console.log("SINBGLE_HAPPENED");
-      setDefaultSelectedDay(isJalaali ? "1399-4-12" : "2020-07-2");
+      setDefaultSelectedDay(isJalaali ? "1399-5-28" : "2020-07-26");
+      setDisabledBeforeDate(isJalaali ? "1399-5-26" : "2020-07-21");
     }, 2200);
   }, []);
 
@@ -64,6 +65,7 @@ const SinglePickerPreview = () => {
             console.log(" ON_CHANGE_SINGLE_DATE: ", { date })
           }
           defaultSelectedDay={defaultSelectedDay}
+          disabledBeforeDate={disabledBeforeDate}
         />
       </section>
     </article>
