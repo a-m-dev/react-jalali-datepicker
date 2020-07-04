@@ -128,3 +128,14 @@ console.log(resultInGregorian); // 2020-5-25
 2. you can put some custome styles on you rangepicker to make it fully custome! since it written in BEM, you can keep track of `.range-picker` class and replace the subsequent classnames. just inspect and get the classnames to see what i mean, i will put the classnames here as soon as possible!
 
 I will update the documentation as soon as it is possible, jut DM me or find me on social with @a_m_dev!
+
+
+
+
+
+
+
+### Contributers
+
+| [<img src="https://avatars1.githubusercontent.com/u/29652890?s=460&u=4eaf008b6aae70c8b7a7afa39901e0af7247644c&v=4" width="100px;"/><br /><sub><b>Ahmad Mirzaei</b></sub><br />](https://github.com/a-m-dev) | [<img src="https://avatars0.githubusercontent.com/u/40192286?s=460&v=4" width="100px;"/><br /><sub><b>Najmah Hosseini Majd</b></sub><br />](https://github.com/hosseiniMajd) |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
