@@ -14,7 +14,7 @@ This datepicker component has been developed in a way that currenly supports the
 ### components
 
 - `RangePicker`
-- `SinglePicker` - currently in development
+- `SinglePicker`
 - `InputPicker` - currenly in development
 
 <br />
