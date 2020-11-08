@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 // import { RangePicker } from "react-jalali-datepicker";
-import useMediaQuery from "../Datepicker/hooks/useMediaQuery";
-import { RangePicker } from "../Datepicker";
+import useMediaQuery from "../../Datepicker/hooks/useMediaQuery";
+import { RangePicker } from "../../Datepicker";
 
 // TODO:
 //  - prune setted sequence of days to exclude
 
-const DatePickerPreview = () => {
+const RangePickerPreview = () => {
   const { isMobile, isTablet, isPc } = useMediaQuery();
 
   const [isJalaali, setIsJalaali] = useState(true);
@@ -27,23 +27,19 @@ const DatePickerPreview = () => {
     //   setNumberOfMonths(3);
     // }, 4 * 1000);
     setTimeout(() => {
-      console.log("HAPPENS");
+      // console.log("HAPPENS");
       setDefaultSel({
-        startDate: isJalaali ? "1399-03-12" : "2020-06-1",
-        stopDate: isJalaali ? "1399-03-22" : "2020-06-11",
+        startDate: isJalaali ? "1399-06-12" : "2020-08-2",
+        stopDate: isJalaali ? "1399-06-22" : "2020-08-12",
       });
       setDefaultExcl(
         isJalaali
-          ? ["1399-2-14", "1399-02-17", "1399-2-22"]
-          : ["2020-05-03", "2020-5-06", "2020-5-11"]
+          ? ["1399-6-14", "1399-06-17", "1399-6-22"]
+          : ["2020-08-04", "2020-8-07", "2020-8-12"]
       );
       setExcludeSequenceOfDays(["Monday"]);
     }, 2200);
   }, []);
-
-  // useEffect(() => {
-  //   console.log(JSON.stringify(excludeSequenceOfDays, null, 2));
-  // }, [excludeSequenceOfDays]);
 
   useEffect(() => {
     if (!isExcludedMode) {
@@ -86,7 +82,7 @@ const DatePickerPreview = () => {
     <article className="routes container box">
       <div>
         <header>
-          <h1>Date Picker Preview</h1>
+          <h1>Range Date Picker Preview</h1>
         </header>
 
         <button onClick={() => setIsJalaali((state) => !state)}>
@@ -174,4 +170,4 @@ const DatePickerPreview = () => {
   );
 };
 
-export default DatePickerPreview;
+export default RangePickerPreview;
