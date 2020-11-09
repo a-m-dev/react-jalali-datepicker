@@ -47,6 +47,12 @@
     user-select: none;
   }
 
+  &--after-today {
+       color: #dbdbdb;
+       cursor: default;
+       user-select: none;
+     }
+
   &--disabled {
     color: #dbdbdb;
     cursor: default;

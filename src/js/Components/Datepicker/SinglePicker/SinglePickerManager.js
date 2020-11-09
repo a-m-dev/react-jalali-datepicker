@@ -11,6 +11,7 @@ const SinglePickerManager = (props) => {
     isJalaali,
     numberOfMonths,
     shouldDisableBeforeToday,
+    shouldDisableAfterToday,
 
     // event handlers
     onChangeDate,
@@ -18,6 +19,8 @@ const SinglePickerManager = (props) => {
     //defaults
     defaultSelectedDay,
     disabledBeforeDate,
+    disabledAfterDate,
+    isDateIncludeDisableBound
   } = props;
 
   const isInitiatedWithDefaults = !!defaultSelectedDay;
@@ -187,7 +190,10 @@ const SinglePickerManager = (props) => {
       visibleDatesRange,
       selectedDay,
       shouldDisableBeforeToday,
+      shouldDisableAfterToday,
       disabledBeforeDate,
+      disabledAfterDate,
+      isDateIncludeDisableBound,
     },
     actions: { handleNavigateMonth, onSelectDate },
   };
