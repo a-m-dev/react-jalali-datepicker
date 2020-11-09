@@ -15,7 +15,10 @@ const DayComponent = ({
   isDayExcluded,
   onSelectDate,
   shouldDisableBeforeToday,
+  shouldDisableAfterToday,
   disabledBeforeDate,
+  disabledAfterDate,
+  isDateIncludeDisableBound,
 }) => {
   const { startDate = "", stopDate = "" } = selectedRange;
   const { JALAALI_DATE_FORMAT, GEORGIAN_DATE_FORMAT } = DATE_FORMATS;
@@ -25,6 +28,7 @@ const DayComponent = ({
   let startDate_unix;
   let stopDate_unix;
   let disabledBeforeDate_unix;
+  let disabledAfterDate_unix;
 
   const [year, month] = monthId.split("__").map((el) => Number(el));
 
@@ -41,24 +45,49 @@ const DayComponent = ({
   if (startDate) startDate_unix = getDateUnix({ date: startDate, isJalaali });
   if (stopDate) stopDate_unix = getDateUnix({ date: stopDate, isJalaali });
   if (disabledBeforeDate) disabledBeforeDate_unix = getDateUnix({ date: disabledBeforeDate, isJalaali });
+  if (disabledAfterDate) disabledAfterDate_unix = getDateUnix({ date: disabledAfterDate, isJalaali });
 
   const handleDaySelect = useCallback(
     (e) => {
       if (day === null) return;
       if (isDisabledBeforeToday()) return;
+      if (isDisabledAfterToday()) return;
       if (isDisabledBeforeDate()) return;
+      if (isDisabledAfterDate()) return;
 
       const [year, month] = monthId.split("__").map((el) => Number(el));
       onSelectDate({ e, year, month, day });
     },
-    [disabledBeforeDate, onSelectDate]
+    [disabledBeforeDate, disabledAfterDate, onSelectDate]
   );
 
   const isDisabledBeforeToday = () =>
     shouldDisableBeforeToday && crrentDate_unix < today_unix;
 
+  const isDisabledAfterToday = () =>
+    shouldDisableAfterToday && crrentDate_unix > today_unix;
+
   const isDisabledBeforeDate = () =>
-    disabledBeforeDate && crrentDate_unix <= disabledBeforeDate_unix;
+  {
+    if(!disabledBeforeDate){
+      return null;
+    }
+    if(isDateIncludeDisableBound){
+      return crrentDate_unix <= disabledBeforeDate_unix;
+    }
+    return crrentDate_unix < disabledBeforeDate_unix;
+  };
+
+  const isDisabledAfterDate = () =>
+  {
+    if(!disabledAfterDate){
+      return null;
+    }
+    if(isDateIncludeDisableBound){
+      return crrentDate_unix >= disabledAfterDate_unix;
+    }
+    return crrentDate_unix > disabledAfterDate_unix;
+  };
 
   /**
    * generate class name for day
@@ -68,6 +97,8 @@ const DayComponent = ({
     if (!day) return baseClassName;
 
     let className = baseClassName;
+
+    if (crrentDate_unix === today_unix) className += ` ${baseClassName}--today`;
 
     if (crrentDate_unix === today_unix) className += ` ${baseClassName}--today`;
 
@@ -84,7 +115,9 @@ const DayComponent = ({
 
     if (isDisabledBeforeToday()) className += ` ${baseClassName}--before-today`;
 
-    if (isDisabledBeforeDate()) className += ` ${baseClassName}--disabled`;
+    if (isDisabledAfterToday()) className += ` ${baseClassName}--after-today`;
+
+    if (isDisabledBeforeDate() || isDisabledAfterDate()) className += ` ${baseClassName}--disabled`;
 
     if (
       isExcludedMode &&

@@ -29,13 +29,13 @@ const RangePickerPreview = () => {
     setTimeout(() => {
       // console.log("HAPPENS");
       setDefaultSel({
-        startDate: isJalaali ? "1399-06-12" : "2020-08-2",
-        stopDate: isJalaali ? "1399-06-22" : "2020-08-12",
+        startDate: isJalaali ? "1399-08-12" : "2020-11-2",
+        stopDate: isJalaali ? "1399-08-22" : "2020-11-12",
       });
       setDefaultExcl(
         isJalaali
-          ? ["1399-6-14", "1399-06-17", "1399-6-22"]
-          : ["2020-08-04", "2020-8-07", "2020-8-12"]
+          ? ["1399-8-14", "1399-08-17", "1399-8-22"]
+          : ["2020-11-04", "2020-11-07", "2020-11-12"]
       );
       setExcludeSequenceOfDays(["Monday"]);
     }, 2200);

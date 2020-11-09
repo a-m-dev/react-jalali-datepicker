@@ -17,8 +17,11 @@ const SinglePicker = (props) => {
       isJalaali,
       selectedDay,
       shouldDisableBeforeToday,
+      shouldDisableAfterToday,
       computedSelectedRange = { computedSelectedRange },
       disabledBeforeDate,
+      disabledAfterDate,
+      isDateIncludeDisableBound,
     },
   } = SinglePickerManager(props);
 
@@ -62,7 +65,10 @@ const SinglePicker = (props) => {
                   computedSelectedRange={computedSelectedRange}
                   onSelectDate={onSelectDate}
                   shouldDisableBeforeToday={shouldDisableBeforeToday}
+                  shouldDisableAfterToday={shouldDisableAfterToday}
                   disabledBeforeDate={disabledBeforeDate}
+                  disabledAfterDate={disabledAfterDate}
+                  isDateIncludeDisableBound={isDateIncludeDisableBound}
                 />
               </React.Fragment>
             ))}
@@ -75,19 +81,25 @@ const SinglePicker = (props) => {
 SinglePicker.defaultProps = {
   numberOfMonths: 1,
   isJalaali: false,
-  shouldDisableBeforeToday: true,
+  shouldDisableBeforeToday: false,
+  shouldDisableAfterToday: false,
   onChangeDate: () => null,
   disabledBeforeDate: null,
+  disabledAfterDate: null,
   defaultSelectedDay: null,
+  isDateIncludeDisableBound: false,
 };
 
 SinglePicker.propTypes = {
   numberOfMonths: PropTypes.number,
   isJalaali: PropTypes.bool,
   shouldDisableBeforeToday: PropTypes.bool,
+  shouldDisableAfterToday: PropTypes.bool,
   onChangeDate: PropTypes.func,
   disabledBeforeDate: PropTypes.string,
+  disabledAfterDate: PropTypes.string,
   defaultSelectedDay: PropTypes.string,
+  isDateIncludeDisableBound: PropTypes.bool,
 };
 
 export default SinglePicker;

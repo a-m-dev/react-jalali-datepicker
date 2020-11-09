@@ -114,3 +114,4 @@ out
 .yarn/build-state.yml
 .pnp.*
 .idea
+.DS_Store
