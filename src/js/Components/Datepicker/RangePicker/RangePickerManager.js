@@ -16,6 +16,8 @@ import {
   getWeekDayName,
 } from "../utils";
 
+const isWindow = typeof window === "object";
+
 const RangePickerManager = (props) => {
   /**
    *
@@ -116,19 +118,21 @@ const RangePickerManager = (props) => {
    *  -
    */
   useEffect(() => {
-    window.addEventListener(EVENTS.RANGE_PICKER.CLEAR, onClearFunction);
-    window.addEventListener(
-      EVENTS.RANGE_PICKER.TOGGLE_EXCLUDE_MODE,
-      handleExcludeMode
-    );
-
-    return () => {
-      window.removeEventListener(EVENTS.RANGE_PICKER.CLEAR, onClearFunction);
-      window.removeEventListener(
+    if (isWindow) {
+      window.addEventListener(EVENTS.RANGE_PICKER.CLEAR, onClearFunction);
+      window.addEventListener(
         EVENTS.RANGE_PICKER.TOGGLE_EXCLUDE_MODE,
         handleExcludeMode
       );
-    };
+  
+      return () => {
+        window.removeEventListener(EVENTS.RANGE_PICKER.CLEAR, onClearFunction);
+        window.removeEventListener(
+          EVENTS.RANGE_PICKER.TOGGLE_EXCLUDE_MODE,
+          handleExcludeMode
+        );
+      };
+    }
   }, []);
 
   /**
