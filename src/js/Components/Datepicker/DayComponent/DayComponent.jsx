@@ -32,11 +32,12 @@ const DayComponent = ({
 
   const [year, month] = monthId.split("__").map((el) => Number(el));
 
+  const todayDate = new Date().toLocaleString().replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
   const today = isJalaali
-    ? jMoment(new Date().toISOString(), GEORGIAN_DATE_FORMAT).format(
-        JALAALI_DATE_FORMAT
+      ? jMoment(todayDate, GEORGIAN_DATE_FORMAT).format(
+          JALAALI_DATE_FORMAT
       )
-    : new Date().toISOString();
+      : todayDate;
 
   const currentDate = `${year}-${month}-${day}`;
 
