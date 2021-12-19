@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import { EVENTS, RANGE_SELECT_TYPES } from "../Constants";
 import { generateMonth, convertDate, calcuateNextAndPrevMonth } from "../utils";
 
+const isWindow = typeof window === "object";
+
 const SinglePickerManager = (props) => {
   /**
    *
@@ -50,11 +52,13 @@ const SinglePickerManager = (props) => {
    *  -
    */
   useEffect(() => {
-    window.addEventListener(EVENTS.SINGLE_PICKER.CLEAR, onClearFunction);
-
-    return () => {
-      window.removeEventListener(EVENTS.SINGLE_PICKER.CLEAR, onClearFunction);
-    };
+    if(isWindow) {
+      window.addEventListener(EVENTS.SINGLE_PICKER.CLEAR, onClearFunction);
+  
+      return () => {
+        window.removeEventListener(EVENTS.SINGLE_PICKER.CLEAR, onClearFunction);
+      };
+    }
   }, []);
 
   /**
