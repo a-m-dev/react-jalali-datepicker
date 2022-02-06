@@ -31,13 +31,13 @@ const DayComponent = ({
   let disabledAfterDate_unix;
 
   const [year, month] = monthId.split("__").map((el) => Number(el));
-
+  const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+  const localISOTodayTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
   const today = isJalaali
-    ? jMoment(new Date().toISOString(), GEORGIAN_DATE_FORMAT).format(
-        JALAALI_DATE_FORMAT
+      ? jMoment(localISOTodayTime, GEORGIAN_DATE_FORMAT).format(
+          JALAALI_DATE_FORMAT
       )
-    : new Date().toISOString();
-
+      : localISOTodayTime;
   const currentDate = `${year}-${month}-${day}`;
 
   today_unix = getDateUnix({ date: today.slice(0, 10), isJalaali });

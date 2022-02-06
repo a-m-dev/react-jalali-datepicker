@@ -1,0 +1,67 @@
+.range-picker__day {
+  position: relative;
+  width: 100%;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #616161;
+  cursor: pointer;
+
+  & > span {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &--today {
+    font-weight: bold;
+    background-color: #b2b2b2;
+  }
+
+  &--start-date-selected {
+    background-color: #9c32ff;
+    color: #f2e4ff;
+  }
+
+  &--stop-date-selected {
+    background-color: #9c32ff;
+    color: #f2e4ff;
+  }
+
+  &--in-selected-range {
+    background-color: #931fff4d;
+    color: #6d18bd;
+  }
+
+  &--excluded {
+    background-color: hotpink;
+  }
+
+  &--before-today {
+    color: #dbdbdb;
+    cursor: default;
+    user-select: none;
+  }
+
+  &--after-today {
+       color: #dbdbdb;
+       cursor: default;
+       user-select: none;
+     }
+
+  &--disabled {
+    color: #dbdbdb;
+    cursor: default;
+    user-select: none;
+  }
+
+  &--out-of-range {
+    color: #ececec;
+    cursor: default;
+    user-select: none;
+  }
+}
